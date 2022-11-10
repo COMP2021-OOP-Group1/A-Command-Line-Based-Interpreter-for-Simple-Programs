@@ -14,7 +14,7 @@ public class File {
 
         // Create File
         try {
-            java.io.File myObj = new java.io.File(address + programName + ".simple.txt");
+            java.io.File myObj = new java.io.File(address + ".txt");
             if (myObj.createNewFile()) {
                 System.out.println("File created");
             } else {
@@ -28,7 +28,7 @@ public class File {
         // Write the code from map into file
         Parser cmdMap = new Parser();
         try {
-            FileWriter myWriter = new FileWriter(address + programName + ".simple.txt");
+            FileWriter myWriter = new FileWriter(address + ".txt");
             String CMD = "";
             Map<Integer, String> CMDMap = Parser.cmdMap;
 //            System.out.println(CMDMap);
@@ -55,7 +55,7 @@ public class File {
             Parser.cmdMap.put(i + 1, cmd);
         }
         for (int i = 1; i < ProgramCMDList.size(); i++) {
-            Parser.classification(Parser.cmdMap.get(i));
+            Parser.storeCommand(Parser.cmdMap.get(i));
         }
 //        System.out.println(Parser.cmdMap);
 

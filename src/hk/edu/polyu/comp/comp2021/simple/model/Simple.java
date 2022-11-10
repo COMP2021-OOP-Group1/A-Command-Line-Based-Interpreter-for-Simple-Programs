@@ -3,7 +3,7 @@ package hk.edu.polyu.comp.comp2021.simple.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Simple{
+public class Simple {
     static Parser parser;
 
     public Simple(){
