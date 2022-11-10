@@ -1,0 +1,27 @@
+vardef vardef1 int x 100
+binexpr exp1 x * 20
+unexpr exp2 ~ exp1
+assign assign1 x exp2
+print print1 exp2
+skip skip1
+block block1 assign1 skip1
+if if1 exp5 block1 print1
+while while1 true block1
+program program1 while1
+execute program1
+list program1
+store program1 /Users/davidjiang/Desktop/prog1.simple
+load /Users/davidjiang/Desktop/prog1.simple program1
+quit
+
+
+vardef vardef1 int x 100
+binexpr exp1 x * 20
+unexpr exp2 ~ exp1
+assign assign1 x exp2
+print print1 exp2
+block block1 assign1 print1
+program program1 block1
+store program1 /Users/davidjiang/Desktop/program1.simple
+load /Users/davidjiang/Desktop/program1.simple program1
+list program1
