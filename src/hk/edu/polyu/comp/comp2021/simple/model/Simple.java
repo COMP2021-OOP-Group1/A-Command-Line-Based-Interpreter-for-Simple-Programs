@@ -49,25 +49,49 @@ public class Simple {
                 if (b != 0) Parser.addResultExp(label, a / b);
                 break;
             case ">":
-                Parser.addResultExp(label, a > b);
+                if (a > b) {
+                    Parser.addResultExp(label, 1);
+                } else {
+                    Parser.addResultExp(label, 0);
+                }
                 break;
             case "<":
-                Parser.addResultExp(label, a < b);
+                if (a < b) {
+                    Parser.addResultExp(label, 1);
+                } else {
+                    Parser.addResultExp(label, 0);
+                }
                 break;
             case ">=":
-                Parser.addResultExp(label, a >= b);
+                if (a >= b) {
+                    Parser.addResultExp(label, 1);
+                } else {
+                    Parser.addResultExp(label, 0);
+                }
                 break;
             case "<=":
-                Parser.addResultExp(label, a <= b);
+                if (a <= b) {
+                    Parser.addResultExp(label, 1);
+                } else {
+                    Parser.addResultExp(label, 0);
+                }
                 break;
             case "%":
                 Parser.addResultExp(label, a % b);
                 break;
             case "==":
-                Parser.addResultExp(label, a == b);
+                if (a == b) {
+                    Parser.addResultExp(label, 1);
+                } else {
+                    Parser.addResultExp(label, 0);
+                }
                 break;
             case "!=":
-                Parser.addResultExp(label, a != b); 
+                if (a != b) {
+                    Parser.addResultExp(label, 1);
+                } else {
+                    Parser.addResultExp(label, 0);
+                }
                 break;
         }
 
@@ -239,18 +263,17 @@ public class Simple {
         
     }
 
-    protected void debug(String programName) {
-//        ArrayList statementLabel = Parser.programMap.get(Parser.programMap);
-         String CMDLabelInProgram = Parser.programMap.get(programName);
-         String CMDLabel = Parser.labelCMDMap.get(CMDLabelInProgram);
-         
-
+    protected static void togglebreakpoint(String programName, String label) {
+        Parser.breakPointLabel = label;
     }
 
     /*
 
-    protected void togglebreakpoint(String programName, String label) {
-        ArrayList statementLabel = Parser.programMap.get(Parser.programMap);
+        protected void debug(String programName) {
+         String CMDLabelInProgram = Parser.programMap.get(programName);
+         String CMDLabel = Parser.labelCMDMap.get(CMDLabelInProgram);
+
+
     }
 
     protected void inspect(String programName, String varName) {

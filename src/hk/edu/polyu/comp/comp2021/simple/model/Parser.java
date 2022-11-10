@@ -17,6 +17,7 @@ public class Parser {
     public static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
 
     public static int count = 0;
+    public static String breakPointLabel = "";
 
     public static void storeCommand(String command){
 
@@ -136,6 +137,12 @@ public class Parser {
                 }
                 break;
 
+            case "debug":
+                break;
+
+            case "togglebreakpoint":
+                Simple.togglebreakpoint(splitStr[1],splitStr[2]);
+                break;
 
         }
 
