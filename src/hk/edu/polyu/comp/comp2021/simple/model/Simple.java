@@ -253,14 +253,12 @@ public class Simple {
         try {
             while (true) {
                 if (!queue.peek().equals(currentBreakLabel)) {
-                    String peekLabel = queue.peek();
+//                    String peekLabel = queue.peek();
                     queue.remove();
                 } else {
                     String peekLabel = queue.peek();
-                    System.out.println(Parser.labelCMDMap.get(peekLabel));
-
-                    System.out.println(peekLabel + "");
-
+//                    System.out.println(Parser.labelCMDMap.get(peekLabel));
+                    System.out.println("Debugging ==> " + peekLabel);
                     Scanner input = new Scanner(System.in);
                     System.out.print("Input 'ok' debug next line! - ");
                     String statement = input.nextLine();
@@ -276,13 +274,14 @@ public class Simple {
 
     }
 
-    /*
-    protected void inspect(String programName, String varName) {
-        List statementLabel = Parser.programMap.get(Parser.programMap);
-
+    private void inspect(String cmd) {
+        String[] cmdSplit = cmd.split(" ");
+        if (cmdSplit[0].equals("vardef")) {
+            System.out.println(cmdSplit[2] + " " + cmdSplit[3] + " = " + Parser.varMap.get(cmdSplit[3]));
+        }
+        if (cmdSplit[0].equals("assign")) {
+            System.out.println(Parser.resultExp.get(cmdSplit[2]).getClass() + cmdSplit[2] + " = " + Parser.resultExp.get(cmdSplit[2]));
+        }
     }
-
-    */
-
 }
 
