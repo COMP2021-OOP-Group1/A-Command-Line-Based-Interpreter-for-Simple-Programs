@@ -49,49 +49,25 @@ public class Simple {
                 if (b != 0) Parser.addResultExp(label, a / b);
                 break;
             case ">":
-                if (a > b) {
-                    Parser.addResultExp(label, 1);
-                } else {
-                    Parser.addResultExp(label, 0);
-                }
+                Parser.addResultExp(label, a > b);
                 break;
             case "<":
-                if (a < b) {
-                    Parser.addResultExp(label, 1);
-                } else {
-                    Parser.addResultExp(label, 0);
-                }
+                Parser.addResultExp(label, a < b);
                 break;
             case ">=":
-                if (a >= b) {
-                    Parser.addResultExp(label, 1);
-                } else {
-                    Parser.addResultExp(label, 0);
-                }
+                Parser.addResultExp(label, a >= b);
                 break;
             case "<=":
-                if (a <= b) {
-                    Parser.addResultExp(label, 1);
-                } else {
-                    Parser.addResultExp(label, 0);
-                }
+                Parser.addResultExp(label, a <= b);
                 break;
             case "%":
                 Parser.addResultExp(label, a % b);
                 break;
             case "==":
-                if (a == b) {
-                    Parser.addResultExp(label, 1);
-                } else {
-                    Parser.addResultExp(label, 0);
-                }
+                Parser.addResultExp(label, a == b);
                 break;
             case "!=":
-                if (a != b) {
-                    Parser.addResultExp(label, 1);
-                } else {
-                    Parser.addResultExp(label, 0);
-                }
+                Parser.addResultExp(label, a != b);
                 break;
         }
 

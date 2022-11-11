@@ -24,14 +24,14 @@ public class SimpleTest {
         Parser.classification("vardef v1 int x 10");
         Parser.classification("binexpr exp2 x == 10");
         Object value = Parser.resultExp.get("exp2");
-        assertEquals(1, value);
+        assertEquals(true, value);
     }
     @Test
     public void testBinExpr3() {
         Parser.classification("vardef v1 int x 10");
         Parser.classification("binexpr exp3 x > 20");
         Object value = Parser.resultExp.get("exp3");
-        assertEquals(0, value);
+        assertEquals(false, value);
     }
     @Test
     public void testBinExpr4() {
