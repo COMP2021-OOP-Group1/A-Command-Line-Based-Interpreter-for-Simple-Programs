@@ -137,10 +137,15 @@ public class Parser {
                 break;
 
             case "debug":
+                Simple.debug(splitStr[1]);
                 break;
 
             case "togglebreakpoint":
                 Simple.togglebreakpoint(splitStr[1],splitStr[2]);
+                break;
+
+            case "inspect":
+                Simple.inspect(splitStr[1], splitStr[2]);
                 break;
 
         }

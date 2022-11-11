@@ -242,7 +242,7 @@ public class Simple {
         Parser.breakPointMap.put(programName, label);
     }
 
-    protected void debug(String programName) {
+    protected static void debug(String programName) {
         Queue<String> queue = new LinkedList<>();
         String[] str = Parser.labelCMDMap.get(Parser.programMap.get(programName)).split(" ");
         for (int i = 2; i < str.length; i++) {
@@ -258,7 +258,7 @@ public class Simple {
                 } else {
                     String peekLabel = queue.peek();
 //                    System.out.println(Parser.labelCMDMap.get(peekLabel));
-                    System.out.println("Debugging ==> " + peekLabel);
+                    System.out.println("Debugging ==> " + Parser.labelCMDMap.get(peekLabel));
                     Scanner input = new Scanner(System.in);
                     System.out.print("Input 'ok' debug next line! - ");
                     String statement = input.nextLine();
@@ -271,10 +271,10 @@ public class Simple {
         } catch (Exception e) {
             System.out.println("Finish Debug!");
         }
-
     }
 
-    private void inspect(String cmd) {
+    protected static void inspect(String label, String varName) {
+        String cmd = Parser.labelCMDMap.get(label);
         String[] cmdSplit = cmd.split(" ");
         if (cmdSplit[0].equals("vardef")) {
             System.out.println(cmdSplit[2] + " " + cmdSplit[3] + " = " + Parser.varMap.get(cmdSplit[3]));
