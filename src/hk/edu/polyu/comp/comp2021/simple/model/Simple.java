@@ -96,14 +96,16 @@ public class Simple {
         
 
         if (operator.equals("!")){   // Negates Boolean expression
-            if ((boolean)Parser.expRef(expRef1)) Parser.varMap.put(expName, false);
+            if ((boolean)Parser.expRef(expRef1))
+                Parser.varMap.put(expName, false);
             else Parser.addResultExp(expName, true);
         }
 
         else if (operator.equals("~")){  // Negates Int Expression by switching symbols
             
             int number = (int)Parser.expRef(expRef1) * -1;
-            if (operator.equals("~")) Parser.addResultExp(expName,  number);
+            if (operator.equals("~"))
+                Parser.addResultExp(expName, number);
         }
     }
 
@@ -151,8 +153,10 @@ public class Simple {
         for (int i = 0; i < n; i++){
 
             updateExp();
-            if (Parser.labelCMDMap.containsKey(instructions[i])) Parser.classification(Parser.labelCMDMap.get(instructions[i]));
-            else if (Parser.expRefLabelCmd.containsKey(instructions[i])) Parser.classification(Parser.labelCMDMap.get(instructions[i]));
+            if (Parser.labelCMDMap.containsKey(instructions[i]))
+                Parser.classification(Parser.labelCMDMap.get(instructions[i]));
+            else if (Parser.expRefLabelCmd.containsKey(instructions[i]))
+                Parser.classification(Parser.labelCMDMap.get(instructions[i]));
         }
 
     }
