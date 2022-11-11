@@ -1,7 +1,6 @@
 package hk.edu.polyu.comp.comp2021.simple.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Simple {
     static Parser parser;
@@ -240,18 +239,44 @@ public class Simple {
     }
 
     protected static void togglebreakpoint(String programName, String label) {
-        Parser.breakPointLabel = label;
+        Parser.breakPointMap.put(programName, label);
+    }
+
+    protected void debug(String programName) {
+        Queue<String> queue = new LinkedList<>();
+        String[] str = Parser.labelCMDMap.get(Parser.programMap.get(programName)).split(" ");
+        for (int i = 2; i < str.length; i++) {
+            queue.add(str[i]);
+        }
+
+        String currentBreakLabel = Parser.breakPointMap.get(programName);
+        try {
+            while (true) {
+                if (!queue.peek().equals(currentBreakLabel)) {
+                    String peekLabel = queue.peek();
+                    queue.remove();
+                } else {
+                    String peekLabel = queue.peek();
+                    System.out.println(Parser.labelCMDMap.get(peekLabel));
+
+                    System.out.println(peekLabel + "");
+
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("Input 'ok' debug next line! - ");
+                    String statement = input.nextLine();
+                    if (statement.equals("ok")) {
+                        queue.remove();
+                        currentBreakLabel = queue.peek();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Finish Debug!");
+        }
+
     }
 
     /*
-
-        protected void debug(String programName) {
-         String CMDLabelInProgram = Parser.programMap.get(programName);
-         String CMDLabel = Parser.labelCMDMap.get(CMDLabelInProgram);
-
-
-    }
-
     protected void inspect(String programName, String varName) {
         List statementLabel = Parser.programMap.get(Parser.programMap);
 
