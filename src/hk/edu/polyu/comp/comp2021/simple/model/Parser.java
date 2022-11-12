@@ -44,7 +44,10 @@ public class Parser {
             cmdMap.put(count, command);
             classification(command);
         }
-        else{
+        else if (splitStr[0].equals("togglebreakpoint")) {
+            breakPointMap.put(splitStr[1], splitStr[2]);
+        }
+        else {
             cmdMap.put(count, command);
             labelCMDMap.put(splitStr[1], command);
         }
@@ -198,6 +201,9 @@ public class Parser {
                 }
                 storeCommand(input);
                 // classification(input);
+            }
+            if (input.contains("debug")) {
+                classification(input);
             }
 
         }

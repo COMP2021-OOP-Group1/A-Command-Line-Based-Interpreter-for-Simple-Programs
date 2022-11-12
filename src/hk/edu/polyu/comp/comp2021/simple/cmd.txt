@@ -34,3 +34,5 @@ print print1 exp2
 block block1 assign1 print1
 program program1 block1
 list program1
+togglebreakpoint program1 assign1
+debug program1

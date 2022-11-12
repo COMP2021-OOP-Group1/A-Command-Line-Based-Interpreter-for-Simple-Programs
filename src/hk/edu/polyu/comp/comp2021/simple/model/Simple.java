@@ -243,16 +243,18 @@ public class Simple {
     }
 
     protected static void togglebreakpoint(String programName, String label) {
-        Parser.breakPointMap.put(programName, label);
+//        Parser.breakPointMap.put(programName, label);
+
     }
 
     protected static void debug(String programName) {
+        System.out.println("Reminder: Enter to the next line");
         Queue<String> queue = new LinkedList<>();
         String[] str = Parser.labelCMDMap.get(Parser.programMap.get(programName)).split(" ");
         for (int i = 2; i < str.length; i++) {
             queue.add(str[i]);
         }
-        System.out.println("Reminder: Enter to the next line");
+
         String currentBreakLabel = Parser.breakPointMap.get(programName);
         try {
             while (true) {
@@ -268,7 +270,8 @@ public class Simple {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Finish Debug!");
+            System.out.print("Finish Debug!");
+            System.out.println();
         }
     }
 
