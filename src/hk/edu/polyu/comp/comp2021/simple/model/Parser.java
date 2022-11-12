@@ -192,6 +192,10 @@ public class Parser {
             if (input != null){
                 count++;
                 if (input.equals("quit")) System.exit(0);
+                if (!inputValidator(input)){
+                    System.out.println("ERROR: The input command is invalid, please enter a new command");
+                    input = inputLine.nextLine();
+                }
                 storeCommand(input);
                 // classification(input);
             }
@@ -202,5 +206,94 @@ public class Parser {
     }
 
     //! Separate store instructions and execute instructions in if while print block cases
+
+    public boolean inputValidator(String input){
+
+//        System.out.print("first: ");
+//        System.out.println(input);
+
+        // Check if the cmd string is empty
+        if (input.isEmpty()){
+            return false;
+        }
+
+        String[] strTemp = input.split(" ");  // Split instruction into words
+        int n = strTemp.length;
+
+//        System.out.print("second: ");
+//        System.out.println(strTemp[0]);
+
+        // For checking word length for input string split and if any illegal char are used
+        for (int i=0; i<n; i++){
+            // Initializing loop variables
+            int nrChar = strTemp[i].length();
+//            String strChar = strTemp[i];
+
+            // Check if input strings != cmd name or type
+            switch (strTemp[0]){
+                case "vardef":
+                    if(i != 0 && i != 2) {
+                        if (strTemp[i].matches("vardef|binexpr|unexpr|print|skip|block|if|while|execute|list|assign|program|store|quit|int|bool")) {
+                            System.out.print("third: ");
+                            System.out.println("case vardef i != 0");
+                            return false;
+                        }
+                    }
+                    break;
+                case "binexpr": case "unexpr": case "assign": case "print": case "skip": case "block": case "ifF": case "whileW": case "program": case "execute": case "list": case "store": case "load":
+                    if(i != 0) {
+                        if (strTemp[i].matches("vardef|binexpr|unexpr|print|skip|block|if|while|execute|list|assign|program|store|quit|int|bool|true|false")) {
+                            System.out.print("third: ");
+                            System.out.println("case 'the rest' i != 0");
+                            return false;
+                        }
+                    }
+                    break;
+            }
+
+            // Check length longer than 8 characters & if strTemp[i] is
+            if(nrChar > 8){
+                System.out.print("forth: ");
+                System.out.println("nrChar < 8");
+                return false;
+            }
+
+            // Loop for checking if any invalid characters are in the String cmd
+            for (int x=0; x<nrChar; x++){
+                boolean validChar = Character.isLetterOrDigit(strTemp[i].charAt(x));
+                String temp = String.valueOf(strTemp[i]);
+                if (strTemp[i].matches("-|/|#|~|>|>=|<|<=|==|!=|&&|!|") || strTemp[i].charAt(x) == '-' || temp.equals("*") || temp.equals("+") || temp.equals("||")) {
+                    validChar = true;
+                }
+                if(validChar == false){
+                    System.out.println("The following input is invalid:" + strTemp[i]);
+                    System.out.print("fifth: ");
+                    System.out.println("validChar == false");
+                    return false;
+                }
+            }
+        }
+
+        // ----------------------------------
+        switch (strTemp[2]){
+            case "int":
+                int intValue = Integer.parseInt(strTemp[4]);
+                if (-99999 > intValue || intValue > 99999){
+                    System.out.print("sixth: ");
+                    System.out.println("case int != (-99999, 99999)");
+                    return false;
+                }
+                break;
+            case "bool":
+                String boolValue = strTemp[4];
+                if (!boolValue.matches("false|true")){
+                    System.out.print("sixth: ");
+                    System.out.println("case bool != false or true");
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
 
 }
