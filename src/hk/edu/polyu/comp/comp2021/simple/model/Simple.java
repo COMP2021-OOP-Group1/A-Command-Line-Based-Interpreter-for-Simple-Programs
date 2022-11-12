@@ -279,10 +279,13 @@ public class Simple {
     }
 
     protected static void inspect(String programName, String varName) {
-        if (Parser.breakPointMap.containsKey(programName)) {
-            System.out.println("<" + Parser.varMap.get(varName) + ">");
+        try {
+            if (Parser.breakPointMap.containsKey(programName)) {
+                System.out.println("<" + Parser.varMap.get(varName) + ">");
+            }
+        } catch (Exception e) {
+            System.out.println("Warning: No Debug first");
         }
-
     }
 }
 
