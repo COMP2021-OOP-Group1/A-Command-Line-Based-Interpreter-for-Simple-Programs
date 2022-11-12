@@ -221,20 +221,7 @@ public class Simple {
             
             System.out.println(Parser.labelCMDMap.get(instruction));
             
-            // Check if instruction is block or is another one. If block repeat as above else just print simple instruction
-            if (Parser.blockMap.containsKey(fullInst[3])){  // If while statement is a block
-                
-                String block[] = Parser.blockMap.get(fullInst[3]);
-    
-                for (int i = 0; i < block.length; i++) {
-                    list(block[i]); // Recurse over the instructions
-                }
-    
-            }
-
-            else{
-                System.out.println(Parser.labelCMDMap.get(instruction));
-            }
+            list(fullInst[2]);
 
         }
         else if (fullInst[0].equals("if")){
