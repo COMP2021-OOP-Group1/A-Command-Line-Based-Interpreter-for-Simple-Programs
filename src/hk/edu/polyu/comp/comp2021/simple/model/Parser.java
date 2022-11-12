@@ -227,7 +227,6 @@ public class Parser {
         for (int i=0; i<n; i++){
             // Initializing loop variables
             int nrChar = strTemp[i].length();
-//            String strChar = strTemp[i];
 
             // Check if input strings != cmd name or type
             switch (strTemp[0]){
@@ -252,17 +251,45 @@ public class Parser {
             }
 
             // Check length longer than 8 characters & if strTemp[i] is
-            if(nrChar > 8){
-                System.out.print("forth: ");
-                System.out.println("nrChar < 8");
-                return false;
+            if (strTemp[0].equals("store") || strTemp[0].equals("load")){
+                switch (strTemp[0]){
+                case "store":
+                    if (i == 2){
+                    }else {
+                        if(nrChar > 8){
+                            System.out.print("forth: ");
+                            System.out.println("nrChar < 8");
+                            return false;
+                        }
+                    }break;
+                case "load":
+                    if (i == 1){
+                    }else {
+                        if(nrChar > 8){
+                            System.out.print("forth: ");
+                            System.out.println("nrChar < 8");
+                            return false;
+                        }
+                    }break;
+                case "binexpr": case "unexpr": case "assign": case "print": case "skip": case "block": case "ifF": case "whileW": case "program": case "execute": case "list":
+                    if(nrChar > 8){
+                        System.out.print("forth: ");
+                        System.out.println("nrChar < 8");
+                        return false;
+                    }break;
+                }
             }
+//            if(nrChar > 8){
+//                System.out.print("forth: ");
+//                System.out.println("nrChar < 8");
+//                return false;
+//            }
 
             // Loop for checking if any invalid characters are in the String cmd
             for (int x=0; x<nrChar; x++){
                 boolean validChar = Character.isLetterOrDigit(strTemp[i].charAt(x));
                 String temp = String.valueOf(strTemp[i]);
-                if (strTemp[i].matches("-|/|#|~|>|>=|<|<=|==|!=|&&|!|") || strTemp[i].charAt(x) == '-' || temp.equals("*") || temp.equals("+") || temp.equals("||")) {
+                if (strTemp[i].matches("-|/|#|~|>|>=|<|<=|==|!=|&&|!|:") || strTemp[i].charAt(x) == '-' || temp.equals("*") || temp.equals("+") || temp.equals("||")) {
                     validChar = true;
                 }
                 if(validChar == false){
@@ -274,24 +301,28 @@ public class Parser {
             }
         }
 
-        // ----------------------------------
-        switch (strTemp[2]){
-            case "int":
-                int intValue = Integer.parseInt(strTemp[4]);
-                if (-99999 > intValue || intValue > 99999){
-                    System.out.print("sixth: ");
-                    System.out.println("case int != (-99999, 99999)");
-                    return false;
-                }
-                break;
-            case "bool":
-                String boolValue = strTemp[4];
-                if (!boolValue.matches("false|true")){
-                    System.out.print("sixth: ");
-                    System.out.println("case bool != false or true");
-                    return false;
-                }
-                break;
+        // Checks if the int or bool value is out of bounds
+//        if (strTemp[0] != "execute" || strTemp[0] == "load")
+//        if (!strTemp[0].equals("execute") || !strTemp[0].equals("list") || !strTemp[0].equals("list")) {
+          if(strTemp.length < 2){
+            switch (strTemp[2]) {
+                case "int":
+                    int intValue = Integer.parseInt(strTemp[4]);
+                    if (-99999 > intValue || intValue > 99999) {
+                        System.out.print("sixth: ");
+                        System.out.println("case int != (-99999, 99999)");
+                        return false;
+                    }
+                    break;
+                case "bool":
+                    String boolValue = strTemp[4];
+                    if (!boolValue.matches("false|true")) {
+                        System.out.print("sixth: ");
+                        System.out.println("case bool != false or true");
+                        return false;
+                    }
+                    break;
+            }
         }
         return true;
     }
