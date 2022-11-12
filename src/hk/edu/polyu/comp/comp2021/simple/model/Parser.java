@@ -61,14 +61,6 @@ public class Parser {
         String[] splitStr = command.split(" ");  // Split instruction into words
         String instruction = splitStr[0];
 
-        /*
-        // If input is just a label name:
-        if (splitStr.length == 1){
-            // Fix when command do not have label
-            if (resultExp.containsKey(instruction)) resultExp.get(instruction);
-            else classification(labelCMDMap.get(instruction));   // Do instruction of the label
-        }
-        */
         
         // Call Commands based on the instruction
         switch (instruction) {
@@ -195,10 +187,13 @@ public class Parser {
             if (input != null){
                 count++;
                 if (input.equals("quit")) System.exit(0);
+                /* 
+                 
                 if (!inputValidator(input)){
                     System.out.println("ERROR: The input command is invalid, please enter a new command");
                     input = inputLine.nextLine();
                 }
+                */
                 storeCommand(input);
                 // classification(input);
             }

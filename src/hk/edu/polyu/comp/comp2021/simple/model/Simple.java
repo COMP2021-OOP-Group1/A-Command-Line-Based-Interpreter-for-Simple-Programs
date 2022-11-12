@@ -204,11 +204,11 @@ public class Simple {
         
         // Get instruction from the map
 
-        String fullInst = Parser.labelCMDMap.get(instruction);
+        String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
 
         if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
 
-            String block[] = Parser.blockMap.get(instruction);
+            String block[] = Parser.blockMap.get(fullInst[3]);
 
             System.out.println(Parser.labelCMDMap.get(instruction));
 
@@ -217,15 +217,14 @@ public class Simple {
             }
 
         }
-        else if (Parser.labelCMDMap.get(instruction).split(" ")[0].equals("while")){    // If while loop
+        else if (fullInst[0].equals("while")){    // If while loop
+            
+            System.out.println(Parser.labelCMDMap.get(instruction));
             
             // Check if instruction is block or is another one. If block repeat as above else just print simple instruction
-
-            if (Parser.blockMap.containsKey(fullInst.split(" ")[3])){  // If while statement is a block
+            if (Parser.blockMap.containsKey(fullInst[3])){  // If while statement is a block
                 
-                System.out.println(Parser.labelCMDMap.get(instruction));
-
-                String block[] = Parser.blockMap.get(instruction);
+                String block[] = Parser.blockMap.get(fullInst[3]);
     
                 for (int i = 0; i < block.length; i++) {
                     list(block[i]); // Recurse over the instructions
@@ -238,19 +237,16 @@ public class Simple {
             }
 
         }
-        else if (Parser.labelCMDMap.get(instruction).split(" ")[0] == "if"){
+        else if (fullInst[0].equals("if")){
             
             System.out.println(Parser.labelCMDMap.get(instruction));
-                
-            String block[] = Parser.blockMap.get(instruction);
-
-            for (int i = 0; i < block.length; i++) {
-                list(block[i]); // Recurse over the instructions
-            }
+            
+            list(fullInst[3]);
+            list(fullInst[4]);
 
         }
-            
-        // Print if instruction is not a while or block
+    
+        // Print if instruction is not a while or block or if
         else{System.out.println(Parser.labelCMDMap.get(instruction));}
 
         
