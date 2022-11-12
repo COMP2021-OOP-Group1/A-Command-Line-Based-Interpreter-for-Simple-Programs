@@ -147,9 +147,9 @@ public class Parser {
                 Simple.togglebreakpoint(splitStr[1],splitStr[2]);
                 break;
 
-            case "inspect":
-                Simple.inspect(splitStr[1], splitStr[2]);
-                break;
+//            case "inspect":
+//                Simple.inspect(splitStr[1], splitStr[2]);
+//                break;
 
         }
 

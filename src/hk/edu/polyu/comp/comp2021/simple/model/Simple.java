@@ -262,9 +262,12 @@ public class Simple {
                     queue.remove();
                 } else {
                     String peekLabel = queue.peek();
-                    System.out.print("Debugging ==> " + Parser.labelCMDMap.get(peekLabel));
+                    System.out.println("Debugging ==> " + Parser.labelCMDMap.get(peekLabel));
                     Scanner input = new Scanner(System.in);
                     String statement = input.nextLine();
+                    if (statement.split(" ")[0].equals("inspect")) {
+                        inspect(statement.split(" ")[1], statement.split(" ")[2]);
+                    }
                     queue.remove();
                     currentBreakLabel = queue.peek();
                 }
@@ -275,15 +278,11 @@ public class Simple {
         }
     }
 
-    protected static void inspect(String label, String varName) {
-        String cmd = Parser.labelCMDMap.get(label);
-        String[] cmdSplit = cmd.split(" ");
-        if (cmdSplit[0].equals("vardef")) {
-            System.out.println(cmdSplit[2] + " " + cmdSplit[3] + " = " + Parser.varMap.get(cmdSplit[3]));
+    protected static void inspect(String programName, String varName) {
+        if (Parser.breakPointMap.containsKey(programName)) {
+            System.out.println("<" + Parser.varMap.get(varName) + ">");
         }
-        if (cmdSplit[0].equals("assign")) {
-            System.out.println(Parser.resultExp.get(cmdSplit[2]).getClass() + cmdSplit[2] + " = " + Parser.resultExp.get(cmdSplit[2]));
-        }
+
     }
 }
 

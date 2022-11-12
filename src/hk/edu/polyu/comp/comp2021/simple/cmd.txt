@@ -36,3 +36,4 @@ program program1 block1
 list program1
 togglebreakpoint program1 assign1
 debug program1
+inspect program1 x
