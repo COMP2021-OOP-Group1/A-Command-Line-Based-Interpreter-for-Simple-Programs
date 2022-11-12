@@ -286,24 +286,43 @@ public class Parser {
 //            }
 
             // Loop for checking if any invalid characters are in the String cmd
-            for (int x=0; x<nrChar; x++){
-                boolean validChar = Character.isLetterOrDigit(strTemp[i].charAt(x));
-                String temp = String.valueOf(strTemp[i]);
-                if (strTemp[i].matches("-|/|#|~|>|>=|<|<=|==|!=|&&|!|:") || strTemp[i].charAt(x) == '-' || temp.equals("*") || temp.equals("+") || temp.equals("||")) {
-                    validChar = true;
-                }
-                if(validChar == false){
-                    System.out.println("The following input is invalid:" + strTemp[i]);
-                    System.out.print("fifth: ");
-                    System.out.println("validChar == false");
-                    return false;
-                }
+            switch (strTemp[0]){
+                case "store": case "load":
+                    if (strTemp[0].equals("store") && i == 2){
+                    } else if (strTemp[0].equals("load") && i == 1) {
+                    }else {
+                        for (int x = 0; x < nrChar; x++) {
+                            boolean validChar = Character.isLetterOrDigit(strTemp[i].charAt(x));
+                            String temp = String.valueOf(strTemp[i]);
+                            if (strTemp[i].matches("-|/|#|~|>|>=|<|<=|==|!=|&&|!|:") || strTemp[i].charAt(x) == '-' || temp.equals("*") || temp.equals("+") || temp.equals("||")) {
+                                validChar = true;
+                            }
+                            if (validChar == false) {
+                                System.out.println("The following input is invalid:" + strTemp[i]);
+                                System.out.print("fifth: ");
+                                System.out.println("validChar == false");
+                                return false;
+                            }
+                        }
+                    }break;
+                case "vardef": case "binexpr": case "unexpr": case "assign": case "print": case "skip": case "block": case "ifF": case "whileW": case "program": case "execute": case "list":
+                    for (int x = 0; x < nrChar; x++) {
+                        boolean validChar = Character.isLetterOrDigit(strTemp[i].charAt(x));
+                        String temp = String.valueOf(strTemp[i]);
+                        if (strTemp[i].matches("-|/|#|~|>|>=|<|<=|==|!=|&&|!|:") || strTemp[i].charAt(x) == '-' || temp.equals("*") || temp.equals("+") || temp.equals("||")) {
+                            validChar = true;
+                        }
+                        if (validChar == false) {
+                            System.out.println("The following input is invalid:" + strTemp[i]);
+                            System.out.print("fifth: ");
+                            System.out.println("validChar == false");
+                            return false;
+                        }
+                    }
             }
         }
 
         // Checks if the int or bool value is out of bounds
-//        if (strTemp[0] != "execute" || strTemp[0] == "load")
-//        if (!strTemp[0].equals("execute") || !strTemp[0].equals("list") || !strTemp[0].equals("list")) {
           if(strTemp.length < 2){
             switch (strTemp[2]) {
                 case "int":
