@@ -252,24 +252,19 @@ public class Simple {
         for (int i = 2; i < str.length; i++) {
             queue.add(str[i]);
         }
-
+        System.out.println("Reminder: Enter to the next line");
         String currentBreakLabel = Parser.breakPointMap.get(programName);
         try {
             while (true) {
                 if (!queue.peek().equals(currentBreakLabel)) {
-//                    String peekLabel = queue.peek();
                     queue.remove();
                 } else {
                     String peekLabel = queue.peek();
-//                    System.out.println(Parser.labelCMDMap.get(peekLabel));
-                    System.out.println("Debugging ==> " + Parser.labelCMDMap.get(peekLabel));
+                    System.out.print("Debugging ==> " + Parser.labelCMDMap.get(peekLabel));
                     Scanner input = new Scanner(System.in);
-                    System.out.print("Input 'ok' debug next line! - ");
                     String statement = input.nextLine();
-                    if (statement.equals("ok")) {
-                        queue.remove();
-                        currentBreakLabel = queue.peek();
-                    }
+                    queue.remove();
+                    currentBreakLabel = queue.peek();
                 }
             }
         } catch (Exception e) {
