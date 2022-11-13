@@ -287,5 +287,13 @@ public class Simple {
             System.out.println("Warning: No Debug first");
         }
     }
+
+    protected static void instrument(String programName, String statement, String pos, String expRef){
+
+
+
+    }
+
+
 }
 
