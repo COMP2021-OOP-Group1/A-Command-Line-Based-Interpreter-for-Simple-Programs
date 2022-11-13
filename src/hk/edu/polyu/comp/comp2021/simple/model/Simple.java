@@ -205,6 +205,9 @@ public class Simple {
         // Get instruction from the map
 
         String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
+//        for (String e : fullInst) {
+//            System.out.println(e);
+//        }
 
         if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
 
@@ -221,7 +224,7 @@ public class Simple {
             
             System.out.println(Parser.labelCMDMap.get(instruction));
             
-            list(fullInst[2]);
+            list(fullInst[3]);
 
         }
         else if (fullInst[0].equals("if")){
