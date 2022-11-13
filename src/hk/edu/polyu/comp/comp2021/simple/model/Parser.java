@@ -147,10 +147,6 @@ public class Parser {
 
     }
 
-    public void storeCMDtoFile() {
-
-    }
-
     public static Object expRef(String expression){    // Check if the expression is a literal, var name or expression name.
         
         // If expression is a literal
