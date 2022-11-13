@@ -201,14 +201,14 @@ public class Simple {
     };  
 
     protected static void list(String instruction) {    //* REQ12
-        
+
         // Get instruction from the map
 
         String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
 
         if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
 
-            String block[] = Parser.blockMap.get(fullInst[3]);
+            String block[] = Parser.blockMap.get(fullInst[1]);
 
             System.out.println(Parser.labelCMDMap.get(instruction));
 
