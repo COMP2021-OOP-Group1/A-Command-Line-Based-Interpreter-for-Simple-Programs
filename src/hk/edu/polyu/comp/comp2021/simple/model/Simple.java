@@ -205,71 +205,59 @@ public class Simple {
         // Get instruction from the map
 
         String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
-//        for (String e : fullInst) {
-//            System.out.println(e);
-//        }
-
         if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
-
             String block[] = Parser.blockMap.get(fullInst[1]);
-
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
             System.out.println(Parser.labelCMDMap.get(instruction));
-
             for (int i = 0; i < block.length; i++) {
                 list(block[i]); // Recurse over the instructions
             }
-
         }
         else if (fullInst[0].equals("while")){    // If while loop
-            
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
             System.out.println(Parser.labelCMDMap.get(instruction));
-            
             list(fullInst[3]);
-
         }
         else if (fullInst[0].equals("if")){
-            
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
             System.out.println(Parser.labelCMDMap.get(instruction));
-            
             list(fullInst[3]);
             list(fullInst[4]);
-
         }
     
         // Print if instruction is not a while or block or if
-        else{System.out.println(Parser.labelCMDMap.get(instruction));}
+        else{
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            System.out.println(Parser.labelCMDMap.get(instruction));
+        }
 
         
     }
 
     protected static void togglebreakpoint(String programName, String label) {
-//        Parser.breakPointMap.put(programName, label);
 
     }
 
     protected static void debug(String programName) {
         System.out.println("Reminder: Enter to the next line");
-        Queue<String> queue = new LinkedList<>();
+
         String[] str = Parser.labelCMDMap.get(Parser.programMap.get(programName)).split(" ");
-        for (int i = 2; i < str.length; i++) {
-            queue.add(str[i]);
-        }
 
         String currentBreakLabel = Parser.breakPointMap.get(programName);
         try {
             while (true) {
-                if (!queue.peek().equals(currentBreakLabel)) {
-                    queue.remove();
+                if (!Parser.queue.peek().split(" ")[1].equals(currentBreakLabel)) {
+                    Parser.queue.remove();
                 } else {
-                    String peekLabel = queue.peek();
-                    System.out.println("Debugging ==> " + Parser.labelCMDMap.get(peekLabel));
+                    String peekCMD = Parser.queue.peek();
+                    System.out.println("Debugging ==> " + peekCMD);
                     Scanner input = new Scanner(System.in);
                     String statement = input.nextLine();
                     if (statement.split(" ")[0].equals("inspect")) {
                         inspect(statement.split(" ")[1], statement.split(" ")[2]);
                     }
-                    queue.remove();
-                    currentBreakLabel = queue.peek();
+                    Parser.queue.remove();
+                    currentBreakLabel = Parser.queue.peek().split(" ")[1];
                 }
             }
         } catch (Exception e) {
@@ -289,8 +277,15 @@ public class Simple {
     }
 
     protected static void instrument(String programName, String statement, String pos, String expRef){
-
-
+//        if (pos.equals("after")) {
+//            if (Parser.programMap.get(programName)) {
+//
+//            }
+//        }
+//
+//        if (pos.equals("before")) {
+//
+//        }
 
     }
 

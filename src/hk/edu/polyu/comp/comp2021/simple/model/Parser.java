@@ -1,11 +1,7 @@
 package hk.edu.polyu.comp.comp2021.simple.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Parser {
     public static Map<Integer, String> cmdMap = new HashMap<>();
@@ -16,6 +12,7 @@ public class Parser {
     public static Map<String, String[]> blockMap = new HashMap<>(); // Stores block of commands (Label - Command Block)
     public static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
     public static Map<String, String> breakPointMap = new HashMap<>();
+    public static Queue<String> queue = new LinkedList<>();
 
     public static int count = 0;
     public static void storeCommand(String command){
