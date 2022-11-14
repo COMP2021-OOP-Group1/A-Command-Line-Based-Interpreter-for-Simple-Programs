@@ -198,7 +198,7 @@ public class Simple {
 
     protected static void execute(String programName){  //* REQ11
         Parser.classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)));
-    };  
+    }
 
     protected static void list(String instruction) {    //* REQ12
 
@@ -314,10 +314,10 @@ public class Simple {
         // print expRef
         try{
             if (Parser.varMap.containsKey(expRef)) {
-                System.out.println(Parser.varMap.get(expRef));
+                System.out.println("{" + Parser.varMap.get(expRef) + "}");
             }
         } catch (Exception e) {
-            System.out.println(expRef);
+            System.out.println("{" + expRef + "}");
         }
 
     }
