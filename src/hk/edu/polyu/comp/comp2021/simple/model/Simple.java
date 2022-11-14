@@ -267,6 +267,7 @@ public class Simple extends Parser {
                 } else {
                     String peekCMD = stack.peek();
                     System.out.println("Debugging ==> " + peekCMD);
+                    inspect(peekCMD.split(" "));
                     stack.pop();
                     currentInspect = currentDebugPoint;
                     currentDebugPoint = stack.peek().split(" ")[1];
@@ -279,92 +280,15 @@ public class Simple extends Parser {
         }
     }
 
-    protected static void inspect(String programName, String varName) {
-        System.out.println("<" + varHistoryMap.get(varName).get(index) + ">");
-        index++;
-
-//        storeQueue(programMap.get(programName));
-//        int sizeCount = 0;
-//        for (int i = cmdMap.size(); i >= 1; i--) {
-//            if (cmdMap.get(i).contains("vardef") || cmdMap.get(i).contains("binexpr") || cmdMap.get(i).contains("unexpr")) {
-//                runQueue.add(cmdMap.get(i));
-//                sizeCount = sizeCount + 1;
-//            }
-//        }
-//
-//        int index = 0;
-//        while (true) {
-//            if (currentInspect.equals(runQueue.peek())) {
-//                break;
-//            } else {
-//                if (runQueue.peek().contains(varName)) {
-//                    index = index + 1;
-//                }
-//                runQueue.remove();
-//            }
-//
-//        }
-
-
-//        int sizeCount = 0;
-//        for (int i = cmdMap.size(); i >= 1; i--) {
-//            if (cmdMap.get(i).contains("vardef") || cmdMap.get(i).contains("binexpr") || cmdMap.get(i).contains("unexpr")) {
-//                runQueue.add(cmdMap.get(i));
-//                sizeCount = sizeCount + 1;
-//            }
-//        }
-//        for (int i = 0; i <= runQueue.size() + 1 + sizeCount; i++) {
-//            if (currentInspect.equals(runQueue.peek())) {
-//                runStack.add(runQueue.peek());
-//                runQueue.remove();
-//                break;
-//            }
-//        }
-//
-//        for (int i = 1; i < runStack.size(); i++) {
-//            classification(runStack.peek());
-//            runStack.remove(runStack.peek());
-//        }
-
-
-//
-//
-//        try {
-//            for (int i = 0; i <= runQueue.size() + 1 + sizeCount; i++) {
-//                System.out.println(currentInspect);
-//                storeCommand(currentInspect);
-//                if (Parser.breakPointMap.containsKey(programName)) {
-//
-//                }
-//                runQueue.remove();
-//            }
-//
-//        } catch (Exception e) {
-//            System.out.println("Warning: No Debug first");
-//        }
+    protected static void inspect(String[] strSplit) {
+        String programName = strSplit[1];
+        String varName = strSplit[2];
+        if (strSplit[0].equals("inspect")) {
+            System.out.println("<" + varHistoryMap.get(varName).get(index) + ">");
+        } else {
+            index++;
+        }
     }
-
-//    protected static void instrument(String programName, String statement, String pos, String expRef){
-////        if (pos.equals("after")) {
-////            if (Parser.programMap.get(programName)) {
-////
-////            }
-////        }
-////
-////        if (pos.equals("before")) {
-////
-////        }
-//
-//        // print expRef
-//        try{
-//            if (Parser.varMap.containsKey(expRef)) {
-//                System.out.println("{" + Parser.varMap.get(expRef) + "}");
-//            }
-//        } catch (Exception e) {
-//            System.out.println("{" + expRef + "}");
-//        }
-//
-//    }
 
 }
 

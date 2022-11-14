@@ -22,7 +22,7 @@ public class Parser {
     public static String currentDebugPoint = "";
     public static String currentInspect = "";
     public static int DebugPoint = 0;
-    public static int index = 1;
+    public static int index = 0;
     public static void storeCommand(String command){
 
         // Check if instruction is valid first
@@ -208,7 +208,7 @@ public class Parser {
                 break;
 
             case "inspect":
-                Simple.inspect(splitStr[1], splitStr[2]);
+                Simple.inspect(splitStr);
                 break;
 
         }
