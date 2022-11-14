@@ -29,10 +29,10 @@ public class File extends Parser {
         try {
             FileWriter myWriter = new FileWriter(address + ".txt");
             String CMD = "";
-            storeQueue(Parser.programMap.get(programName));
-            for (int i = 0; i <= Parser.queue.size() + 1; i++) {
-                CMD = Parser.queue.peek() + "\n" + CMD;
-                Parser.queue.remove();
+            storeQueue(programMap.get(programName));
+            for (int i = 0; i <= queue.size() + 1; i++) {
+                CMD = queue.peek() + "\n" + CMD;
+                queue.remove();
             }
 
             myWriter.write(CMD);
@@ -50,12 +50,10 @@ public class File extends Parser {
         List ProgramCMDList = Files.readAllLines(Paths.get(fileAddress + ".txt"));
         for (int i = 0; i < ProgramCMDList.size(); i++) {
             String cmd = (String)ProgramCMDList.toArray()[i];
-            Parser.cmdMap.put(i + 1, cmd);
+            cmdMap.put(i + 1, cmd);
         }
         for (int i = 1; i < ProgramCMDList.size(); i++) {
-            Parser.storeCommand(Parser.cmdMap.get(i));
+            storeCommand(cmdMap.get(i));
         }
-//        System.out.println(Parser.cmdMap);
-
     }
 }

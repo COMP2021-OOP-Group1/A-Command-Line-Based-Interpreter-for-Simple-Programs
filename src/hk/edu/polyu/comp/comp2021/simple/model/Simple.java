@@ -3,22 +3,20 @@ package hk.edu.polyu.comp.comp2021.simple.model;
 import java.util.*;
 
 public class Simple extends Parser {
-    static Parser parser;
-
     public Simple(){
         Parser parser = new Parser();
     }
     
     protected static void vardef(String[] str) {   //* REQ1 - Works
-        Parser.varMap.put(str[3], Parser.expRef(str[4]));
+        varMap.put(str[3], expRef(str[4]));
         updateExp();
     }
 
 
     protected static void binExpr(String[] str) { //* REQ2
 
-        Object a = Parser.expRef(str[2]);
-        Object b = Parser.expRef(str[4]);
+        Object a = expRef(str[2]);
+        Object b = expRef(str[4]);
         String operator = str[3];
         String label = str[1];
 
@@ -36,37 +34,37 @@ public class Simple extends Parser {
 
         switch (operator){
             case "+":
-                Parser.addResultExp(label, a + b);
+                addResultExp(label, a + b);
                 break;
             case "-":
-                Parser.addResultExp(label, a - b);
+                addResultExp(label, a - b);
                 break;
             case "*":
-                Parser.addResultExp(label, a * b);
+                addResultExp(label, a * b);
                 break;
             case "/":
-                if (b != 0) Parser.addResultExp(label, a / b);
+                if (b != 0) addResultExp(label, a / b);
                 break;
             case ">":
-                Parser.addResultExp(label, a > b);
+                addResultExp(label, a > b);
                 break;
             case "<":
-                Parser.addResultExp(label, a < b);
+                addResultExp(label, a < b);
                 break;
             case ">=":
-                Parser.addResultExp(label, a >= b);
+                addResultExp(label, a >= b);
                 break;
             case "<=":
-                Parser.addResultExp(label, a <= b);
+                addResultExp(label, a <= b);
                 break;
             case "%":
-                Parser.addResultExp(label, a % b);
+                addResultExp(label, a % b);
                 break;
             case "==":
-                Parser.addResultExp(label, a == b);
+                addResultExp(label, a == b);
                 break;
             case "!=":
-                Parser.addResultExp(label, a != b);
+                addResultExp(label, a != b);
                 break;
         }
 
@@ -78,16 +76,16 @@ public class Simple extends Parser {
 
         switch (operator){
             case "&&":
-                Parser.addResultExp(label, a && b);
+                addResultExp(label, a && b);
                 break;
             case "||":
-                Parser.addResultExp(label, a || b);
+                addResultExp(label, a || b);
                 break;
             case "==":
-                Parser.addResultExp(label, a == b);
+                addResultExp(label, a == b);
                 break;
             case "!=":
-                Parser.addResultExp(label, a != b); 
+                addResultExp(label, a != b);
                 break;
         }
     }
@@ -96,16 +94,16 @@ public class Simple extends Parser {
         
 
         if (operator.equals("!")){   // Negates Boolean expression
-            if ((boolean)Parser.expRef(expRef1))
-                Parser.varMap.put(expName, false);
-            else Parser.addResultExp(expName, true);
+            if ((boolean)expRef(expRef1))
+                varMap.put(expName, false);
+            else addResultExp(expName, true);
         }
 
         else if (operator.equals("~")){  // Negates Int Expression by switching symbols
             
-            int number = (int)Parser.expRef(expRef1) * -1;
+            int number = (int)expRef(expRef1) * -1;
             if (operator.equals("~"))
-                Parser.addResultExp(expName, number);
+                addResultExp(expName, number);
         }
     }
 
@@ -113,10 +111,10 @@ public class Simple extends Parser {
     protected static void assign(String varName, String expRef) {  //* REQ4
 
         // Get object in variable
-        Object toAdd = Parser.expRef(expRef);
+        Object toAdd = expRef(expRef);
         
         // Change variable value
-        Parser.varMap.replace(varName, toAdd);
+        varMap.replace(varName, toAdd);
 
         updateExp();
 
@@ -125,12 +123,12 @@ public class Simple extends Parser {
     protected static void updateExp(){
         // Update stored statements that contain this variable
         String[] command;
-        for (String key: Parser.resultExp.keySet()){
+        for (String key: resultExp.keySet()){
             
             command = null;
-            if (Parser.expRefLabelCmd.containsKey(key)){
+            if (expRefLabelCmd.containsKey(key)){
                 
-                command = Parser.expRefLabelCmd.get(key).split(" ");
+                command = expRefLabelCmd.get(key).split(" ");
 
                 if (command[0].equals("unexpr")) unexpr(command[1], command[2], command[3]);
                 else if (command[0].equals("binexpr")) binExpr(command);
@@ -140,9 +138,9 @@ public class Simple extends Parser {
 
     protected static void print(String label, String expRef) {   //* REQ5
         String value = "";
-        value = value + Parser.expRef(expRef).toString();
+        value = value + expRef(expRef).toString();
         System.out.println('[' + value +']');
-        Parser.addResultExp(label, '[' + value +']');
+        addResultExp(label, '[' + value +']');
     }
 
     protected static void skip(){}   //* REQ6
@@ -153,10 +151,10 @@ public class Simple extends Parser {
         for (int i = 0; i < n; i++){
 
             updateExp();
-            if (Parser.labelCMDMap.containsKey(instructions[i]))
-                Parser.classification(Parser.labelCMDMap.get(instructions[i]));
-            else if (Parser.expRefLabelCmd.containsKey(instructions[i]))
-                Parser.classification(Parser.labelCMDMap.get(instructions[i]));
+            if (labelCMDMap.containsKey(instructions[i]))
+                classification(labelCMDMap.get(instructions[i]));
+            else if (expRefLabelCmd.containsKey(instructions[i]))
+                classification(labelCMDMap.get(instructions[i]));
         }
 
     }
@@ -167,10 +165,10 @@ public class Simple extends Parser {
         // if true - <K,V> save V for label ex1 in labelCMDMap
         // if false - <K,V> save V for label ex2 in labelCMDMap
 
-        if ((boolean)Parser.expRef(expRef)){
-            Parser.classification(Parser.labelCMDMap.get(statementLab1));
+        if ((boolean)expRef(expRef)){
+            classification(labelCMDMap.get(statementLab1));
         }else {
-            Parser.classification(Parser.labelCMDMap.get(statementLab2));
+            classification(labelCMDMap.get(statementLab2));
         }
 
         updateExp();
@@ -181,51 +179,51 @@ public class Simple extends Parser {
 
         
 
-        while((boolean)Parser.expRef(expRef)) {
+        while((boolean)expRef(expRef)) {
             // Check if the condition is TRUE or FALSE:
             // if true - <K,V> save V for label ex1 in labelCMDMap and
             // run the cmd
             // if false - terminate the loop
-            Parser.classification(Parser.labelCMDMap.get(statementLab1));
+            classification(labelCMDMap.get(statementLab1));
             updateExp();
         }
     }
     protected static void program(String programName, String statementLabel) {  //* REQ10
         //ArrayList<String> statementLabelList = new ArrayList<>();
         //statementLabelList.add(statementLabel);
-        Parser.programMap.put(programName, statementLabel);
+        programMap.put(programName, statementLabel);
     }
 
     protected static void execute(String programName){  //* REQ11
-        Parser.classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)));
+        classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)));
     }
 
     protected static void list(String instruction) {    //* REQ12
 
         // Get instruction from the map
 
-        String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
-        if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
-            String block[] = Parser.blockMap.get(fullInst[1]);
-            System.out.println(Parser.labelCMDMap.get(instruction));
+        String[] fullInst = labelCMDMap.get(instruction).split(" ");
+        if (blockMap.containsKey(instruction)){  // If program statement is a block
+            String block[] = blockMap.get(fullInst[1]);
+            System.out.println(labelCMDMap.get(instruction));
             for (int i = 0; i < block.length; i++) {
                 list(block[i]); // Recurse over the instructions
             }
         }
         else if (fullInst[0].equals("while")){    // If while loop
-            System.out.println(Parser.labelCMDMap.get(instruction));
+            System.out.println(labelCMDMap.get(instruction));
             list(fullInst[3]);
         }
         else if (fullInst[0].equals("if")){
-            System.out.println(Parser.labelCMDMap.get(instruction));
+            System.out.println(labelCMDMap.get(instruction));
             list(fullInst[3]);
             list(fullInst[4]);
         }
     
         // Print if instruction is not a while or block or if
         else{
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
-            System.out.println(Parser.labelCMDMap.get(instruction));
+            Parser.queue.add(labelCMDMap.get(instruction));
+            System.out.println(labelCMDMap.get(instruction));
         }
 
         
@@ -238,25 +236,25 @@ public class Simple extends Parser {
 
 
     protected static void debug(String programName) {
-        storeQueue(Parser.programMap.get(programName));
+        storeQueue(programMap.get(programName));
         System.out.println("Reminder: Enter to the next line");
-        String[] str = Parser.labelCMDMap.get(Parser.programMap.get(programName)).split(" ");
+        String[] str = labelCMDMap.get(programMap.get(programName)).split(" ");
 
-        String currentBreakLabel = Parser.breakPointMap.get(programName);
+        String currentBreakLabel = breakPointMap.get(programName);
         try {
             while (true) {
-                if (!Parser.queue.peek().split(" ")[1].equals(currentBreakLabel)) {
-                    Parser.queue.remove();
+                if (!queue.peek().split(" ")[1].equals(currentBreakLabel)) {
+                    queue.remove();
                 } else {
-                    String peekCMD = Parser.queue.peek();
+                    String peekCMD = queue.peek();
                     System.out.println("Debugging ==> " + peekCMD);
                     Scanner input = new Scanner(System.in);
                     String statement = input.nextLine();
                     if (statement.split(" ")[0].equals("inspect")) {
                         inspect(statement.split(" ")[1], statement.split(" ")[2]);
                     }
-                    Parser.queue.remove();
-                    currentBreakLabel = Parser.queue.peek().split(" ")[1];
+                    queue.remove();
+                    currentBreakLabel = queue.peek().split(" ")[1];
                 }
             }
         } catch (Exception e) {
@@ -296,13 +294,6 @@ public class Simple extends Parser {
         }
 
     }
-
-//    protected static void fileStore() {
-//        Simple simple = new Simple();
-//        simple.store();
-//
-//    }
-
 
 }
 
