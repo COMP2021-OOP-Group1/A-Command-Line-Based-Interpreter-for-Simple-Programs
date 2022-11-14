@@ -2,7 +2,7 @@ package hk.edu.polyu.comp.comp2021.simple.model;
 
 import java.util.*;
 
-public class Simple {
+public class Simple extends Parser {
     static Parser parser;
 
     public Simple(){
@@ -235,32 +235,7 @@ public class Simple {
 
     }
 
-    protected static void storeQueue(String instruction) {    //* REQ12
-        // Get instruction from the map
-        String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
-        if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
-            String block[] = Parser.blockMap.get(fullInst[1]);
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
-            for (int i = 0; i < block.length; i++) {
-                storeQueue(block[i]); // Recurse over the instructions
-            }
-        }
-        else if (fullInst[0].equals("while")){    // If while loop
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
-            storeQueue(fullInst[3]);
-        }
-        else if (fullInst[0].equals("if")){
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
-            storeQueue(fullInst[3]);
-            storeQueue(fullInst[4]);
-        }
 
-        // Print if instruction is not a while or block or if
-        else{
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
-        }
-
-    }
 
     protected static void debug(String programName) {
         storeQueue(Parser.programMap.get(programName));
@@ -321,6 +296,12 @@ public class Simple {
         }
 
     }
+
+//    protected static void fileStore() {
+//        Simple simple = new Simple();
+//        simple.store();
+//
+//    }
 
 
 }

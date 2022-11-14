@@ -47,6 +47,8 @@ block block1 assign1
 if if1 exp5 block1 print1
 while while1 true block1
 program program1 while1
+store program1 /Users/davidjiang/Desktop/prog1.simple
+load /Users/davidjiang/Desktop/prog1.simple program1
 list program1
 togglebreakpoint program1 while1
 debug program1

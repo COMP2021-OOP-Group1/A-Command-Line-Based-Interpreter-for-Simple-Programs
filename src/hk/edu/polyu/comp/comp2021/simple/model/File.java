@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.io.FileWriter;
 
-public class File {
+public class File extends Parser {
     // store the program code to a file
     public static void store(String programName, String address) throws IOException {
 
@@ -26,15 +26,13 @@ public class File {
         }
 
         // Write the code from map into file
-        Parser cmdMap = new Parser();
         try {
             FileWriter myWriter = new FileWriter(address + ".txt");
             String CMD = "";
-            Map<Integer, String> CMDMap = Parser.cmdMap;
-//            System.out.println(CMDMap);
-            for (int i = 1; i < CMDMap.size() + 1; i++) {
-//                System.out.println(CMDMap.get(i));
-                CMD += CMDMap.get(i) + "\n";
+            storeQueue(Parser.programMap.get(programName));
+            for (int i = 0; i <= Parser.queue.size() + 1; i++) {
+                CMD = Parser.queue.peek() + "\n" + CMD;
+                Parser.queue.remove();
             }
 
             myWriter.write(CMD);
