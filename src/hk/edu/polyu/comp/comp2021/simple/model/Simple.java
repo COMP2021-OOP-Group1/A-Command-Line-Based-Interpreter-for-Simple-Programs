@@ -2,7 +2,12 @@ package hk.edu.polyu.comp.comp2021.simple.model;
 
 import java.util.*;
 
-public class Simple extends Parser {
+public class Simple {
+    static Parser parser;
+
+    final static int maxInt = 99999;
+    final static int minInt = -99999;
+
     public Simple(){
         Parser parser = new Parser();
     }
@@ -34,7 +39,7 @@ public class Simple extends Parser {
 
         switch (operator){
             case "+":
-                addResultExp(label, a + b);
+                Parser.addResultExp(label, a + b);
                 break;
             case "-":
                 addResultExp(label, a - b);
