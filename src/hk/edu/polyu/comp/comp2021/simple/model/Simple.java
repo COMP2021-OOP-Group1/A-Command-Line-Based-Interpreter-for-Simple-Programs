@@ -2,9 +2,7 @@ package hk.edu.polyu.comp.comp2021.simple.model;
 
 import java.util.*;
 
-public class Simple {
-    static Parser parser;
-
+public class Simple extends Parser {
     final static int maxInt = 99999;
     final static int minInt = -99999;
 
@@ -144,7 +142,7 @@ public class Simple {
     protected static void print(String label, String expRef) {   //* REQ5
         String value = "";
         value = value + expRef(expRef).toString();
-        System.out.println('[' + value +']');
+        System.out.print('[' + value +']');
         addResultExp(label, '[' + value +']');
     }
 
@@ -242,24 +240,21 @@ public class Simple {
 
     protected static void debug(String programName) {
         storeQueue(programMap.get(programName));
-        System.out.println("Reminder: Enter to the next line");
         String[] str = labelCMDMap.get(programMap.get(programName)).split(" ");
-
-        String currentBreakLabel = breakPointMap.get(programName);
+        if (DebugPoint < 1) {
+            currentDebugPoint = breakPointMap.get(programName);
+            DebugPoint++;
+        }
         try {
             while (true) {
-                if (!queue.peek().split(" ")[1].equals(currentBreakLabel)) {
-                    queue.remove();
+                if (!stack.peek().split(" ")[1].equals(currentDebugPoint) || currentDebugPoint.equals("")) {
+                    stack.pop();
                 } else {
-                    String peekCMD = queue.peek();
+                    String peekCMD = stack.peek();
                     System.out.println("Debugging ==> " + peekCMD);
-                    Scanner input = new Scanner(System.in);
-                    String statement = input.nextLine();
-                    if (statement.split(" ")[0].equals("inspect")) {
-                        inspect(statement.split(" ")[1], statement.split(" ")[2]);
-                    }
-                    queue.remove();
-                    currentBreakLabel = queue.peek().split(" ")[1];
+                    stack.pop();
+                    currentDebugPoint = stack.peek().split(" ")[1];
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -270,35 +265,47 @@ public class Simple {
 
     protected static void inspect(String programName, String varName) {
         try {
-            if (Parser.breakPointMap.containsKey(programName)) {
-                System.out.println("<" + Parser.varMap.get(varName) + ">");
+            int sizeCount = 0;
+            for (int i = cmdMap.size(); i >= 1; i--) {
+                if (cmdMap.get(i).contains("vardef") || cmdMap.get(i).contains("binexpr") || cmdMap.get(i).contains("unexpr")) {
+                    runQueue.add(cmdMap.get(i));
+                    sizeCount = sizeCount + 1;
+                }
             }
+            for (int i = 0; i <= runQueue.size() + 1 + sizeCount; i++) {
+                classification(runQueue.peek());
+                if (Parser.breakPointMap.containsKey(programName)) {
+                    System.out.println("<" + Parser.varMap.get(varName) + ">");
+                }
+                runQueue.remove();
+            }
+
         } catch (Exception e) {
             System.out.println("Warning: No Debug first");
         }
     }
 
-    protected static void instrument(String programName, String statement, String pos, String expRef){
-//        if (pos.equals("after")) {
-//            if (Parser.programMap.get(programName)) {
+//    protected static void instrument(String programName, String statement, String pos, String expRef){
+////        if (pos.equals("after")) {
+////            if (Parser.programMap.get(programName)) {
+////
+////            }
+////        }
+////
+////        if (pos.equals("before")) {
+////
+////        }
 //
+//        // print expRef
+//        try{
+//            if (Parser.varMap.containsKey(expRef)) {
+//                System.out.println("{" + Parser.varMap.get(expRef) + "}");
 //            }
+//        } catch (Exception e) {
+//            System.out.println("{" + expRef + "}");
 //        }
 //
-//        if (pos.equals("before")) {
-//
-//        }
-
-        // print expRef
-        try{
-            if (Parser.varMap.containsKey(expRef)) {
-                System.out.println("{" + Parser.varMap.get(expRef) + "}");
-            }
-        } catch (Exception e) {
-            System.out.println("{" + expRef + "}");
-        }
-
-    }
+//    }
 
 }
 

@@ -13,8 +13,12 @@ public class Parser {
     public static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
     public static Map<String, String> breakPointMap = new HashMap<>();
     public static Queue<String> queue = new LinkedList<>();
-
+    public static Queue<String> runQueue = new LinkedList<>();
+    public static Stack<String> stack = new Stack<>();
     public static int count = 0;
+
+    public static String currentDebugPoint = "";
+    public static int DebugPoint = 0;
     public static void storeCommand(String command){
 
         // Check if instruction is valid first
@@ -42,7 +46,15 @@ public class Parser {
             classification(command);
         }
         else if (splitStr[0].equals("togglebreakpoint")) {
-            breakPointMap.put(splitStr[1], splitStr[2]);
+            try {
+                if (breakPointMap.get(splitStr[1]).equals(splitStr[2])) {
+                    breakPointMap.remove(splitStr[1]);
+                    stack.clear();
+                    currentDebugPoint = "";
+                }
+            } catch (Exception e) {
+                breakPointMap.put(splitStr[1], splitStr[2]);
+            }
         }
         else {
             cmdMap.put(count, command);
@@ -58,23 +70,32 @@ public class Parser {
         if (blockMap.containsKey(instruction)){  // If program statement is a block
             String block[] = blockMap.get(fullInst[1]);
             queue.add(labelCMDMap.get(instruction));
+            runQueue.add(labelCMDMap.get(instruction));
+            stack.push(labelCMDMap.get(instruction));
+
             for (int i = 0; i < block.length; i++) {
                 storeQueue(block[i]); // Recurse over the instructions
             }
         }
         else if (fullInst[0].equals("while")){    // If while loop
             queue.add(labelCMDMap.get(instruction));
+            runQueue.add(labelCMDMap.get(instruction));
+            stack.push(labelCMDMap.get(instruction));
             storeQueue(fullInst[3]);
         }
         else if (fullInst[0].equals("if")){
             queue.add(labelCMDMap.get(instruction));
+            runQueue.add(labelCMDMap.get(instruction));
+            stack.push(labelCMDMap.get(instruction));
             storeQueue(fullInst[3]);
             storeQueue(fullInst[4]);
         }
 
         // Print if instruction is not a while or block or if
         else{
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            queue.add(labelCMDMap.get(instruction));
+            runQueue.add(labelCMDMap.get(instruction));
+            stack.push(labelCMDMap.get(instruction));
         }
 
     }
@@ -133,6 +154,7 @@ public class Parser {
 
             case "execute": //* REQ11
                 Simple.execute(splitStr[1]);
+                System.out.println();
                 break;
 
             case "list":    //* REQ12
@@ -164,9 +186,9 @@ public class Parser {
                 Simple.togglebreakpoint(splitStr[1],splitStr[2]);
                 break;
 
-//            case "inspect":
-//                Simple.inspect(splitStr[1], splitStr[2]);
-//                break;
+            case "inspect":
+                Simple.inspect(splitStr[1], splitStr[2]);
+                break;
 
         }
 
@@ -210,10 +232,10 @@ public class Parser {
                 if (input.equals("quit")) System.exit(0);
 
 
-                if (!inputValidator(input)){
-                    System.out.println("ERROR: The input command is invalid, please enter a new command");
-                    input = inputLine.nextLine();
-                }
+//                if (!inputValidator(input)){
+//                    System.out.println("ERROR: The input command is invalid, please enter a new command");
+//                    input = inputLine.nextLine();
+//                }
 
                 storeCommand(input);
                 // classification(input);

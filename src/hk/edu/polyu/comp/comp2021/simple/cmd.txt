@@ -52,3 +52,28 @@ load /Users/davidjiang/Desktop/prog1.simple program1
 list program1
 togglebreakpoint program1 while1
 debug program1
+
+
+
+vardef vardef1 int x 0
+binexpr exp1 x % 2
+binexpr exp2 exp1 == 0
+print print1 x
+skip skip1
+if if1 exp2 print1 skip1
+binexpr exp3 x + 1
+assign assign1 x exp3
+block block1 if1 assign1
+binexpr exp4 x <= 10
+while while1 exp4 block1
+block block2 vardef1 while1
+program printeven block2
+execute printeven
+program printeven block2
+togglebreakpoint printeven if1
+debug printeven
+inspect printeven x
+debug printeven
+inspect printeven x
+togglebreakpoint printeven if1
+debug printeven
