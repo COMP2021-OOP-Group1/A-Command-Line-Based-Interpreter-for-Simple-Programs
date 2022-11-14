@@ -29,8 +29,16 @@ public class File extends Parser {
         try {
             FileWriter myWriter = new FileWriter(address + ".txt");
             String CMD = "";
+
             storeQueue(programMap.get(programName));
-            for (int i = 0; i <= queue.size() + 1; i++) {
+            int sizeCount = 0;
+            for (int i = cmdMap.size(); i >= 1; i--) {
+                if (cmdMap.get(i).contains("vardef") || cmdMap.get(i).contains("binexpr") || cmdMap.get(i).contains("unexpr")) {
+                    queue.add(cmdMap.get(i));
+                    sizeCount = sizeCount + 1;
+                }
+            }
+            for (int i = 0; i <= queue.size() + 1 + sizeCount; i++) {
                 CMD = queue.peek() + "\n" + CMD;
                 queue.remove();
             }

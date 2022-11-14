@@ -53,20 +53,21 @@ public class Parser {
 
     protected static void storeQueue(String instruction) {    //* REQ12
         // Get instruction from the map
-        String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
-        if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
-            String block[] = Parser.blockMap.get(fullInst[1]);
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+        String[] fullInst = labelCMDMap.get(instruction).split(" ");
+
+        if (blockMap.containsKey(instruction)){  // If program statement is a block
+            String block[] = blockMap.get(fullInst[1]);
+            queue.add(labelCMDMap.get(instruction));
             for (int i = 0; i < block.length; i++) {
                 storeQueue(block[i]); // Recurse over the instructions
             }
         }
         else if (fullInst[0].equals("while")){    // If while loop
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            queue.add(labelCMDMap.get(instruction));
             storeQueue(fullInst[3]);
         }
         else if (fullInst[0].equals("if")){
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            queue.add(labelCMDMap.get(instruction));
             storeQueue(fullInst[3]);
             storeQueue(fullInst[4]);
         }
@@ -207,13 +208,13 @@ public class Parser {
             if (input != null){
                 count++;
                 if (input.equals("quit")) System.exit(0);
-                /* 
-                 
+
+
                 if (!inputValidator(input)){
                     System.out.println("ERROR: The input command is invalid, please enter a new command");
                     input = inputLine.nextLine();
                 }
-                */
+
                 storeCommand(input);
                 // classification(input);
             }
@@ -344,7 +345,7 @@ public class Parser {
         }
 
         // Checks if the int or bool value is out of bounds
-          if(strTemp.length < 2){
+          if(strTemp.length >= 2){
             switch (strTemp[2]) {
                 case "int":
                     int intValue = Integer.parseInt(strTemp[4]);
