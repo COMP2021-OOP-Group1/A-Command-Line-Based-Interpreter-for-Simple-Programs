@@ -5,6 +5,9 @@ import java.util.*;
 public class Simple {
     static Parser parser;
 
+    final static int maxInt = 99999;
+    final static int minInt = -99999;
+
     public Simple(){
         Parser parser = new Parser();
     }
@@ -36,7 +39,10 @@ public class Simple {
 
         switch (operator){
             case "+":
-                Parser.addResultExp(label, a + b);
+                if (a + b > maxInt) Parser.addResultExp(label, maxInt);
+                else if (a + b < minInt) Parser.addResultExp(label, minInt);
+                else Parser.addResultExp(label, a + b);
+
                 break;
             case "-":
                 Parser.addResultExp(label, a - b);
