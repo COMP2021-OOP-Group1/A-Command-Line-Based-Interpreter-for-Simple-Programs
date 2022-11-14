@@ -12,6 +12,7 @@ public class Simple extends Parser {
     
     protected static void vardef(String[] str) {   //* REQ1 - Works
         varMap.put(str[3], expRef(str[4]));
+        putVarHistoryMap(str[3]);
         updateExp();
     }
 
@@ -97,9 +98,13 @@ public class Simple extends Parser {
         
 
         if (operator.equals("!")){   // Negates Boolean expression
-            if ((boolean)expRef(expRef1))
+            if ((boolean)expRef(expRef1)) {
                 varMap.put(expName, false);
-            else addResultExp(expName, true);
+                putVarHistoryMap(expName);
+            }
+            else {
+                addResultExp(expName, true);
+            }
         }
 
         else if (operator.equals("~")){  // Negates Int Expression by switching symbols
@@ -118,7 +123,7 @@ public class Simple extends Parser {
         
         // Change variable value
         varMap.replace(varName, toAdd);
-
+        putVarHistoryMap(varName);
         updateExp();
 
     }
@@ -240,19 +245,30 @@ public class Simple extends Parser {
 
     protected static void debug(String programName) {
         storeQueue(programMap.get(programName));
-        String[] str = labelCMDMap.get(programMap.get(programName)).split(" ");
         if (DebugPoint < 1) {
             currentDebugPoint = breakPointMap.get(programName);
+            currentInspect = currentDebugPoint;
             DebugPoint++;
         }
         try {
             while (true) {
+//                if (stack.peek().equals("while")) {
+//                    while (true) {
+//                        String peekCMD = stack.peek();
+//                        System.out.println("Debugging ==> " + peekCMD);
+//                        stack.pop();
+//                        currentInspect = currentDebugPoint;
+//                        currentDebugPoint = stack.peek().split(" ")[1];
+//                        break;
+//                    }
+//                }
                 if (!stack.peek().split(" ")[1].equals(currentDebugPoint) || currentDebugPoint.equals("")) {
                     stack.pop();
                 } else {
                     String peekCMD = stack.peek();
                     System.out.println("Debugging ==> " + peekCMD);
                     stack.pop();
+                    currentInspect = currentDebugPoint;
                     currentDebugPoint = stack.peek().split(" ")[1];
                     break;
                 }
@@ -264,25 +280,68 @@ public class Simple extends Parser {
     }
 
     protected static void inspect(String programName, String varName) {
-        try {
-            int sizeCount = 0;
-            for (int i = cmdMap.size(); i >= 1; i--) {
-                if (cmdMap.get(i).contains("vardef") || cmdMap.get(i).contains("binexpr") || cmdMap.get(i).contains("unexpr")) {
-                    runQueue.add(cmdMap.get(i));
-                    sizeCount = sizeCount + 1;
-                }
-            }
-            for (int i = 0; i <= runQueue.size() + 1 + sizeCount; i++) {
-                classification(runQueue.peek());
-                if (Parser.breakPointMap.containsKey(programName)) {
-                    System.out.println("<" + Parser.varMap.get(varName) + ">");
-                }
-                runQueue.remove();
-            }
+        System.out.println("<" + varHistoryMap.get(varName).get(index) + ">");
+        index++;
 
-        } catch (Exception e) {
-            System.out.println("Warning: No Debug first");
-        }
+//        storeQueue(programMap.get(programName));
+//        int sizeCount = 0;
+//        for (int i = cmdMap.size(); i >= 1; i--) {
+//            if (cmdMap.get(i).contains("vardef") || cmdMap.get(i).contains("binexpr") || cmdMap.get(i).contains("unexpr")) {
+//                runQueue.add(cmdMap.get(i));
+//                sizeCount = sizeCount + 1;
+//            }
+//        }
+//
+//        int index = 0;
+//        while (true) {
+//            if (currentInspect.equals(runQueue.peek())) {
+//                break;
+//            } else {
+//                if (runQueue.peek().contains(varName)) {
+//                    index = index + 1;
+//                }
+//                runQueue.remove();
+//            }
+//
+//        }
+
+
+//        int sizeCount = 0;
+//        for (int i = cmdMap.size(); i >= 1; i--) {
+//            if (cmdMap.get(i).contains("vardef") || cmdMap.get(i).contains("binexpr") || cmdMap.get(i).contains("unexpr")) {
+//                runQueue.add(cmdMap.get(i));
+//                sizeCount = sizeCount + 1;
+//            }
+//        }
+//        for (int i = 0; i <= runQueue.size() + 1 + sizeCount; i++) {
+//            if (currentInspect.equals(runQueue.peek())) {
+//                runStack.add(runQueue.peek());
+//                runQueue.remove();
+//                break;
+//            }
+//        }
+//
+//        for (int i = 1; i < runStack.size(); i++) {
+//            classification(runStack.peek());
+//            runStack.remove(runStack.peek());
+//        }
+
+
+//
+//
+//        try {
+//            for (int i = 0; i <= runQueue.size() + 1 + sizeCount; i++) {
+//                System.out.println(currentInspect);
+//                storeCommand(currentInspect);
+//                if (Parser.breakPointMap.containsKey(programName)) {
+//
+//                }
+//                runQueue.remove();
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println("Warning: No Debug first");
+//        }
     }
 
 //    protected static void instrument(String programName, String statement, String pos, String expRef){

@@ -7,18 +7,22 @@ public class Parser {
     public static Map<Integer, String> cmdMap = new HashMap<>();
     public static Map<String, String> labelCMDMap = new HashMap<>();  // Stores Labels and its commands (Label - Command)
     public static Map<String, String> expRefLabelCmd = new HashMap<>();  // Stores expRefs and its commands (Label - Command)
-    public static Map<String, Object> varMap = new HashMap<>();   // Stores Variables and Values (Variable - Value)  // Stores Variables and Bool Values (Variable - Value)
+    public static Map<String, Object> varMap = new HashMap<>();   // Stores Variables and Values (Variable - Value)
+    public static Map<String, List<Object>> varHistoryMap = new HashMap<>();
     public static Map<String, Object> resultExp = new HashMap<>();   // Stores Results of Expressions (Label - Result)
     public static Map<String, String[]> blockMap = new HashMap<>(); // Stores block of commands (Label - Command Block)
     public static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
     public static Map<String, String> breakPointMap = new HashMap<>();
     public static Queue<String> queue = new LinkedList<>();
     public static Queue<String> runQueue = new LinkedList<>();
+    public static Queue<String> runStack = new LinkedList<>();
     public static Stack<String> stack = new Stack<>();
     public static int count = 0;
 
     public static String currentDebugPoint = "";
+    public static String currentInspect = "";
     public static int DebugPoint = 0;
+    public static int index = 1;
     public static void storeCommand(String command){
 
         // Check if instruction is valid first
@@ -41,7 +45,7 @@ public class Parser {
             cmdMap.put(count, command);
             labelCMDMap.put(splitStr[1], command);
         }
-        else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load")){
+        else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect")){
             cmdMap.put(count, command);
             classification(command);
         }
@@ -60,7 +64,20 @@ public class Parser {
             cmdMap.put(count, command);
             labelCMDMap.put(splitStr[1], command);
         }
+//        System.out.println(varMap);
 
+    }
+
+    protected static void putVarHistoryMap(String varName) {
+        List<Object> list = new ArrayList<>();
+
+        if(!varHistoryMap.containsKey(varName)) {
+            varHistoryMap.put(varName, list);
+        }
+        varHistoryMap.get(varName).add(varMap.get(varName));
+//        for (Object e : varHistoryMap.get("x")) {
+//            System.out.print(e + " ");
+//        }
     }
 
     protected static void storeQueue(String instruction) {    //* REQ12
@@ -97,6 +114,10 @@ public class Parser {
             runQueue.add(labelCMDMap.get(instruction));
             stack.push(labelCMDMap.get(instruction));
         }
+//        System.out.println(queue);
+//        System.out.println(runQueue);
+        runQueue.clear();
+        queue.clear();
 
     }
 
