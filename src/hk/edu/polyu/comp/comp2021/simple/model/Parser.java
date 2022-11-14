@@ -1,11 +1,7 @@
 package hk.edu.polyu.comp.comp2021.simple.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Parser {
     public static Map<Integer, String> cmdMap = new HashMap<>();
@@ -16,6 +12,7 @@ public class Parser {
     public static Map<String, String[]> blockMap = new HashMap<>(); // Stores block of commands (Label - Command Block)
     public static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
     public static Map<String, String> breakPointMap = new HashMap<>();
+    public static Queue<String> queue = new LinkedList<>();
 
     public static int count = 0;
     public static void storeCommand(String command){
@@ -50,6 +47,33 @@ public class Parser {
         else {
             cmdMap.put(count, command);
             labelCMDMap.put(splitStr[1], command);
+        }
+
+    }
+
+    protected static void storeQueue(String instruction) {    //* REQ12
+        // Get instruction from the map
+        String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
+        if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
+            String block[] = Parser.blockMap.get(fullInst[1]);
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            for (int i = 0; i < block.length; i++) {
+                storeQueue(block[i]); // Recurse over the instructions
+            }
+        }
+        else if (fullInst[0].equals("while")){    // If while loop
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            storeQueue(fullInst[3]);
+        }
+        else if (fullInst[0].equals("if")){
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            storeQueue(fullInst[3]);
+            storeQueue(fullInst[4]);
+        }
+
+        // Print if instruction is not a while or block or if
+        else{
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
         }
 
     }

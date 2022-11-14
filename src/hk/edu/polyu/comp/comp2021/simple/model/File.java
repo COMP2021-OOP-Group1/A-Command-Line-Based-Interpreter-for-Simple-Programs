@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.io.FileWriter;
 
-public class File {
+public class File extends Parser {
     // store the program code to a file
     public static void store(String programName, String address) throws IOException {
 
@@ -26,15 +26,13 @@ public class File {
         }
 
         // Write the code from map into file
-        Parser cmdMap = new Parser();
         try {
             FileWriter myWriter = new FileWriter(address + ".txt");
             String CMD = "";
-            Map<Integer, String> CMDMap = Parser.cmdMap;
-//            System.out.println(CMDMap);
-            for (int i = 1; i < CMDMap.size() + 1; i++) {
-//                System.out.println(CMDMap.get(i));
-                CMD += CMDMap.get(i) + "\n";
+            storeQueue(programMap.get(programName));
+            for (int i = 0; i <= queue.size() + 1; i++) {
+                CMD = queue.peek() + "\n" + CMD;
+                queue.remove();
             }
 
             myWriter.write(CMD);
@@ -52,12 +50,10 @@ public class File {
         List ProgramCMDList = Files.readAllLines(Paths.get(fileAddress + ".txt"));
         for (int i = 0; i < ProgramCMDList.size(); i++) {
             String cmd = (String)ProgramCMDList.toArray()[i];
-            Parser.cmdMap.put(i + 1, cmd);
+            cmdMap.put(i + 1, cmd);
         }
         for (int i = 1; i < ProgramCMDList.size(); i++) {
-            Parser.storeCommand(Parser.cmdMap.get(i));
+            storeCommand(cmdMap.get(i));
         }
-//        System.out.println(Parser.cmdMap);
-
     }
 }
