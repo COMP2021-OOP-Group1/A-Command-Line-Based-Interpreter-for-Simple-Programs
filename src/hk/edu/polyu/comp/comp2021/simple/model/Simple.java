@@ -207,19 +207,16 @@ public class Simple {
         String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
         if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
             String block[] = Parser.blockMap.get(fullInst[1]);
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
             System.out.println(Parser.labelCMDMap.get(instruction));
             for (int i = 0; i < block.length; i++) {
                 list(block[i]); // Recurse over the instructions
             }
         }
         else if (fullInst[0].equals("while")){    // If while loop
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
             System.out.println(Parser.labelCMDMap.get(instruction));
             list(fullInst[3]);
         }
         else if (fullInst[0].equals("if")){
-            Parser.queue.add(Parser.labelCMDMap.get(instruction));
             System.out.println(Parser.labelCMDMap.get(instruction));
             list(fullInst[3]);
             list(fullInst[4]);
@@ -238,9 +235,36 @@ public class Simple {
 
     }
 
-    protected static void debug(String programName) {
-        System.out.println("Reminder: Enter to the next line");
+    protected static void storeQueue(String instruction) {    //* REQ12
+        // Get instruction from the map
+        String[] fullInst = Parser.labelCMDMap.get(instruction).split(" ");
+        if (Parser.blockMap.containsKey(instruction)){  // If program statement is a block
+            String block[] = Parser.blockMap.get(fullInst[1]);
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            for (int i = 0; i < block.length; i++) {
+                storeQueue(block[i]); // Recurse over the instructions
+            }
+        }
+        else if (fullInst[0].equals("while")){    // If while loop
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            storeQueue(fullInst[3]);
+        }
+        else if (fullInst[0].equals("if")){
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+            storeQueue(fullInst[3]);
+            storeQueue(fullInst[4]);
+        }
 
+        // Print if instruction is not a while or block or if
+        else{
+            Parser.queue.add(Parser.labelCMDMap.get(instruction));
+        }
+
+    }
+
+    protected static void debug(String programName) {
+        storeQueue(Parser.programMap.get(programName));
+        System.out.println("Reminder: Enter to the next line");
         String[] str = Parser.labelCMDMap.get(Parser.programMap.get(programName)).split(" ");
 
         String currentBreakLabel = Parser.breakPointMap.get(programName);
@@ -286,6 +310,15 @@ public class Simple {
 //        if (pos.equals("before")) {
 //
 //        }
+
+        // print expRef
+        try{
+            if (Parser.varMap.containsKey(expRef)) {
+                System.out.println(Parser.varMap.get(expRef));
+            }
+        } catch (Exception e) {
+            System.out.println(expRef);
+        }
 
     }
 
