@@ -2,6 +2,9 @@ package hk.edu.polyu.comp.comp2021.simple;
 
 import hk.edu.polyu.comp.comp2021.simple.model.Parser;
 
+/**
+ * Application for Initial the program
+ */
 public class Application {
     /**
      * Initial the whole program

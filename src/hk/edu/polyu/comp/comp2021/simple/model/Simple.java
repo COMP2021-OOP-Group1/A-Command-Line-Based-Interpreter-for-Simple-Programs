@@ -12,14 +12,22 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 
+/**
+ * Simple class contains the commands and basic rules of Simple Language
+ */
 public class Simple extends Parser {
-
     /**
-     * Simple class contains the commands and basic rules of Simple Language
+     * The max value of int in sample lang
      */
     final static int maxInt = 99999;
+    /**
+     * The min value of int in sample lang
+     */
     final static int minInt = -99999;
 
+    /**
+     * The constructor of Simple class
+     */
     public Simple(){
         Parser parser = new Parser();
     }
@@ -397,10 +405,10 @@ public class Simple extends Parser {
     }
 
     /**
-     * writeFile function is write the file to
-     * @param instruction
-     * @param added
-     * @param writer
+     * writeFile function is write the file
+     * @param instruction: the label of program statement
+     * @param added: the ArrayList to store the commands
+     * @param writer: the FileWriter
      * @throws IOException: for handle file operation error
      */
     private static void writeFile(String instruction, ArrayList<String> added, FileWriter writer) throws IOException{
