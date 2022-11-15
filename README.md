@@ -1,6 +1,6 @@
-# COMP2021 Group Project - A hk.edu.polyu.comp.comp2021.simple.model.Command-Line-Based Interpreter for Simple Programs
+# COMP2021 Group Project - A Command-Line-Based Interpreter for Simple Programs
 
-**A hk.edu.polyu.comp.comp2021.simple.model.Command-Line-Based Interpreter for Simple Programs**
+**A Command-Line-Based Interpreter for Simple Programs**
 
 ## What We Make:
 
@@ -11,32 +11,35 @@ Using Java to make a Interpreter which can enable users to define and interpret 
 SIMPLE Programming Language Structure:
 
 - two data types: 
-
-  - bool (true & false)
-
-  - int (range: -99999 to 99999)
-
+  > - bool (true & false)
+  > - int (range: -99999 to 99999)
+  
 - Operators (15):
-  - +, -, *, /, #, ~, >, >=, <, <=, ==, !=, &&, ||, !
+  > - +, -, *, /, #, ~, >, >=, <, <=, ==, !=, &&, ||, !
 
 - Statements (7) -  a unique label & a unique name:
-  - variable definitions
-  - skips
-  - assignments
-  - conditionals
-  - loops
-  - prints
-  - blocks
+  > - variable definitions
+  > - skips
+  > - assignments
+  > - conditionals
+  > - loops
+  > - prints
+  > - blocks
 
 ## Programming Language:
-
-  - Java
+  - Java (JDK 17)
 
 ## Content:
-N/A
+- Application.java
+- model
+  - Simple.java
+  - Parser.java
+  - Data.java
 
-## Group Members (COMP2021 Group 1):
-- Guanlin Jiang (David)
-- Gabriel Conte
-- Ossian Bergstrom
-- Yukai Wang (Hugh)
+## Group Members:
+> *A Group Project of OOP (COMP2021) subject - Project Group 1 at [The Hong Kong Polytechnic University](https://www.polyu.edu.hk/), made by* 
+> - Guanlin Jiang (David)
+> - Gabriel Conte
+> - Ossian Bergstrom
+> - Yukai Wang (Hugh)
+---
