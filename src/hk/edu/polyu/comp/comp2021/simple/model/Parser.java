@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class Parser {
+
+    /**
+     * Parser that receives the user input and processes it in simple language
+     */
     protected static Map<String, String> labelCMDMap = new HashMap<>();  // Stores Labels and its commands (Label - Command)
     protected static Map<String, String> expRefLabelCmd = new HashMap<>();  // Stores expRefs and its commands (Label - Command)
     protected static Map<String, Object> varMap = new HashMap<>();   // Stores Variables and Values (Variable - Value)
@@ -14,7 +18,6 @@ public class Parser {
     protected static Queue<String> queue = new LinkedList<>();
     protected static List<String> runArray = new ArrayList<>();
     protected static Stack<String> stack = new Stack<>();
-    private static int count = 0;
     protected static String currentVarValue = "";
     protected static String currentDebugPoint = "";
     protected static String currentInspect = "";
