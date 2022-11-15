@@ -19,6 +19,10 @@ public class Simple extends Parser {
     }
     
     protected static void vardef(String[] str) {   //* REQ1 - Works
+        /**
+         * Vardef command for set the new variable in integer value or boolean value format.
+         * Usage: vardef vardef1 int x 100
+         */
         varMap.put(str[3], expRef(str[4]));
         putVarHistoryMap(str[3]);
         updateExp();
@@ -26,7 +30,10 @@ public class Simple extends Parser {
 
 
     protected static void binExpr(String[] str) { //* REQ2
-
+        /**
+         * BinExpr command for calculate the binary expression equation
+         * Usage: binexpr exp4 x <= 10
+         */
         Object a = expRef(str[2]);
         Object b = expRef(str[4]);
         String operator = str[3];
