@@ -14,7 +14,6 @@ public class Parser {
     protected static Queue<String> queue = new LinkedList<>();
     protected static List<String> runArray = new ArrayList<>();
     protected static Stack<String> stack = new Stack<>();
-    private static int count = 0;
     protected static String currentVarValue = "";
     protected static String currentDebugPoint = "";
     protected static String currentInspect = "";
