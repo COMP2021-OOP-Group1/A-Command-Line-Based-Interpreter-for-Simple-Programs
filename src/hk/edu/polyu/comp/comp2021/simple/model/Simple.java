@@ -228,8 +228,8 @@ public class Simple extends Parser {
     protected static void skip(){}   //* REQ6
 
     /**
-     *
-     * @param instructions
+     * Block command will be set a block to include some statement together
+     * @param instructions: those commands
      */
     protected static void block(String[] instructions){  //* REQ7
 
@@ -299,8 +299,8 @@ public class Simple extends Parser {
 
     /**
      * List command will be list the command of that program
-     * @param instruction 
-     * @param added
+     * @param instruction: the list command
+     * @param added: A ArrayList hold the command add to the list
      */
     protected static void list(String instruction, ArrayList<String> added) {    //* REQ12
 
@@ -362,6 +362,12 @@ public class Simple extends Parser {
         }
     }
 
+    /**
+     * Store command will be saving the program to the computer
+     * @param programName: the program name
+     * @param address: the program path that where the user want to save
+     * @throws IOException: for handle file operation error
+     */
     public static void store(String programName, String address) throws IOException {
     
         // Create File
@@ -390,6 +396,13 @@ public class Simple extends Parser {
         }
     }
 
+    /**
+     * writeFile function is write the file to
+     * @param instruction
+     * @param added
+     * @param writer
+     * @throws IOException: for handle file operation error
+     */
     private static void writeFile(String instruction, ArrayList<String> added, FileWriter writer) throws IOException{
 
         // Get instruction from the map
@@ -449,7 +462,13 @@ public class Simple extends Parser {
         
 
     }
-    
+
+    /**
+     * Load command will be loading the program to the Interpreter
+     * @param fileAddress: the program file path
+     * @param programName: the program name
+     * @throws IOException: for handle file operation error
+     */
     public static void load(String fileAddress, String programName) throws IOException {
 
         
@@ -469,10 +488,20 @@ public class Simple extends Parser {
 
     }
 
+    /**
+     * Togglebreakpoint command will be set the breakpoint for debugger in matched program
+     * Also input second time can remove the breakpoint
+     * @param programName: the program name
+     * @param label: the label of statement at that breakpoint statement
+     */
     protected static void togglebreakpoint(String programName, String label) {
 
     }
 
+    /**
+     * Debug command is for the program debugging
+     * @param programName: the program name
+     */
     protected static void debug(String programName) {
        
         if (DebugPoint < 1) {
@@ -515,6 +544,10 @@ public class Simple extends Parser {
         }
     }
 
+    /**
+     * Inspect command will be printout the variable value that user want to know
+     * @param strSplit: the array of the split commands
+     */
     protected static void inspect(String[] strSplit) {
         String programName = strSplit[1];
         String varName = strSplit[2];

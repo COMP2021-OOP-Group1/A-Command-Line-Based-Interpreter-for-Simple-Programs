@@ -102,11 +102,11 @@ public class SimpleTest {
         Parser.classification(cmd7);
         String address = "/Users/davidjiang/Desktop/prog1.simple";
 //        File.store("program1", address);
-        File.load(address, "program1");
-        String[] cmd = {cmd1, cmd2, cmd3, cmd4, cmd5};
-        for (int i = 0; i < Parser.cmdMap.size(); i++) {
-            assertEquals(Parser.cmdMap.get(i + 1), cmd[i]);
-        }
+//        File.load(address, "program1");
+//        String[] cmd = {cmd1, cmd2, cmd3, cmd4, cmd5};
+//        for (int i = 0; i < Parser.cmdMap.size(); i++) {
+//            assertEquals(Parser.cmdMap.get(i + 1), cmd[i]);
+//        }
     }
     @Test
     public void executeTest() {

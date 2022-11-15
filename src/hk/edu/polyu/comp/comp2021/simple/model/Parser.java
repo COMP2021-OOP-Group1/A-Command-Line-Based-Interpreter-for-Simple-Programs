@@ -24,6 +24,10 @@ public class Parser {
     protected static int DebugPoint = 0;
     protected static int index = 0;
 
+    /**
+     * storeCommand function will split those command and store some value into HashMap or Stack or Queue
+     * @param command: the commands input by user
+     */
     public static void storeCommand(String command){
 
         // Check if instruction is valid first
@@ -64,6 +68,10 @@ public class Parser {
 
     }
 
+    /**
+     * Put the variable history into the varHistoryMap this HashMap
+     * @param varName: the variable name
+     */
     protected static void putVarHistoryMap(String varName) {
         List<Object> list = new ArrayList<>();
 
@@ -77,6 +85,10 @@ public class Parser {
     }
 
 
+    /**
+     *
+     * @param command: the commands input by user
+     */
     public static void classification(String command) {
 
         // Classify the commands
@@ -172,6 +184,11 @@ public class Parser {
 
     }
 
+    /**
+     * expRef function is check if the expression is a literal, var name or expression name
+     * @param expression: the expression statement
+     * @return the result of expression
+     */
     public static Object expRef(String expression){    // Check if the expression is a literal, var name or expression name.
         
         // If expression is a literal
@@ -196,8 +213,16 @@ public class Parser {
 
     }
 
+    /**
+     * addResultExp function is put the result and label to resultExp this HashMap
+     * @param label: the label of expression statement
+     * @param object: the result of expression
+     */
     public static void addResultExp(String label, Object object){resultExp.put(label, object);}
 
+    /**
+     * inputCMD function is let user input those commands
+     */
     // Use for input command, but just model, Application will be call this
     public void inputCMD() {
 
@@ -229,6 +254,11 @@ public class Parser {
 
     //! Separate store instructions and execute instructions in if while print block cases
 
+    /**
+     * inputValidator function is check the user input is legal and the input is right
+     * @param input: the input commands by user
+     * @return return the right or wrong of user inputs
+     */
     public boolean inputValidator(String input){
 
 //        System.out.print("first: ");
