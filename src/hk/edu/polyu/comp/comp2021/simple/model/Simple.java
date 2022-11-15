@@ -267,7 +267,7 @@ public class Simple extends Parser {
 //                        }
 //                    }
 //                    System.out.println(stack);
-                    System.out.println(stack.peek());
+//                    System.out.println(stack.peek());
                     String peekCMD = stack.peek();
                     System.out.println("Debugging ==> " + peekCMD);
                     inspect(peekCMD.split(" "));
@@ -288,7 +288,6 @@ public class Simple extends Parser {
     protected static void inspect(String[] strSplit) {
         String programName = strSplit[1];
         String varName = strSplit[2];
-        currentVarValue = (String)varHistoryMap.get(varName).get(index);
         if (strSplit[0].equals("inspect")) {
             System.out.println("<" + varHistoryMap.get(varName).get(index) + ">");
         } else {

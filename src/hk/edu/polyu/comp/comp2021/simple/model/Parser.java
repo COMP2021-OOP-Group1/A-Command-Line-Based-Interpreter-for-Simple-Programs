@@ -107,7 +107,7 @@ public class Parser {
         // Print if instruction is not a while or block or if
         else{
             queue.add(labelCMDMap.get(instruction));
-            stack.push(labelCMDMap.get(instruction));
+//            stack.push(labelCMDMap.get(instruction));
         }
         queue.clear();
     }
