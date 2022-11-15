@@ -4,36 +4,82 @@ import java.io.IOException;
 import java.util.*;
 
 public class Parser {
-
-    /**
-     * Parser that receives the user input and processes it in simple language
-     */
-    protected static Map<String, String> labelCMDMap = new HashMap<>();  // Stores Labels and its commands (Label - Command)
-    protected static Map<String, String> expRefLabelCmd = new HashMap<>();  // Stores expRefs and its commands (Label - Command)
-    protected static Map<String, Object> varMap = new HashMap<>();   // Stores Variables and Values (Variable - Value)
-    protected static Map<String, Object> resultExp = new HashMap<>();   // Stores Results of Expressions (Label - Result)
-    protected static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
-    protected static Map<String, String> breakPointMap = new HashMap<>();
-    protected static Map<String, List<Object>> varHistoryMap = new HashMap<>();
-    protected static Queue<String> queue = new LinkedList<>();
-    protected static List<String> runArray = new ArrayList<>();
-    protected static Stack<String> stack = new Stack<>();
-    protected static String currentVarValue = "";
-    protected static String currentDebugPoint = "";
-    protected static String currentInspect = "";
-    protected static int DebugPoint = 0;
-    protected static int index = 0;
-
     /**
      * storeCommand function will split those command and store some value into HashMap or Stack or Queue
      * @param command: the commands input by user
      */
+
+    static Data data = new Data();
+
+    /**
+     * Get from Data.java
+     */
+    protected static Map<String, String> labelCMDMap = data.getLabelCMDMap();
+    /**
+     * Get from Data.java
+     */
+    protected static Map<String, String> expRefLabelCmd = data.getExpRefLabelCmd();
+    /**
+     * Get from Data.java
+     */
+    protected static Map<String, String> breakPointMap = data.getBreakPointMap();
+    /**
+     * Get from Data.java
+     */
+    protected static Map<String, List<Object>> varHistoryMap = data.getVarHistoryMap();
+    /**
+     * Get from Data.java
+     */
+    protected static Map<String, Object> varMap = data.getVarMap();
+    /**
+     * Get from Data.java
+     */
+    protected static Map<String, String> programMap = data.getProgramMap();
+    /**
+     * Get from Data.java
+     */
+    protected static Map<String, Object> resultExp = data.getResultExp();
+    /**
+     * Get from Data.java
+     */
+    protected static int DebugPoint = data.getDebugPoint();
+    /**
+     * Get from Data.java
+     */
+    protected static int index = data.getIndex();
+    /**
+     * Get from Data.java
+     */
+    protected static String currentVarValue = data.getCurrentVarValue();
+    /**
+     * Get from Data.java
+     */
+    protected static String currentDebugPoint = data.getCurrentDebugPoint();
+    /**
+     * Get from Data.java
+     */
+    protected static String currentInspect = data.getCurrentInspect();
+    /**
+     * Get from Data.java
+     */
+    protected static Stack<String> stack = data.getStack();
+    /**
+     * Get from Data.java
+     */
+    protected static Queue<String> queue = data.getQueue();
+    /**
+     * Get from Data.java
+     */
+    protected static List<String> runArray = data.getRunArray();
+
     public static void storeCommand(String command){
 
         // Check if instruction is valid first
         String[] splitStr = command.split(" ");  // Split instruction into words
 
+
         if (splitStr[0].equals("vardef")){
+
             labelCMDMap.put(splitStr[1], command);
             classification(command);
         }
