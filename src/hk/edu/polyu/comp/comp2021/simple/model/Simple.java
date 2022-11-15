@@ -212,8 +212,6 @@ public class Simple extends Parser {
         }
     }
     protected static void program(String programName, String statementLabel) {  //* REQ10
-        //ArrayList<String> statementLabelList = new ArrayList<>();
-        //statementLabelList.add(statementLabel);
         programMap.put(programName, statementLabel);
     }
 
@@ -221,7 +219,7 @@ public class Simple extends Parser {
         classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)));
     }
 
-    protected static void list(String instruction) {    //* REQ12
+    protected static void list(String instruction, ArrayList<String> added) {    //* REQ12
 
         // Get instruction from the map
         
@@ -231,53 +229,58 @@ public class Simple extends Parser {
             fullInst = expRefLabelCmd.get(instruction).split(" ");
         }
 
+        if (!added.contains(instruction)){
+            
+            if (blockMap.containsKey(instruction)){  // If program statement is a block
+                String block[] = blockMap.get(fullInst[1]);
+                
+                if (!added.contains(instruction)) System.out.println(labelCMDMap.get(instruction));
+                
+                for (int i = 0; i < block.length; i++) list(block[i], added); // Recurse over the instructions
 
-        if (blockMap.containsKey(instruction)){  // If program statement is a block
-            String block[] = blockMap.get(fullInst[1]);
-            System.out.println(labelCMDMap.get(instruction));
-            for (int i = 0; i < block.length; i++) {
-                list(block[i]); // Recurse over the instructions
             }
-        }
-        else if (fullInst[0].equals("while")){    // If while loop
-            System.out.println(labelCMDMap.get(instruction));
-            list(fullInst[2]);
-            list(fullInst[3]);
-        }
-        else if (fullInst[0].equals("if")){
-            System.out.println(labelCMDMap.get(instruction));
-            list(fullInst[2]);
-            list(fullInst[3]);
-            list(fullInst[4]);
-        }
-        else if (fullInst[0].equals("vardef")){
-            queue.add(labelCMDMap.get(instruction));
-            if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
-            else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
+            else if (fullInst[0].equals("while")){    // If while loop
+                if (!added.contains(instruction)) System.out.println(labelCMDMap.get(instruction));
+                list(fullInst[2], added);
+                list(fullInst[3], added);
+            }
+            else if (fullInst[0].equals("if")){
+                if (!added.contains(instruction)) System.out.println(labelCMDMap.get(instruction));
+                list(fullInst[2], added);
+                list(fullInst[3], added);
+                list(fullInst[4], added);
+            }
+        
+            // Print if instruction is not a while or block or if
+            else{
+                queue.add(labelCMDMap.get(instruction));
+                if (!added.contains(instruction)){   
+                    if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
+                    else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
+                    added.add(instruction);
+                }
 
-            if (expRefLabelCmd.containsKey(fullInst[4])) list(fullInst[4]);
-        }
-        else if (fullInst[0].equals("unexpr") || fullInst[0].equals("assign")){
-            queue.add(labelCMDMap.get(instruction));
-            if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
-            else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
+                if (fullInst[0].equals("vardef")){
+                    if (expRefLabelCmd.containsKey(fullInst[4])) list(fullInst[4], added);
+                }
+                else if (fullInst[0].equals("unexpr") || fullInst[0].equals("assign")){
+                    if (expRefLabelCmd.containsKey(fullInst[3])) list(fullInst[3], added);
+                }
+                else if (fullInst[0].equals("print")){
+                    if (expRefLabelCmd.containsKey(fullInst[2])) list(fullInst[2], added);
+                }
+                else if (fullInst[0].equals("binexpr")){
+                    if (expRefLabelCmd.containsKey(fullInst[2])) list(fullInst[2], added);
+                    if (expRefLabelCmd.containsKey(fullInst[4])) list(fullInst[4], added);
+                }
+            
+            
+            }
 
-            if (expRefLabelCmd.containsKey(fullInst[3])) list(fullInst[3]);
-        }
-        else if (fullInst[0].equals("print")){
-            queue.add(labelCMDMap.get(instruction));
-            if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
-            else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
 
-            if (expRefLabelCmd.containsKey(fullInst[2])) list(fullInst[2]);
         }
-    
-        // Print if instruction is not a while or block or if
-        else{
-            queue.add(labelCMDMap.get(instruction));
-            if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
-            else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
-        }
+
+        
 
         
     }
