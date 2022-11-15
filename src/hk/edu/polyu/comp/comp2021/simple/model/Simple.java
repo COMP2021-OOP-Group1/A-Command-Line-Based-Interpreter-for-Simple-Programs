@@ -230,7 +230,7 @@ public class Simple extends Parser {
     
         // Print if instruction is not a while or block or if
         else{
-            Parser.queue.add(labelCMDMap.get(instruction));
+            queue.add(labelCMDMap.get(instruction));
             System.out.println(labelCMDMap.get(instruction));
         }
 
@@ -252,25 +252,30 @@ public class Simple extends Parser {
         }
         try {
             while (true) {
-//                if (stack.peek().equals("while")) {
-//                    while (true) {
-//                        String peekCMD = stack.peek();
-//                        System.out.println("Debugging ==> " + peekCMD);
-//                        stack.pop();
-//                        currentInspect = currentDebugPoint;
-//                        currentDebugPoint = stack.peek().split(" ")[1];
-//                        break;
-//                    }
-//                }
                 if (!stack.peek().split(" ")[1].equals(currentDebugPoint) || currentDebugPoint.equals("")) {
                     stack.pop();
                 } else {
+//                    if (stack.peek().split(" ")[0].equals("while")) {
+//                        System.out.println((boolean)resultExp.get(stack.peek().split(" ")[2]));
+//                        String cmd = expRefLabelCmd.get(stack.peek().split(" ")[2]);
+//                        System.out.println(cmd.replace(cmd.split(" ")[2], currentVarValue));
+//                        if (!(boolean)resultExp.get(stack.peek().split(" ")[2])) {
+//                            break;
+//                        }
+//                        for (int i = runArray.size(); i >= 0; i--) {
+//                            stack.add(runArray.get(i));
+//                        }
+//                    }
+//                    System.out.println(stack);
+                    System.out.println(stack.peek());
                     String peekCMD = stack.peek();
                     System.out.println("Debugging ==> " + peekCMD);
                     inspect(peekCMD.split(" "));
+                    runArray.add(peekCMD);
                     stack.pop();
                     currentInspect = currentDebugPoint;
                     currentDebugPoint = stack.peek().split(" ")[1];
+                    stack.clear();
                     break;
                 }
             }
@@ -283,6 +288,7 @@ public class Simple extends Parser {
     protected static void inspect(String[] strSplit) {
         String programName = strSplit[1];
         String varName = strSplit[2];
+        currentVarValue = (String)varHistoryMap.get(varName).get(index);
         if (strSplit[0].equals("inspect")) {
             System.out.println("<" + varHistoryMap.get(varName).get(index) + ">");
         } else {

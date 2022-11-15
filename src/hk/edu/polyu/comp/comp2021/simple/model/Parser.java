@@ -14,11 +14,10 @@ public class Parser {
     public static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
     public static Map<String, String> breakPointMap = new HashMap<>();
     public static Queue<String> queue = new LinkedList<>();
-    public static Queue<String> runQueue = new LinkedList<>();
-    public static Queue<String> runStack = new LinkedList<>();
+    public static List<String> runArray = new ArrayList<>();
     public static Stack<String> stack = new Stack<>();
     public static int count = 0;
-
+    public static String currentVarValue = "";
     public static String currentDebugPoint = "";
     public static String currentInspect = "";
     public static int DebugPoint = 0;
@@ -87,7 +86,6 @@ public class Parser {
         if (blockMap.containsKey(instruction)){  // If program statement is a block
             String block[] = blockMap.get(fullInst[1]);
             queue.add(labelCMDMap.get(instruction));
-            runQueue.add(labelCMDMap.get(instruction));
             stack.push(labelCMDMap.get(instruction));
 
             for (int i = 0; i < block.length; i++) {
@@ -96,13 +94,11 @@ public class Parser {
         }
         else if (fullInst[0].equals("while")){    // If while loop
             queue.add(labelCMDMap.get(instruction));
-            runQueue.add(labelCMDMap.get(instruction));
             stack.push(labelCMDMap.get(instruction));
             storeQueue(fullInst[3]);
         }
         else if (fullInst[0].equals("if")){
             queue.add(labelCMDMap.get(instruction));
-            runQueue.add(labelCMDMap.get(instruction));
             stack.push(labelCMDMap.get(instruction));
             storeQueue(fullInst[3]);
             storeQueue(fullInst[4]);
@@ -111,14 +107,9 @@ public class Parser {
         // Print if instruction is not a while or block or if
         else{
             queue.add(labelCMDMap.get(instruction));
-            runQueue.add(labelCMDMap.get(instruction));
             stack.push(labelCMDMap.get(instruction));
         }
-//        System.out.println(queue);
-//        System.out.println(runQueue);
-        runQueue.clear();
         queue.clear();
-
     }
 
     public static void classification(String command) {
