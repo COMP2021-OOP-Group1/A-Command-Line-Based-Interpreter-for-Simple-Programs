@@ -20,7 +20,8 @@ public class SimpleTest {
         Parser.classification("vardef v1 int x 10");
         Parser.classification("binexpr exp1 x * 20");
         Object value = Parser.resultExp.get("exp1");
-        assertEquals(200, value);
+        int need = Integer.parseInt("200");
+        assertEquals(need, value);
     }
     @Test
     public void testBinExpr2() {
@@ -58,7 +59,8 @@ public class SimpleTest {
         Object first = Parser.varMap.get("x");
         Simple.assign("x", "15");
         Object second=Parser.varMap.get("x");
-        assertEquals(15,second);
+        int need = Integer.parseInt("15");
+        assertEquals(need,second);
     }
     @Test
     public void testPrint(){

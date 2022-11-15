@@ -152,7 +152,7 @@ public class Simple extends Parser {
         String[] command;
         for (String key: resultExp.keySet()){
             
-            command = null;
+            command = new String[]{};
             if (expRefLabelCmd.containsKey(key)){
                 
                 command = expRefLabelCmd.get(key).split(" ");
