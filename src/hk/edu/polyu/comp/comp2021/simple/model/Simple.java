@@ -2,6 +2,14 @@ package hk.edu.polyu.comp.comp2021.simple.model;
 
 import java.util.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.io.FileWriter;
+
 public class Simple extends Parser {
     final static int maxInt = 99999;
     final static int minInt = -99999;
@@ -38,16 +46,27 @@ public class Simple extends Parser {
 
         switch (operator){
             case "+":
-                Parser.addResultExp(label, a + b);
+                if (a + b > maxInt) Parser.addResultExp(label, maxInt);
+                else if (a + b < minInt) Parser.addResultExp(label, minInt);
+                else Parser.addResultExp(label, a + b);
                 break;
             case "-":
                 addResultExp(label, a - b);
+                if (a - b > maxInt) Parser.addResultExp(label, maxInt);
+                else if (a - b < minInt) Parser.addResultExp(label, minInt);
+                else Parser.addResultExp(label, a - b);
                 break;
             case "*":
-                addResultExp(label, a * b);
+                if (a * b > maxInt) Parser.addResultExp(label, maxInt);
+                else if (a * b < minInt) Parser.addResultExp(label, minInt);
+                else Parser.addResultExp(label, a * b);
                 break;
             case "/":
-                if (b != 0) addResultExp(label, a / b);
+                if (b != 0){
+                    if (a / b > maxInt) Parser.addResultExp(label, maxInt);
+                    else if (a / b < minInt) Parser.addResultExp(label, minInt);
+                    else Parser.addResultExp(label, a / b);
+                }
                 break;
             case ">":
                 addResultExp(label, a > b);
@@ -188,10 +207,6 @@ public class Simple extends Parser {
         
 
         while((boolean)expRef(expRef)) {
-            // Check if the condition is TRUE or FALSE:
-            // if true - <K,V> save V for label ex1 in labelCMDMap and
-            // run the cmd
-            // if false - terminate the loop
             classification(labelCMDMap.get(statementLab1));
             updateExp();
         }
@@ -209,8 +224,14 @@ public class Simple extends Parser {
     protected static void list(String instruction) {    //* REQ12
 
         // Get instruction from the map
+        
+        String[] fullInst;
+        if (labelCMDMap.containsKey(instruction)) fullInst = labelCMDMap.get(instruction).split(" ");
+        else{
+            fullInst = expRefLabelCmd.get(instruction).split(" ");
+        }
 
-        String[] fullInst = labelCMDMap.get(instruction).split(" ");
+
         if (blockMap.containsKey(instruction)){  // If program statement is a block
             String block[] = blockMap.get(fullInst[1]);
             System.out.println(labelCMDMap.get(instruction));
@@ -220,18 +241,42 @@ public class Simple extends Parser {
         }
         else if (fullInst[0].equals("while")){    // If while loop
             System.out.println(labelCMDMap.get(instruction));
+            list(fullInst[2]);
             list(fullInst[3]);
         }
         else if (fullInst[0].equals("if")){
             System.out.println(labelCMDMap.get(instruction));
+            list(fullInst[2]);
             list(fullInst[3]);
             list(fullInst[4]);
+        }
+        else if (fullInst[0].equals("vardef")){
+            queue.add(labelCMDMap.get(instruction));
+            if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
+            else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
+
+            if (expRefLabelCmd.containsKey(fullInst[4])) list(fullInst[4]);
+        }
+        else if (fullInst[0].equals("unexpr") || fullInst[0].equals("assign")){
+            queue.add(labelCMDMap.get(instruction));
+            if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
+            else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
+
+            if (expRefLabelCmd.containsKey(fullInst[3])) list(fullInst[3]);
+        }
+        else if (fullInst[0].equals("print")){
+            queue.add(labelCMDMap.get(instruction));
+            if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
+            else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
+
+            if (expRefLabelCmd.containsKey(fullInst[2])) list(fullInst[2]);
         }
     
         // Print if instruction is not a while or block or if
         else{
             queue.add(labelCMDMap.get(instruction));
-            System.out.println(labelCMDMap.get(instruction));
+            if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
+            else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
         }
 
         
@@ -295,5 +340,59 @@ public class Simple extends Parser {
         }
     }
 
+    public static void store(String programName, String address) throws IOException {
+
+        // Create File
+        try {
+            java.io.File myObj = new java.io.File(address + ".txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created");
+            } else {
+                System.out.println("Program already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error!");
+            e.printStackTrace();
+        }
+
+        // Write the code from map into file
+        try {
+            FileWriter myWriter = new FileWriter(address + ".txt");
+            String CMD = "";
+
+            storeQueue(programMap.get(programName));
+            int sizeCount = 0;
+            for (int i = cmdMap.size(); i >= 1; i--) {
+                if (cmdMap.get(i).contains("vardef") || cmdMap.get(i).contains("binexpr") || cmdMap.get(i).contains("unexpr")) {
+                    queue.add(cmdMap.get(i));
+                    sizeCount = sizeCount + 1;
+                }
+            }
+            for (int i = 0; i <= queue.size() + 1 + sizeCount; i++) {
+                CMD = queue.peek() + "\n" + CMD;
+                queue.remove();
+            }
+
+            myWriter.write(CMD);
+            myWriter.close();
+            System.out.println("Program Created!");
+        } catch (IOException e) {
+            System.out.println("Error!");
+            e.printStackTrace();
+        }
+    }
+
+    public static void load(String fileAddress, String programName) throws IOException {
+        // Read the code in the file to a list and use loop to store the lines to map by
+//        ArrayList<String> cmdList = new ArrayList<>();
+        List ProgramCMDList = Files.readAllLines(Paths.get(fileAddress + ".txt"));
+        for (int i = 0; i < ProgramCMDList.size(); i++) {
+            String cmd = (String)ProgramCMDList.toArray()[i];
+            cmdMap.put(i + 1, cmd);
+        }
+        for (int i = 1; i < ProgramCMDList.size(); i++) {
+            storeCommand(cmdMap.get(i));
+        }
+    }
 }
 
