@@ -39,7 +39,7 @@ public class Simple extends Parser {
      */
     protected static void vardef(String[] str) {   //* REQ1 - Works
         varMap.put(str[3], expRef(str[4]));
-        putVarHistoryMap(str[3]);
+        data.putVarHistoryMap(str[3]);
         updateExp();
     }
 
@@ -163,7 +163,7 @@ public class Simple extends Parser {
         if (operator.equals("!")){   // Negates Boolean expression
             if ((boolean)expRef(expRef1)) {
                 varMap.put(expName, false);
-                putVarHistoryMap(expName);
+                data.putVarHistoryMap(expName);
             }
             else {
                 addResultExp(expName, true);
@@ -194,7 +194,7 @@ public class Simple extends Parser {
         
         // Change variable value
         varMap.replace(varName, toAdd);
-        putVarHistoryMap(varName);
+        data.putVarHistoryMap(varName);
         updateExp();
 
     }
@@ -492,7 +492,7 @@ public class Simple extends Parser {
         
         programMap.put(programName, instructions.get(0).split(" ")[1]);
         
-        for (String command: instructions) Parser.storeCommand(command);
+        for (String command: instructions) data.storeCommand(command);
 
     }
 

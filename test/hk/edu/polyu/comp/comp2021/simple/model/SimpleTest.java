@@ -93,12 +93,12 @@ public class SimpleTest {
         String cmd5 = "block block1 assign1 print1\n";
         String cmd6 = "program program1 block1\n";
         String cmd7 = "store program1 /Users/davidjiang/Desktop/prog1.simple\n";
-        Parser.storeCommand(cmd1);
-        Parser.storeCommand(cmd2);
-        Parser.storeCommand(cmd3);
-        Parser.storeCommand(cmd4);
-        Parser.storeCommand(cmd5);
-        Parser.storeCommand(cmd6);
+//        Parser.storeCommand(cmd1);
+//        Parser.storeCommand(cmd2);
+//        Parser.storeCommand(cmd3);
+//        Parser.storeCommand(cmd4);
+//        Parser.storeCommand(cmd5);
+//        Parser.storeCommand(cmd6);
         Parser.classification(cmd7);
         String address = "/Users/davidjiang/Desktop/prog1.simple";
 //        File.store("program1", address);
@@ -123,7 +123,7 @@ public class SimpleTest {
     @Test
     public void breakPointTest() {
         String str = "togglebreakpoint program1 block1";
-        Simple.storeCommand(str);
+//        data.storeCommand(str);
         assertEquals(str.split(" ")[2], Parser.breakPointMap.get(str.split(" ")[1]));
     }
 

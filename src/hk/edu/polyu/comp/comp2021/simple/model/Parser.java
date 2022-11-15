@@ -3,13 +3,15 @@ package hk.edu.polyu.comp.comp2021.simple.model;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * For control the model Simple.java and Data.java
+ */
 public class Parser {
-    /**
-     * storeCommand function will split those command and store some value into HashMap or Stack or Queue
-     * @param command: the commands input by user
-     */
 
-    static Data data = new Data();
+    /**
+     * Java Encapsulation from Data class
+     */
+    protected static Data data = new Data();
 
     /**
      * Get from Data.java
@@ -72,63 +74,7 @@ public class Parser {
      */
     protected static List<String> runArray = data.getRunArray();
 
-    public static void storeCommand(String command){
 
-        // Check if instruction is valid first
-        String[] splitStr = command.split(" ");  // Split instruction into words
-
-
-        if (splitStr[0].equals("vardef")){
-
-            labelCMDMap.put(splitStr[1], command);
-            classification(command);
-        }
-        else if (splitStr[0].equals("binexpr") || splitStr[0].equals("unexpr")){
-
-            expRefLabelCmd.put(splitStr[1], command);
-            classification(command);
-            Simple.updateExp();
-        }
-        else if (splitStr[0].equals("block")){
-            String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
-            labelCMDMap.put(splitStr[1], command);
-        }
-        else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect")){
-            classification(command);
-        }
-        else if (splitStr[0].equals("togglebreakpoint")) {
-            try {
-                if (breakPointMap.get(splitStr[1]).equals(splitStr[2])) {
-                    breakPointMap.remove(splitStr[1]);
-                    stack.clear();
-                    currentDebugPoint = "";
-                }
-            } catch (Exception e) {
-                breakPointMap.put(splitStr[1], splitStr[2]);
-            }
-        }
-        else {
-            labelCMDMap.put(splitStr[1], command);
-        }
-//        System.out.println(varMap);
-
-    }
-
-    /**
-     * Put the variable history into the varHistoryMap this HashMap
-     * @param varName: the variable name
-     */
-    protected static void putVarHistoryMap(String varName) {
-        List<Object> list = new ArrayList<>();
-
-        if(!varHistoryMap.containsKey(varName)) {
-            varHistoryMap.put(varName, list);
-        }
-        varHistoryMap.get(varName).add(varMap.get(varName));
-//        for (Object e : varHistoryMap.get("x")) {
-//            System.out.print(e + " ");
-//        }
-    }
 
 
     /**
@@ -286,7 +232,7 @@ public class Parser {
 //                    input = inputLine.nextLine();
 //                }
 
-                storeCommand(input);
+                data.storeCommand(input);
                 // classification(input);
             }
             if (input.contains("debug")) {
