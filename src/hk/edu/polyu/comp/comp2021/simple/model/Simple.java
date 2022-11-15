@@ -233,8 +233,9 @@ public class Simple extends Parser {
 
         if (!added.contains(instruction)){
             
-            if (blockMap.containsKey(instruction)){  // If program statement is a block
-                String block[] = blockMap.get(fullInst[1]);
+            if (fullInst[0].equals("while")){  // If program statement is a block
+            
+                String[] block = Arrays.copyOfRange(fullInst, 2, fullInst.length);
                 
                 if (!added.contains(instruction)){System.out.println(labelCMDMap.get(instruction)); added.add(instruction);}
                 
@@ -320,8 +321,8 @@ public class Simple extends Parser {
 
         if (!added.contains(instruction)){
             
-            if (blockMap.containsKey(instruction)){  // If program statement is a block
-                String block[] = blockMap.get(fullInst[1]);
+            if (fullInst[0].equals("block")){  // If program statement is a block
+                String[] block = Arrays.copyOfRange(fullInst, 2, fullInst.length);
 
                 if (!added.contains(instruction)){writer.write(labelCMDMap.get(instruction) + "\n"); added.add(instruction);}
                 

@@ -4,15 +4,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class Parser {
-    protected static Map<Integer, String> cmdMap = new HashMap<>();
     protected static Map<String, String> labelCMDMap = new HashMap<>();  // Stores Labels and its commands (Label - Command)
     protected static Map<String, String> expRefLabelCmd = new HashMap<>();  // Stores expRefs and its commands (Label - Command)
     protected static Map<String, Object> varMap = new HashMap<>();   // Stores Variables and Values (Variable - Value)
-    protected static Map<String, List<Object>> varHistoryMap = new HashMap<>();
     protected static Map<String, Object> resultExp = new HashMap<>();   // Stores Results of Expressions (Label - Result)
-    protected static Map<String, String[]> blockMap = new HashMap<>(); // Stores block of commands (Label - Command Block)
     protected static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
     protected static Map<String, String> breakPointMap = new HashMap<>();
+    protected static Map<String, List<Object>> varHistoryMap = new HashMap<>();
     protected static Queue<String> queue = new LinkedList<>();
     protected static List<String> runArray = new ArrayList<>();
     protected static Stack<String> stack = new Stack<>();
@@ -40,7 +38,6 @@ public class Parser {
         }
         else if (splitStr[0].equals("block")){
             String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
-            blockMap.put(splitStr[1], instructions);
             labelCMDMap.put(splitStr[1], command);
         }
         else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect")){
