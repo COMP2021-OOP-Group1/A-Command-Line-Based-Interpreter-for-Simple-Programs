@@ -19,23 +19,25 @@ public class Simple extends Parser {
     public Simple(){
         Parser parser = new Parser();
     }
-    
+
+    /**
+     * Vardef command for set the new variable in integer value or boolean value format.
+     * Usage: vardef vardef1 int x 100
+     * @param str: the command array
+     */
     protected static void vardef(String[] str) {   //* REQ1 - Works
-        /**
-         * Vardef command for set the new variable in integer value or boolean value format.
-         * Usage: vardef vardef1 int x 100
-         */
         varMap.put(str[3], expRef(str[4]));
         putVarHistoryMap(str[3]);
         updateExp();
     }
 
 
+    /**
+     * BinExpr command for calculate the binary expression equation
+     * Usage: binexpr exp4 x <= 10
+     * @param str: the command array
+     */
     protected static void binExpr(String[] str) { //* REQ2
-        /**
-         * BinExpr command for calculate the binary expression equation
-         * Usage: binexpr exp4 x <= 10
-         */
         Object a = expRef(str[2]);
         Object b = expRef(str[4]);
         String operator = str[3];
@@ -49,6 +51,13 @@ public class Simple extends Parser {
 
     }
 
+    /**
+     * For int format variable to calculate in the binary expression
+     * @param a: the first expression reference
+     * @param b: the second expression reference
+     * @param operator: +, -, *, /, >, >=, <, <=, ==, !=
+     * @param label: the label of the command
+     */
     protected static void evaluateIntExp(int a, int b, String operator, String label){   //* Req 2.1
 
         // Evaluate int expressions and adds int result
@@ -102,6 +111,13 @@ public class Simple extends Parser {
 
     }
 
+    /**
+     * For boolean format variable to calculate in the binary expression
+     * @param a: the first statement
+     * @param b: the second statement
+     * @param operator: && or || or == or !=
+     * @param label: the expression label
+     */
     protected static void evaluateBoolExp(Boolean a, Boolean b, String operator, String label){ //* Req 2.2
 
         // Evaluates Boolean expression. 
@@ -122,8 +138,14 @@ public class Simple extends Parser {
         }
     }
 
+    /**
+     * Unexpr command for calculate the unary expression equation
+     * @param expName: the expression name
+     * @param operator: # or ~ or !
+     * @param expRef1: the expression reference result
+     */
     protected static void unexpr(String expName, String operator, String expRef1) { //* REQ3
-        
+
 
         if (operator.equals("!")){   // Negates Boolean expression
             if ((boolean)expRef(expRef1)) {
@@ -136,14 +158,22 @@ public class Simple extends Parser {
         }
 
         else if (operator.equals("~")){  // Negates Int Expression by switching symbols
-            
             int number = (int)expRef(expRef1) * -1;
             if (operator.equals("~"))
+                addResultExp(expName, number);
+        } else if (operator.equals("#")) {
+            int number = (int)expRef(expRef1) * +1;
+            if (operator.equals("#"))
                 addResultExp(expName, number);
         }
     }
 
 
+    /**
+     * Assign command is update a new value or replace a new value to an exist variable name
+     * @param varName: the variable name
+     * @param expRef: the expression reference result
+     */
     protected static void assign(String varName, String expRef) {  //* REQ4
 
         // Get object in variable
@@ -156,6 +186,9 @@ public class Simple extends Parser {
 
     }
 
+    /**
+     *
+     */
     protected static void updateExp(){
         // Update stored statements that contain this variable
         String[] command;
@@ -172,6 +205,11 @@ public class Simple extends Parser {
         }
     }
 
+    /**
+     * print command will be let function printout result when execute
+     * @param label: the command label
+     * @param expRef: the reference of the expression
+     */
     protected static void print(String label, String expRef) {   //* REQ5
         String value = "";
         value = value + expRef(expRef).toString();
@@ -179,8 +217,14 @@ public class Simple extends Parser {
         addResultExp(label, '[' + value +']');
     }
 
+    /**
+     *
+     */
     protected static void skip(){}   //* REQ6
 
+    /**
+     * @param instructions
+     */
     protected static void block(String[] instructions){  //* REQ7
 
         int n = instructions.length;
@@ -195,6 +239,12 @@ public class Simple extends Parser {
 
     }
 
+    /**
+     * If command will be created a Judge statement for those statements
+     * @param expRef: the expression reference
+     * @param statementLab1: the first label of statement
+     * @param statementLab2: the second label of statement
+     */
     protected static void ifF(String expRef, String statementLab1, String statementLab2){    //* REQ
 
         // Check if the condition is TRUE or FALSE:
@@ -211,19 +261,32 @@ public class Simple extends Parser {
 
     }
 
+    /**
+     * While command will be created a loop for that statement
+     * @param expRef: the expression reference (true or false for that result)
+     * @param statementLab1: the label for the statement want to include to while
+     */
     protected static void whileW(String expRef, String statementLab1) {   //* REQ9
-
-        
 
         while((boolean)expRef(expRef)) {
             classification(labelCMDMap.get(statementLab1));
             updateExp();
         }
     }
+
+    /**
+     * Program command will be set the program
+     * @param programName: the program name
+     * @param statementLabel: the label for the statement want to include to program
+     */
     protected static void program(String programName, String statementLabel) {  //* REQ10
         programMap.put(programName, statementLabel);
     }
 
+    /**
+     * Execute will be run the whole program
+     * @param programName: the program name
+     */
     protected static void execute(String programName){  //* REQ11
         classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)));
     }
