@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 
 public class Simple extends Parser {
@@ -234,18 +236,18 @@ public class Simple extends Parser {
             if (blockMap.containsKey(instruction)){  // If program statement is a block
                 String block[] = blockMap.get(fullInst[1]);
                 
-                if (!added.contains(instruction)) System.out.println(labelCMDMap.get(instruction));
+                if (!added.contains(instruction)){System.out.println(labelCMDMap.get(instruction)); added.add(instruction);}
                 
                 for (int i = 0; i < block.length; i++) list(block[i], added); // Recurse over the instructions
 
             }
             else if (fullInst[0].equals("while")){    // If while loop
-                if (!added.contains(instruction)) System.out.println(labelCMDMap.get(instruction));
+                if (!added.contains(instruction)) {System.out.println(labelCMDMap.get(instruction)); added.add(instruction);}
                 list(fullInst[2], added);
                 list(fullInst[3], added);
             }
             else if (fullInst[0].equals("if")){
-                if (!added.contains(instruction)) System.out.println(labelCMDMap.get(instruction));
+                if (!added.contains(instruction)) {System.out.println(labelCMDMap.get(instruction)); added.add(instruction);}
                 list(fullInst[2], added);
                 list(fullInst[3], added);
                 list(fullInst[4], added);
@@ -253,13 +255,8 @@ public class Simple extends Parser {
         
             // Print if instruction is not a while or block or if
             else{
-                queue.add(labelCMDMap.get(instruction));
-                if (!added.contains(instruction)){   
-                    if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
-                    else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
-                    added.add(instruction);
-                }
-
+                
+                // Check expresions in these declarations:
                 if (fullInst[0].equals("vardef")){
                     if (expRefLabelCmd.containsKey(fullInst[4])) list(fullInst[4], added);
                 }
@@ -272,27 +269,130 @@ public class Simple extends Parser {
                 else if (fullInst[0].equals("binexpr")){
                     if (expRefLabelCmd.containsKey(fullInst[2])) list(fullInst[2], added);
                     if (expRefLabelCmd.containsKey(fullInst[4])) list(fullInst[4], added);
+                }       
+
+                if (!added.contains(instruction)){   
+                    if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
+                    else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
+                    added.add(instruction);
                 }
-            
-            
             }
+        }
+    }
 
-
+    public static void store(String programName, String address) throws IOException {
+    
+        // Create File
+        try {
+            java.io.File myObj = new java.io.File(address + "\\\\" + programName + ".txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created " + myObj.getName());
+            } else {
+                System.out.println("Program already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error!");
+            e.printStackTrace();
         }
 
+        // Write into file
+        try {
+            
+            FileWriter myWriter = new FileWriter(address + "\\\\"  +programName + ".txt");
+            writeFile(programMap.get(programName), new ArrayList<String>(), myWriter);
+            myWriter.close();
+            
+        } catch (IOException e) {
+            System.out.println("Error!");
+            e.printStackTrace();
+        }
+    }
+
+    private static void writeFile(String instruction, ArrayList<String> added, FileWriter writer) throws IOException{
+
+        // Get instruction from the map
+        
+        String[] fullInst;
+        if (labelCMDMap.containsKey(instruction)) fullInst = labelCMDMap.get(instruction).split(" ");
+        else{
+            fullInst = expRefLabelCmd.get(instruction).split(" ");
+        }
+
+        if (!added.contains(instruction)){
+            
+            if (blockMap.containsKey(instruction)){  // If program statement is a block
+                String block[] = blockMap.get(fullInst[1]);
+
+                if (!added.contains(instruction)){writer.write(labelCMDMap.get(instruction) + "\n"); added.add(instruction);}
+                
+                for (int i = 0; i < block.length; i++) writeFile(block[i], added, writer); // Recurse over the instructions
+
+            }
+            else if (fullInst[0].equals("while")){    // If while loop
+                if (!added.contains(instruction)){writer.write(labelCMDMap.get(instruction) + "\n"); added.add(instruction);}
+                writeFile(fullInst[2], added, writer);
+                writeFile(fullInst[3], added, writer);
+            }
+            else if (fullInst[0].equals("if")){
+                if (!added.contains(instruction)){writer.write(labelCMDMap.get(instruction) + "\n"); added.add(instruction);}
+                writeFile(fullInst[2], added, writer);
+                writeFile(fullInst[3], added, writer);
+                writeFile(fullInst[4], added, writer);
+            }
+        
+            // Print if instruction is not a while or block or if
+            else{
+
+                if (fullInst[0].equals("vardef")){
+                    if (expRefLabelCmd.containsKey(fullInst[4])) writeFile(fullInst[4], added, writer);
+                }
+                else if (fullInst[0].equals("unexpr") || fullInst[0].equals("assign")){
+                    if (expRefLabelCmd.containsKey(fullInst[3])) writeFile(fullInst[3], added, writer);
+                }
+                else if (fullInst[0].equals("print")){
+                    if (expRefLabelCmd.containsKey(fullInst[2])) writeFile(fullInst[2], added, writer);
+                }
+                else if (fullInst[0].equals("binexpr")){
+                    if (expRefLabelCmd.containsKey(fullInst[2])) writeFile(fullInst[2], added, writer);
+                    if (expRefLabelCmd.containsKey(fullInst[4])) writeFile(fullInst[4], added, writer);
+                }       
+
+                if (!added.contains(instruction)){   
+                    if (labelCMDMap.containsKey(instruction)) writer.write(labelCMDMap.get(instruction) + "\n");
+                    else if (expRefLabelCmd.containsKey(instruction)) writer.write(expRefLabelCmd.get(instruction) + "\n");
+                    added.add(instruction);
+                }
+            }
+        }
         
 
+    }
+    
+    public static void load(String fileAddress, String programName) throws IOException {
+
         
+        BufferedReader in = new BufferedReader(new FileReader(fileAddress));
+        String str;
+
+        ArrayList<String> instructions = new ArrayList<String>();
+        while((str = in.readLine()) != null){
+            instructions.add(str);
+        }
+
+        in.close();
+        
+        programMap.put(programName, instructions.get(0).split(" ")[1]);
+        
+        for (String command: instructions) Parser.storeCommand(command);
+
     }
 
     protected static void togglebreakpoint(String programName, String label) {
 
     }
 
-
-
     protected static void debug(String programName) {
-        storeQueue(programMap.get(programName));
+       
         if (DebugPoint < 1) {
             currentDebugPoint = breakPointMap.get(programName);
             currentInspect = currentDebugPoint;
@@ -343,59 +443,5 @@ public class Simple extends Parser {
         }
     }
 
-    public static void store(String programName, String address) throws IOException {
-
-        // Create File
-        try {
-            java.io.File myObj = new java.io.File(address + ".txt");
-            if (myObj.createNewFile()) {
-                System.out.println("File created");
-            } else {
-                System.out.println("Program already exists.");
-            }
-        } catch (IOException e) {
-            System.out.println("Error!");
-            e.printStackTrace();
-        }
-
-        // Write the code from map into file
-        try {
-            FileWriter myWriter = new FileWriter(address + ".txt");
-            String CMD = "";
-
-            storeQueue(programMap.get(programName));
-            int sizeCount = 0;
-            for (int i = cmdMap.size(); i >= 1; i--) {
-                if (cmdMap.get(i).contains("vardef") || cmdMap.get(i).contains("binexpr") || cmdMap.get(i).contains("unexpr")) {
-                    queue.add(cmdMap.get(i));
-                    sizeCount = sizeCount + 1;
-                }
-            }
-            for (int i = 0; i <= queue.size() + 1 + sizeCount; i++) {
-                CMD = queue.peek() + "\n" + CMD;
-                queue.remove();
-            }
-
-            myWriter.write(CMD);
-            myWriter.close();
-            System.out.println("Program Created!");
-        } catch (IOException e) {
-            System.out.println("Error!");
-            e.printStackTrace();
-        }
-    }
-
-    public static void load(String fileAddress, String programName) throws IOException {
-        // Read the code in the file to a list and use loop to store the lines to map by
-//        ArrayList<String> cmdList = new ArrayList<>();
-        List ProgramCMDList = Files.readAllLines(Paths.get(fileAddress + ".txt"));
-        for (int i = 0; i < ProgramCMDList.size(); i++) {
-            String cmd = (String)ProgramCMDList.toArray()[i];
-            cmdMap.put(i + 1, cmd);
-        }
-        for (int i = 1; i < ProgramCMDList.size(); i++) {
-            storeCommand(cmdMap.get(i));
-        }
-    }
 }
 

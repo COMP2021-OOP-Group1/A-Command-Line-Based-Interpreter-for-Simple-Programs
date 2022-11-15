@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class Parser {
-    public static Map<Integer, String> cmdMap = new HashMap<>();
     public static Map<String, String> labelCMDMap = new HashMap<>();  // Stores Labels and its commands (Label - Command)
     public static Map<String, String> expRefLabelCmd = new HashMap<>();  // Stores expRefs and its commands (Label - Command)
     public static Map<String, Object> varMap = new HashMap<>();   // Stores Variables and Values (Variable - Value)
@@ -13,10 +12,8 @@ public class Parser {
     public static Map<String, String[]> blockMap = new HashMap<>(); // Stores block of commands (Label - Command Block)
     public static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
     public static Map<String, String> breakPointMap = new HashMap<>();
-    public static Queue<String> queue = new LinkedList<>();
     public static List<String> runArray = new ArrayList<>();
     public static Stack<String> stack = new Stack<>();
-    public static int count = 0;
     public static String currentVarValue = "";
     public static String currentDebugPoint = "";
     public static String currentInspect = "";
@@ -29,12 +26,11 @@ public class Parser {
         String[] splitStr = command.split(" ");  // Split instruction into words
 
         if (splitStr[0].equals("vardef")){
-            cmdMap.put(count, command);
             labelCMDMap.put(splitStr[1], command);
             classification(command);
         }
         else if (splitStr[0].equals("binexpr") || splitStr[0].equals("unexpr")){
-            cmdMap.put(count, command);
+
             expRefLabelCmd.put(splitStr[1], command);
             classification(command);
             Simple.updateExp();
@@ -42,11 +38,9 @@ public class Parser {
         else if (splitStr[0].equals("block")){
             String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
             blockMap.put(splitStr[1], instructions);
-            cmdMap.put(count, command);
             labelCMDMap.put(splitStr[1], command);
         }
         else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect")){
-            cmdMap.put(count, command);
             classification(command);
         }
         else if (splitStr[0].equals("togglebreakpoint")) {
@@ -61,7 +55,6 @@ public class Parser {
             }
         }
         else {
-            cmdMap.put(count, command);
             labelCMDMap.put(splitStr[1], command);
         }
 //        System.out.println(varMap);
@@ -80,38 +73,6 @@ public class Parser {
 //        }
     }
 
-    protected static void storeQueue(String instruction) {    //* REQ12
-        // Get instruction from the map
-        String[] fullInst = labelCMDMap.get(instruction).split(" ");
-
-        if (blockMap.containsKey(instruction)){  // If program statement is a block
-            String block[] = blockMap.get(fullInst[1]);
-            queue.add(labelCMDMap.get(instruction));
-            stack.push(labelCMDMap.get(instruction));
-
-            for (int i = 0; i < block.length; i++) {
-                storeQueue(block[i]); // Recurse over the instructions
-            }
-        }
-        else if (fullInst[0].equals("while")){    // If while loop
-            queue.add(labelCMDMap.get(instruction));
-            stack.push(labelCMDMap.get(instruction));
-            storeQueue(fullInst[3]);
-        }
-        else if (fullInst[0].equals("if")){
-            queue.add(labelCMDMap.get(instruction));
-            stack.push(labelCMDMap.get(instruction));
-            storeQueue(fullInst[3]);
-            storeQueue(fullInst[4]);
-        }
-
-        // Print if instruction is not a while or block or if
-        else{
-            queue.add(labelCMDMap.get(instruction));
-//            stack.push(labelCMDMap.get(instruction));
-        }
-        queue.clear();
-    }
 
     public static void classification(String command) {
 
@@ -242,7 +203,6 @@ public class Parser {
 
             String input = inputLine.nextLine();
             if (input != null){
-                count++;
                 if (input.equals("quit")) System.exit(0);
 
 
