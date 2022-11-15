@@ -172,7 +172,7 @@ public class Parser {
 
             case "list":    //* REQ12
                 System.out.println("\nList of commands in " + splitStr[1] + ":\n");
-                Simple.list(programMap.get(splitStr[1]));
+                Simple.list(programMap.get(splitStr[1]), new ArrayList<String>());
                 break;
 
             case "store":   //* REQ13
