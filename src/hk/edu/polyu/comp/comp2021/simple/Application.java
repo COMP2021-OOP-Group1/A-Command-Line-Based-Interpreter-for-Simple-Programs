@@ -7,8 +7,8 @@ import java.io.IOException;
 public class Application {
     /**
      *
-     * @param args
-     * @throws IOException
+     * @param args Argument for main function
+     * @throws IOException Since it manages files
      */
     public static void main(String[] args) throws IOException {
 
