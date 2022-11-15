@@ -4,21 +4,24 @@ import java.io.IOException;
 import java.util.*;
 
 public class Parser {
-    public static Map<String, String> labelCMDMap = new HashMap<>();  // Stores Labels and its commands (Label - Command)
-    public static Map<String, String> expRefLabelCmd = new HashMap<>();  // Stores expRefs and its commands (Label - Command)
-    public static Map<String, Object> varMap = new HashMap<>();   // Stores Variables and Values (Variable - Value)
-    public static Map<String, List<Object>> varHistoryMap = new HashMap<>();
-    public static Map<String, Object> resultExp = new HashMap<>();   // Stores Results of Expressions (Label - Result)
-    public static Map<String, String[]> blockMap = new HashMap<>(); // Stores block of commands (Label - Command Block)
-    public static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
-    public static Map<String, String> breakPointMap = new HashMap<>();
-    public static List<String> runArray = new ArrayList<>();
-    public static Stack<String> stack = new Stack<>();
-    public static String currentVarValue = "";
-    public static String currentDebugPoint = "";
-    public static String currentInspect = "";
-    public static int DebugPoint = 0;
-    public static int index = 0;
+    protected static Map<Integer, String> cmdMap = new HashMap<>();
+    protected static Map<String, String> labelCMDMap = new HashMap<>();  // Stores Labels and its commands (Label - Command)
+    protected static Map<String, String> expRefLabelCmd = new HashMap<>();  // Stores expRefs and its commands (Label - Command)
+    protected static Map<String, Object> varMap = new HashMap<>();   // Stores Variables and Values (Variable - Value)
+    protected static Map<String, List<Object>> varHistoryMap = new HashMap<>();
+    protected static Map<String, Object> resultExp = new HashMap<>();   // Stores Results of Expressions (Label - Result)
+    protected static Map<String, String[]> blockMap = new HashMap<>(); // Stores block of commands (Label - Command Block)
+    protected static Map<String, String> programMap = new HashMap<>(); // Stores the programName and the label of command
+    protected static Map<String, String> breakPointMap = new HashMap<>();
+    protected static Queue<String> queue = new LinkedList<>();
+    protected static List<String> runArray = new ArrayList<>();
+    protected static Stack<String> stack = new Stack<>();
+    private static int count = 0;
+    protected static String currentVarValue = "";
+    protected static String currentDebugPoint = "";
+    protected static String currentInspect = "";
+    protected static int DebugPoint = 0;
+    protected static int index = 0;
 
     public static void storeCommand(String command){
 
@@ -186,7 +189,8 @@ public class Parser {
         }
 
         try{return Integer.parseInt(expression);}
-        catch (Exception NumberFormatException){}
+        catch (Exception ignored){
+        }
 
         return null;
 
@@ -345,7 +349,9 @@ public class Parser {
             switch (strTemp[2]) {
                 case "int":
                     int intValue = Integer.parseInt(strTemp[4]);
-                    if (-99999 > intValue || intValue > 99999) {
+                    int max = Integer.parseInt("99999");
+                    int min = Integer.parseInt("-99999");
+                    if (min > intValue || intValue > max) {
                         System.out.print("sixth: ");
                         System.out.println("case int != (-99999, 99999)");
                         return false;
