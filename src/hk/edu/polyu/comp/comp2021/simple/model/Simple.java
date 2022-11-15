@@ -192,7 +192,7 @@ public class Simple extends Parser {
     }
 
     /**
-     *
+     * UpdateExp function is push the unexpr and binexpr commands to those command processors
      */
     protected static void updateExp(){
         // Update stored statements that contain this variable
@@ -228,6 +228,7 @@ public class Simple extends Parser {
     protected static void skip(){}   //* REQ6
 
     /**
+     *
      * @param instructions
      */
     protected static void block(String[] instructions){  //* REQ7
@@ -296,6 +297,11 @@ public class Simple extends Parser {
         classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)));
     }
 
+    /**
+     * List command will be list the command of that program
+     * @param instruction 
+     * @param added
+     */
     protected static void list(String instruction, ArrayList<String> added) {    //* REQ12
 
         // Get instruction from the map
