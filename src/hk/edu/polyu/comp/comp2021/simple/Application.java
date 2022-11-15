@@ -2,15 +2,12 @@ package hk.edu.polyu.comp.comp2021.simple;
 
 import hk.edu.polyu.comp.comp2021.simple.model.Parser;
 
-import java.io.IOException;
-
 public class Application {
     /**
-     *
+     * Initial the whole program
      * @param args Argument for main function
-     * @throws IOException Since it manages files
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         Parser input = new Parser();
         input.inputCMD();
