@@ -284,7 +284,7 @@ public class Simple extends Parser {
     
         // Create File
         try {
-            java.io.File myObj = new java.io.File(address + "\\\\" + programName + ".txt");
+            java.io.File myObj = new java.io.File(address + ".txt");
             if (myObj.createNewFile()) {
                 System.out.println("File created " + myObj.getName());
             } else {
@@ -298,7 +298,7 @@ public class Simple extends Parser {
         // Write into file
         try {
             
-            FileWriter myWriter = new FileWriter(address + "\\\\"  +programName + ".txt");
+            FileWriter myWriter = new FileWriter(address + ".txt");
             writeFile(programMap.get(programName), new ArrayList<String>(), myWriter);
             myWriter.close();
             
