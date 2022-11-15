@@ -13,6 +13,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 public class Simple extends Parser {
+
+    /**
+     * Simple class contains the commands and basic rules of Simple Language
+     */
     final static int maxInt = 99999;
     final static int minInt = -99999;
 
@@ -50,8 +54,9 @@ public class Simple extends Parser {
     }
 
     protected static void evaluateIntExp(int a, int b, String operator, String label){   //* Req 2.1
-
-        // Evaluate int expressions and adds int result
+        /*
+         * Evaluate int expressions and adds int result
+         */
 
         switch (operator){
             case "+":
