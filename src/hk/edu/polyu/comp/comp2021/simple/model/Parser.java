@@ -197,7 +197,10 @@ public class Parser {
             else return (boolean)resultExp.get(expression);
         }
 
-        try{return Integer.parseInt(expression);}
+        try{
+            if (Integer.parseInt(expression) > Simple.maxInt) return Simple.maxInt;
+            else if (Integer.parseInt(expression) < Simple.minInt) return Simple.minInt;
+            else return Integer.parseInt(expression);}
         catch (Exception ignored){
         }
 
