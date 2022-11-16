@@ -128,10 +128,24 @@ public class Data {
     }
 
     /**
+     * @param DebugPoint: the debug index point
+     */
+    public void setDebugPoint(int DebugPoint) {
+        Data.DebugPoint = DebugPoint;
+    }
+
+    /**
      * @return index value
      */
     public int getIndex() {
         return index;
+    }
+
+    /**
+     * @param index: the program running index for inspect
+     */
+    public void setIndex(int index) {
+        Data.index = index;
     }
 
     /**
@@ -142,6 +156,13 @@ public class Data {
     }
 
     /**
+     * @param currentVarValue: the current variable value
+     */
+    public void setCurrentVarValue(String currentVarValue) {
+        Data.currentVarValue = currentVarValue;
+    }
+
+    /**
      * @return currentDebugPoint value
      */
     public String getCurrentDebugPoint() {
@@ -149,10 +170,24 @@ public class Data {
     }
 
     /**
+     * @param currentDebugPoint: the current statement label for debugging
+     */
+    public void setCurrentDebugPoint(String currentDebugPoint) {
+        Data.currentDebugPoint = currentDebugPoint;
+    }
+
+    /**
      * @return currentInspect value
      */
     public String getCurrentInspect() {
         return currentInspect;
+    }
+
+    /**
+     * @param currentInspect: the current inspect statement
+     */
+    public void setCurrentInspect(String currentInspect) {
+        Data.currentInspect = currentInspect;
     }
 
     /**

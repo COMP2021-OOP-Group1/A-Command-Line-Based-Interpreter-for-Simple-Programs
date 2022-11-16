@@ -3,11 +3,7 @@ package hk.edu.polyu.comp.comp2021.simple.model;
 import java.util.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -514,8 +510,8 @@ public class Simple extends Parser {
        
         if (DebugPoint < 1) {
             currentDebugPoint = breakPointMap.get(programName);
-            currentInspect = currentDebugPoint;
-            DebugPoint++;
+            data.setCurrentInspect(currentDebugPoint);
+            data.setDebugPoint(DebugPoint++);
         }
         try {
             while (true) {
@@ -560,9 +556,10 @@ public class Simple extends Parser {
         String programName = strSplit[1];
         String varName = strSplit[2];
         if (strSplit[0].equals("inspect")) {
-            System.out.println("<" + varHistoryMap.get(varName).get(index) + ">");
+            System.out.println("<" + varHistoryMap.get(varName).get(data.getIndex()) + ">");
         } else {
-            index++;
+            int i = data.getIndex();
+            data.setIndex(i++);
         }
     }
 
