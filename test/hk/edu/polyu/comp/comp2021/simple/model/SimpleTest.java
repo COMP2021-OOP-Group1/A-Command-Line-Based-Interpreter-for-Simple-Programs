@@ -1,5 +1,6 @@
 package hk.edu.polyu.comp.comp2021.simple.model;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -7,6 +8,9 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+/**
+ * For testing the commands
+ */
 public class SimpleTest {
 
     /**
@@ -69,7 +73,7 @@ public class SimpleTest {
         Parser.classification("binexpr exp1 x * 20", "prog1");
         Parser.classification("unexpr exp2 ~ exp1", "prog1");
         Object value = Parser.resultExp.get("exp2");
-        assertEquals(-200, value);
+        assertEquals("-200", value + "");
     }
 
     /**
@@ -157,14 +161,22 @@ public class SimpleTest {
      */
     @Test
     public void executeTest() {
+        Parser.classification("vardef vardef1 int x 0", "prog1");
+        Parser.classification("binexpr exp1 x % 2", "prog1");
+        Parser.classification("binexpr exp2 exp1 == 0", "prog1");
+        Parser.classification("print print1 x", "prog1");
+        Parser.classification("skip skip1", "prog1");
+        Parser.classification("if if1 exp2 print1 skip1", "prog1");
+        Parser.classification("binexpr exp3 x + 1", "prog1");
+        Parser.classification("assign assign1 x exp3", "prog1");
+        Parser.classification("block block1 if1 assign1", "prog1");
+        Parser.classification("binexpr exp4 x <= 10", "prog1");
+        Parser.classification("while while1 exp4 block1", "prog1");
+        Parser.classification("block block2 vardef1 while1", "prog1");
+        Parser.classification("program printeven block2", "prog1");
+        Parser.classification("execute printeven", "prog1");
 
-
-
-
-
-
-
-
+        Assert.assertEquals("[0][2][4][6][8][10]", "");
     }
 
     /**

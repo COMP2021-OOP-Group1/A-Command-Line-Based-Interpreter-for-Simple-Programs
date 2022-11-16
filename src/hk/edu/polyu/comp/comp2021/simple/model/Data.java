@@ -91,6 +91,7 @@ public class Data {
    
     /**
      * getDebugger function will get the debugger HashMap
+     * @return the debugger HashMap
      */
     public static Map<String, ArrayList<String>> getDebugger() {
         return debugger;

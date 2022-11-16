@@ -49,8 +49,9 @@ public class Parser {
     
 
     /**
-     *
+     * classify the command will go where to process
      * @param command: the commands input by user
+     * @param programName: the program name
      */
     public static void classification(String command, String programName) {
 
