@@ -67,6 +67,8 @@ public class Data {
      */
     private int index = 0;
 
+    private static Map<String, ArrayList<String>> debugger = new HashMap<String, ArrayList<String>>();
+
 //    public void setLabelCMDMap() {
 //
 //    }
@@ -214,6 +216,12 @@ public class Data {
      * storeCommand function will split those command and store some value into HashMap or Stack or Queue
      * @param command: the commands input by user
      */
+
+    public static Map<String,ArrayList<String>> getDebugger() {
+        return debugger;
+    }
+
+
     public static void storeCommand(String command){
 
         // Check if instruction is valid first
@@ -225,21 +233,21 @@ public class Data {
 
                 if (validVarName(splitStr[3])){
                     labelCMDMap.put(splitStr[1], command);
-                    Parser.classification(command);
+                    Parser.classification(command, "");
                 }
             }
             else if (splitStr[0].equals("binexpr") || splitStr[0].equals("unexpr")){
 
                 expRefLabelCmd.put(splitStr[1], command);
-                Parser.classification(command);
+                Parser.classification(command, "");
                 Simple.updateExp();
             }
             else if (splitStr[0].equals("block")){
                 String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
                 labelCMDMap.put(splitStr[1], command);
             }
-            else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect")){
-                Parser.classification(command);
+            else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect") || splitStr[0].equals("debug")){
+                Parser.classification(command, "");
             }
             else if (splitStr[0].equals("togglebreakpoint")) {
                 try {

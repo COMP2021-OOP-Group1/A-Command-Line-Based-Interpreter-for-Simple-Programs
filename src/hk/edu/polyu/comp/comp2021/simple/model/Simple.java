@@ -35,7 +35,7 @@ public class Simple extends Parser {
      */
     protected static void vardef(String[] str) {   //* REQ1 - Works
         varMap.put(str[3], expRef(str[4]));
-        data.putVarHistoryMap(str[3]);
+        Data.putVarHistoryMap(str[3]);
         updateExp();
     }
 
@@ -73,48 +73,48 @@ public class Simple extends Parser {
 
         switch (operator){
             case "+":
-                if (a + b > maxInt) data.addResultExp(label, maxInt);
-                else if (a + b < minInt) data.addResultExp(label, minInt);
-                else data.addResultExp(label, a + b);
+                if (a + b > maxInt) Data.addResultExp(label, maxInt);
+                else if (a + b < minInt) Data.addResultExp(label, minInt);
+                else Data.addResultExp(label, a + b);
                 break;
             case "-":
-                data.addResultExp(label, a - b);
-                if (a - b > maxInt) data.addResultExp(label, maxInt);
-                else if (a - b < minInt) data.addResultExp(label, minInt);
-                else data.addResultExp(label, a - b);
+                Data.addResultExp(label, a - b);
+                if (a - b > maxInt) Data.addResultExp(label, maxInt);
+                else if (a - b < minInt) Data.addResultExp(label, minInt);
+                else Data.addResultExp(label, a - b);
                 break;
             case "*":
-                if (a * b > maxInt) data.addResultExp(label, maxInt);
-                else if (a * b < minInt) data.addResultExp(label, minInt);
-                else data.addResultExp(label, a * b);
+                if (a * b > maxInt) Data.addResultExp(label, maxInt);
+                else if (a * b < minInt) Data.addResultExp(label, minInt);
+                else Data.addResultExp(label, a * b);
                 break;
             case "/":
                 if (b != 0){
-                    if (a / b > maxInt) data.addResultExp(label, maxInt);
-                    else if (a / b < minInt) data.addResultExp(label, minInt);
-                    else data.addResultExp(label, a / b);
+                    if (a / b > maxInt) Data.addResultExp(label, maxInt);
+                    else if (a / b < minInt) Data.addResultExp(label, minInt);
+                    else Data.addResultExp(label, a / b);
                 }
                 break;
             case ">":
-                data.addResultExp(label, a > b);
+                Data.addResultExp(label, a > b);
                 break;
             case "<":
-                data.addResultExp(label, a < b);
+                Data.addResultExp(label, a < b);
                 break;
             case ">=":
-                data.addResultExp(label, a >= b);
+                Data.addResultExp(label, a >= b);
                 break;
             case "<=":
-                data.addResultExp(label, a <= b);
+                Data.addResultExp(label, a <= b);
                 break;
             case "%":
-                data.addResultExp(label, a % b);
+                Data.addResultExp(label, a % b);
                 break;
             case "==":
-                data.addResultExp(label, a == b);
+                Data.addResultExp(label, a == b);
                 break;
             case "!=":
-                data.addResultExp(label, a != b);
+                Data.addResultExp(label, a != b);
                 break;
         }
 
@@ -133,16 +133,16 @@ public class Simple extends Parser {
 
         switch (operator){
             case "&&":
-                data.addResultExp(label, a && b);
+                Data.addResultExp(label, a && b);
                 break;
             case "||":
-                data.addResultExp(label, a || b);
+                Data.addResultExp(label, a || b);
                 break;
             case "==":
-                data.addResultExp(label, a == b);
+                Data.addResultExp(label, a == b);
                 break;
             case "!=":
-                data.addResultExp(label, a != b);
+                Data.addResultExp(label, a != b);
                 break;
         }
     }
@@ -159,21 +159,21 @@ public class Simple extends Parser {
         if (operator.equals("!")){   // Negates Boolean expression
             if ((boolean)expRef(expRef1)) {
                 varMap.put(expName, false);
-                data.putVarHistoryMap(expName);
+                Data.putVarHistoryMap(expName);
             }
             else {
-                data.addResultExp(expName, true);
+                Data.addResultExp(expName, true);
             }
         }
 
         else if (operator.equals("~")){  // Negates Int Expression by switching symbols
             int number = (int)expRef(expRef1) * -1;
             if (operator.equals("~"))
-                data.addResultExp(expName, number);
+                Data.addResultExp(expName, number);
         } else if (operator.equals("#")) {
             int number = (int)expRef(expRef1) * +1;
             if (operator.equals("#"))
-                data.addResultExp(expName, number);
+                Data.addResultExp(expName, number);
         }
     }
 
@@ -190,7 +190,7 @@ public class Simple extends Parser {
         
         // Change variable value
         varMap.replace(varName, toAdd);
-        data.putVarHistoryMap(varName);
+        Data.putVarHistoryMap(varName);
         updateExp();
 
     }
@@ -223,7 +223,7 @@ public class Simple extends Parser {
         String value = "";
         value = value + expRef(expRef).toString();
         System.out.print('[' + value +']');
-        data.addResultExp(label, '[' + value +']');
+        Data.addResultExp(label, '[' + value +']');
     }
 
     /**
@@ -242,9 +242,9 @@ public class Simple extends Parser {
 
             updateExp();
             if (labelCMDMap.containsKey(instructions[i]))
-                classification(labelCMDMap.get(instructions[i]));
+                classification(labelCMDMap.get(instructions[i]), "");
             else if (expRefLabelCmd.containsKey(instructions[i]))
-                classification(labelCMDMap.get(instructions[i]));
+                classification(labelCMDMap.get(instructions[i]), "");
         }
 
     }
@@ -262,9 +262,9 @@ public class Simple extends Parser {
         // if false - <K,V> save V for label ex2 in labelCMDMap
 
         if ((boolean)expRef(expRef)){
-            classification(labelCMDMap.get(statementLab1));
+            classification(labelCMDMap.get(statementLab1), "");
         }else {
-            classification(labelCMDMap.get(statementLab2));
+            classification(labelCMDMap.get(statementLab2), "");
         }
 
         updateExp();
@@ -279,7 +279,7 @@ public class Simple extends Parser {
     protected static void whileW(String expRef, String statementLab1) {   //* REQ9
 
         while((boolean)expRef(expRef)) {
-            classification(labelCMDMap.get(statementLab1));
+            classification(labelCMDMap.get(statementLab1), "");
             updateExp();
         }
     }
@@ -298,7 +298,7 @@ public class Simple extends Parser {
      * @param programName: the program name
      */
     protected static void execute(String programName){  //* REQ11
-        classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)));
+        classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)), "");
     }
 
     /**
@@ -488,7 +488,7 @@ public class Simple extends Parser {
         
         programMap.put(programName, instructions.get(0).split(" ")[1]);
         
-        for (String command: instructions) data.storeCommand(command);
+        for (String command: instructions) Data.storeCommand(command);
 
     }
 
@@ -499,7 +499,13 @@ public class Simple extends Parser {
      * @param label: the label of statement at that breakpoint statement
      */
     protected static void togglebreakpoint(String programName, String label) {
+        
+        ArrayList<String> add = Data.getDebugger().get(programName);
 
+        if (add.contains(label)) add.remove(label);
+        else add.add(label);
+
+        Data.getDebugger().put(programName, add);
     }
 
     /**
@@ -508,44 +514,12 @@ public class Simple extends Parser {
      */
     protected static void debug(String programName) {
        
-        if (DebugPoint < 1) {
-            currentDebugPoint = breakPointMap.get(programName);
-            data.setCurrentInspect(currentDebugPoint);
-            data.setDebugPoint(DebugPoint++);
-        }
-        try {
-            while (true) {
-                if (!stack.peek().split(" ")[1].equals(currentDebugPoint) || currentDebugPoint.equals("")) {
-                    stack.pop();
-                } else {
-//                    if (stack.peek().split(" ")[0].equals("while")) {
-//                        System.out.println((boolean)resultExp.get(stack.peek().split(" ")[2]));
-//                        String cmd = expRefLabelCmd.get(stack.peek().split(" ")[2]);
-//                        System.out.println(cmd.replace(cmd.split(" ")[2], currentVarValue));
-//                        if (!(boolean)resultExp.get(stack.peek().split(" ")[2])) {
-//                            break;
-//                        }
-//                        for (int i = runArray.size(); i >= 0; i--) {
-//                            stack.add(runArray.get(i));
-//                        }
-//                    }
-//                    System.out.println(stack);
-//                    System.out.println(stack.peek());
-                    String peekCMD = stack.peek();
-                    System.out.println("Debugging ==> " + peekCMD);
-                    inspect(peekCMD.split(" "));
-                    runArray.add(peekCMD);
-                    stack.pop();
-                    currentInspect = currentDebugPoint;
-                    currentDebugPoint = stack.peek().split(" ")[1];
-                    stack.clear();
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            System.out.print("Finish Debug!");
-            System.out.println();
-        }
+        classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)), programName);
+       
+    }
+
+    private static void waitDebug(String programName){
+
     }
 
     /**

@@ -74,6 +74,8 @@ public class Parser {
      */
     protected static List<String> runArray = data.getRunArray();
 
+    protected static Map<String, ArrayList<String>> debugger = data.getDebugger();  // Gabe
+
 
 
 
@@ -81,7 +83,7 @@ public class Parser {
      *
      * @param command: the commands input by user
      */
-    public static void classification(String command) {
+    public static void classification(String command, String programName) {
 
         // Classify the commands
 
@@ -152,7 +154,7 @@ public class Parser {
                 }
                 break;
 
-            case "load":    //* REQ1
+            case "load":    //* REQ14
                 try { Simple.load(splitStr[1],splitStr[2]);} 
                 catch (IOException e) {
                     // TODO Auto-generated catch block
@@ -225,161 +227,10 @@ public class Parser {
                 data.storeCommand(input);
 
             }
-            if (input.contains("debug")) {
-                classification(input);
-            }
 
         }
 
         inputLine.close();
-    }
-
-    //! Separate store instructions and execute instructions in if while print block cases
-
-    /**
-     * inputValidator function is check the user input is legal and the input is right
-     * @param input: the input commands by user
-     * @return return the right or wrong of user inputs
-     */
-    public boolean inputValidator(String input){
-
-//        System.out.print("first: ");
-//        System.out.println(input);
-
-        // Check if the cmd string is empty
-        if (input.isEmpty()){
-            return false;
-        }
-
-        String[] strTemp = input.split(" ");  // Split instruction into words
-        int n = strTemp.length;
-
-//        System.out.print("second: ");
-//        System.out.println(strTemp[0]);
-
-        // For checking word length for input string split and if any illegal char are used
-        for (int i=0; i<n; i++){
-            // Initializing loop variables
-            int nrChar = strTemp[i].length();
-
-            // Check if input strings != cmd name or type
-            switch (strTemp[0]){
-                case "vardef":
-                    if(i != 0 && i != 2) {
-                        if (strTemp[i].matches("vardef|binexpr|unexpr|print|skip|block|if|while|execute|list|assign|program|store|quit|int|bool")) {
-                            System.out.print("third: ");
-                            System.out.println("case vardef i != 0");
-                            return false;
-                        }
-                    }
-                    break;
-                case "binexpr": case "unexpr": case "assign": case "print": case "skip": case "block": case "ifF": case "whileW": case "program": case "execute": case "list": case "store": case "load":
-                    if(i != 0) {
-                        if (strTemp[i].matches("vardef|binexpr|unexpr|print|skip|block|if|while|execute|list|assign|program|store|quit|int|bool|true|false")) {
-                            System.out.print("third: ");
-                            System.out.println("case 'the rest' i != 0");
-                            return false;
-                        }
-                    }
-                    break;
-            }
-
-            // Check length longer than 8 characters & if strTemp[i] is
-            if (strTemp[0].equals("store") || strTemp[0].equals("load")){
-                switch (strTemp[0]){
-                case "store":
-                    if (i == 2){
-                    }else {
-                        if(nrChar > 8){
-                            System.out.print("forth: ");
-                            System.out.println("nrChar < 8");
-                            return false;
-                        }
-                    }break;
-                case "load":
-                    if (i == 1){
-                    }else {
-                        if(nrChar > 8){
-                            System.out.print("forth: ");
-                            System.out.println("nrChar < 8");
-                            return false;
-                        }
-                    }break;
-                case "binexpr": case "unexpr": case "assign": case "print": case "skip": case "block": case "ifF": case "whileW": case "program": case "execute": case "list":
-                    if(nrChar > 8){
-                        System.out.print("forth: ");
-                        System.out.println("nrChar < 8");
-                        return false;
-                    }break;
-                }
-            }
-//            if(nrChar > 8){
-//                System.out.print("forth: ");
-//                System.out.println("nrChar < 8");
-//                return false;
-//            }
-
-            // Loop for checking if any invalid characters are in the String cmd
-            switch (strTemp[0]){
-                case "store": case "load":
-                    if (strTemp[0].equals("store") && i == 2){
-                    } else if (strTemp[0].equals("load") && i == 1) {
-                    }else {
-                        for (int x = 0; x < nrChar; x++) {
-                            boolean validChar = Character.isLetterOrDigit(strTemp[i].charAt(x));
-                            String temp = String.valueOf(strTemp[i]);
-                            if (strTemp[i].matches("-|/|#|~|>|>=|<|<=|==|!=|&&|!|:") || strTemp[i].charAt(x) == '-' || temp.equals("*") || temp.equals("+") || temp.equals("||")) {
-                                validChar = true;
-                            }
-                            if (validChar == false) {
-                                System.out.println("The following input is invalid:" + strTemp[i]);
-                                System.out.print("fifth: ");
-                                System.out.println("validChar == false");
-                                return false;
-                            }
-                        }
-                    }break;
-                case "vardef": case "binexpr": case "unexpr": case "assign": case "print": case "skip": case "block": case "ifF": case "whileW": case "program": case "execute": case "list":
-                    for (int x = 0; x < nrChar; x++) {
-                        boolean validChar = Character.isLetterOrDigit(strTemp[i].charAt(x));
-                        String temp = String.valueOf(strTemp[i]);
-                        if (strTemp[i].matches("-|/|#|~|>|>=|<|<=|==|!=|&&|!|:") || strTemp[i].charAt(x) == '-' || temp.equals("*") || temp.equals("+") || temp.equals("||")) {
-                            validChar = true;
-                        }
-                        if (validChar == false) {
-                            System.out.println("The following input is invalid:" + strTemp[i]);
-                            System.out.print("fifth: ");
-                            System.out.println("validChar == false");
-                            return false;
-                        }
-                    }
-            }
-        }
-
-        // Checks if the int or bool value is out of bounds
-          if(strTemp.length >= 2){
-            switch (strTemp[2]) {
-                case "int":
-                    int intValue = Integer.parseInt(strTemp[4]);
-                    int max = Integer.parseInt("99999");
-                    int min = Integer.parseInt("-99999");
-                    if (min > intValue || intValue > max) {
-                        System.out.print("sixth: ");
-                        System.out.println("case int != (-99999, 99999)");
-                        return false;
-                    }
-                    break;
-                case "bool":
-                    String boolValue = strTemp[4];
-                    if (!boolValue.matches("false|true")) {
-                        System.out.print("sixth: ");
-                        System.out.println("case bool != false or true");
-                        return false;
-                    }
-                    break;
-            }
-        }
-        return true;
     }
 
 }
