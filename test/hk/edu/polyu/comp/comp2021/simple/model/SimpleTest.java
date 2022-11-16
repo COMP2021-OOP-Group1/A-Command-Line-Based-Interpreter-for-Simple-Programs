@@ -7,14 +7,23 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+/**
+ * For Java Unit Testing
+ */
 public class SimpleTest {
 
+    /**
+     * Test vardef function
+     */
     @Test
     public void testVardef(){
         Parser.classification("vardef v1 int x 10");
         Object value = Parser.varMap.get("x");
         assertEquals(10, value);
     }
+    /**
+     * Test binary expression calculation function
+     */
     @Test
     public void testBinExpr1() {
         Parser.classification("vardef v1 int x 10");
@@ -23,6 +32,9 @@ public class SimpleTest {
         int need = Integer.parseInt("200");
         assertEquals(need, value);
     }
+    /**
+     * Test binary expression calculation function
+     */
     @Test
     public void testBinExpr2() {
         Parser.classification("vardef v1 int x 10");
@@ -30,6 +42,9 @@ public class SimpleTest {
         Object value = Parser.resultExp.get("exp2");
         assertEquals(true, value);
     }
+    /**
+     * Test binary expression calculation function
+     */
     @Test
     public void testBinExpr3() {
         Parser.classification("vardef v1 int x 10");
@@ -37,6 +52,9 @@ public class SimpleTest {
         Object value = Parser.resultExp.get("exp3");
         assertEquals(false, value);
     }
+    /**
+     * Test binary expression calculation function
+     */
     @Test
     public void testBinExpr4() {
         Parser.classification("vardef v1 bool x true");
@@ -45,6 +63,9 @@ public class SimpleTest {
         Object value = Parser.resultExp.get("exp4");
         assertEquals(false, value);
     }
+    /**
+     * Test Unary expression calculation function
+     */
     @Test
     public void testUnaryEx(){
 
@@ -52,6 +73,10 @@ public class SimpleTest {
 
 
     }
+
+    /**
+     * Test assign function
+     */
     @Test
     public void testAssign(){
         Simple simple=new Simple();
@@ -62,6 +87,9 @@ public class SimpleTest {
         int need = Integer.parseInt("15");
         assertEquals(need,second);
     }
+    /**
+     * Test print function
+     */
     @Test
     public void testPrint(){
         Parser.classification("vardef vardef1 int x 100");
@@ -71,12 +99,18 @@ public class SimpleTest {
         Object value = Parser.resultExp.get("exp2");
         assertEquals("[-2000]","[" + value + "]");
     }
+    /**
+     * Test skip function
+     */
     @Test
     public void testSkip(){
 
         assertNull(null);
 
     }
+    /**
+     * Test expression reference
+     */
     @Test
     public void testexpref(){
 
@@ -88,8 +122,10 @@ public class SimpleTest {
         assertEquals(10,Parser.expRef("10"));
 
     }
+    /**
+     * Test block function
+     */
     @Test
-
     public void testBlock() {
         Parser.classification("vardef vardef1 int x 100");
         Parser.classification("binexpr exp1 x * 10");
@@ -99,13 +135,18 @@ public class SimpleTest {
         Object first = Parser.resultExp.get("exp2");
         Simple.block(new String[]{"100", "1000", "3500"});
     }
-
+    /**
+     * Test SimpleConstructor
+     */
     @Test
     public void testSimpleConstructor(){
         Simple simple = new Simple();
         assert true;
     }
-
+    /**
+     * Test file operation
+     * @throws IOException: the file error
+     */
     @Test
     public void fileTest() throws IOException {
         String cmd1 = "vardef vardef1 int x 100\n";
@@ -121,8 +162,8 @@ public class SimpleTest {
 //        Parser.storeCommand(cmd4);
 //        Parser.storeCommand(cmd5);
 //        Parser.storeCommand(cmd6);
-        Parser.classification(cmd7);
-        String address = "/Users/davidjiang/Desktop/prog1.simple";
+//        Parser.classification(cmd7);
+//        String address = "/Users/davidjiang/Desktop/prog1.simple";
 //        File.store("program1", address);
 //        File.load(address, "program1");
 //        String[] cmd = {cmd1, cmd2, cmd3, cmd4, cmd5};
@@ -130,25 +171,25 @@ public class SimpleTest {
 //            assertEquals(Parser.cmdMap.get(i + 1), cmd[i]);
 //        }
     }
+    /**
+     * Test execute function
+     */
     @Test
     public void executeTest() {
 
-
-
-
-
-
-
-
     }
-
+    /**
+     * Test breakpoint function
+     */
     @Test
     public void breakPointTest() {
         String str = "togglebreakpoint program1 block1";
 //        data.storeCommand(str);
         assertEquals(str.split(" ")[2], Parser.breakPointMap.get(str.split(" ")[1]));
     }
-
+    /**
+     * Test debug function
+     */
     @Test
     public void debugTest() {
         String str = "debug program1";
