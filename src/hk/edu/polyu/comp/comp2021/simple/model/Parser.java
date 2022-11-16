@@ -59,7 +59,7 @@ public class Parser {
         String[] splitStr = command.split(" ");  // Split instruction into words
         String instruction = splitStr[0];
 
-        if (debugger.containsKey(programName)) Simple.waitDebug(programName);
+        if (debugger.containsKey(programName)) if (debugger.get(programName).contains(splitStr[1])) Simple.waitDebug(programName);
         
         // Call Commands based on the instruction
         switch (instruction) {

@@ -116,14 +116,11 @@ public class Data {
 
                 if (validVarName(splitStr[3])){
                     labelCMDMap.put(splitStr[1], command);
-                    Parser.classification(command, "");
                 }
             }
             else if (splitStr[0].equals("binexpr") || splitStr[0].equals("unexpr")){
 
                 expRefLabelCmd.put(splitStr[1], command);
-                Parser.classification(command, "");
-                Simple.updateExp();
             }
             else if (splitStr[0].equals("block")){
                 String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);

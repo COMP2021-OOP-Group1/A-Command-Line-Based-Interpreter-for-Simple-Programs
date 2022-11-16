@@ -298,15 +298,23 @@ public class Simple extends Parser {
      * @param programName: the program name
      */
     protected static void execute(String programName){  //* REQ11
+
+        ArrayList<String> instructions = new ArrayList<String>();
+        internList(Parser.programMap.get(programName), instructions);
+        ArrayList<String> declare = declare(instructions);
+        String command;
+
+        for (int i = 0; i < declare.size(); i++){
+            if (labelCMDMap.containsKey(declare.get(i))) classification(labelCMDMap.get(declare.get(i)), programName);
+            else if (expRefLabelCmd.containsKey(declare.get(i))) classification(expRefLabelCmd.get(declare.get(i)), programName);
+
+        }
+
         classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)), "");
     }
 
-    /**
-     * List command will be list the command of that program
-     * @param instruction: the list command
-     * @param added: A ArrayList hold the command add to the list
-     */
-    protected static void list(String instruction, ArrayList<String> added) {    //* REQ12
+
+    private static void internList(String instruction, ArrayList<String> added){
 
         // Get instruction from the map
         
@@ -318,25 +326,25 @@ public class Simple extends Parser {
 
         if (!added.contains(instruction)){
             
-            if (fullInst[0].equals("while")){  // If program statement is a block
+            if (fullInst[0].equals("block")){  // If program statement is a block
             
                 String[] block = Arrays.copyOfRange(fullInst, 2, fullInst.length);
                 
-                if (!added.contains(instruction)){System.out.println(labelCMDMap.get(instruction)); added.add(instruction);}
+                if (!added.contains(instruction)) added.add(instruction);
                 
-                for (int i = 0; i < block.length; i++) list(block[i], added); // Recurse over the instructions
+                for (int i = 0; i < block.length; i++) internList(block[i], added); // Recurse over the instructions
 
             }
             else if (fullInst[0].equals("while")){    // If while loop
-                if (!added.contains(instruction)) {System.out.println(labelCMDMap.get(instruction)); added.add(instruction);}
-                list(fullInst[2], added);
-                list(fullInst[3], added);
+                if (!added.contains(instruction)) added.add(instruction);
+                internList(fullInst[2], added);
+                internList(fullInst[3], added);
             }
             else if (fullInst[0].equals("if")){
-                if (!added.contains(instruction)) {System.out.println(labelCMDMap.get(instruction)); added.add(instruction);}
-                list(fullInst[2], added);
-                list(fullInst[3], added);
-                list(fullInst[4], added);
+                if (!added.contains(instruction)) added.add(instruction);
+                internList(fullInst[2], added);
+                internList(fullInst[3], added);
+                internList(fullInst[4], added);
             }
         
             // Print if instruction is not a while or block or if
@@ -344,25 +352,59 @@ public class Simple extends Parser {
                 
                 // Check expresions in these declarations:
                 if (fullInst[0].equals("vardef")){
-                    if (expRefLabelCmd.containsKey(fullInst[4])) list(fullInst[4], added);
+                    if (expRefLabelCmd.containsKey(fullInst[4])) internList(fullInst[4], added);
                 }
                 else if (fullInst[0].equals("unexpr") || fullInst[0].equals("assign")){
-                    if (expRefLabelCmd.containsKey(fullInst[3])) list(fullInst[3], added);
+                    if (expRefLabelCmd.containsKey(fullInst[3])) internList(fullInst[3], added);
                 }
                 else if (fullInst[0].equals("print")){
-                    if (expRefLabelCmd.containsKey(fullInst[2])) list(fullInst[2], added);
+                    if (expRefLabelCmd.containsKey(fullInst[2])) internList(fullInst[2], added);
                 }
                 else if (fullInst[0].equals("binexpr")){
-                    if (expRefLabelCmd.containsKey(fullInst[2])) list(fullInst[2], added);
-                    if (expRefLabelCmd.containsKey(fullInst[4])) list(fullInst[4], added);
+                    if (expRefLabelCmd.containsKey(fullInst[2])) internList(fullInst[2], added);
+                    if (expRefLabelCmd.containsKey(fullInst[4])) internList(fullInst[4], added);
                 }       
 
                 if (!added.contains(instruction)){   
-                    if (labelCMDMap.containsKey(instruction)) System.out.println(labelCMDMap.get(instruction));
-                    else if (expRefLabelCmd.containsKey(instruction)) System.out.println(expRefLabelCmd.get(instruction));
                     added.add(instruction);
                 }
             }
+        }
+
+    }
+
+    private static ArrayList<String> declare (ArrayList<String> instructions){
+
+        // Get commands of variables and expression declarations to initialize first
+
+        ArrayList<String> returnList = new ArrayList<String>();
+        String cur;
+
+        for (int i = 0; i < instructions.size(); i++){
+            cur = instructions.get(i);
+            if (labelCMDMap.containsKey(cur)) cur = labelCMDMap.get(cur);
+            else if (expRefLabelCmd.containsKey(cur)) cur = expRefLabelCmd.get(cur);
+
+            if (cur.split(" ")[0].equals("vardef") || cur.split(" ")[0].equals("unexpr") || cur.split(" ")[0].equals("binexpr"))
+                returnList.add(instructions.get(i));
+        }
+
+        return returnList;
+    }
+
+    /**
+     * List command will be list the command of that program
+     * @param instruction: the list command
+     * @param added: A ArrayList hold the command add to the list
+     */
+    protected static void list(String instruction, ArrayList<String> added) {    //* REQ12
+
+        internList(instruction, added);
+        String cur;
+        for (int i = 0; i < added.size(); i++){
+            cur = added.get(i);
+            if (labelCMDMap.containsKey(cur)) System.out.println(labelCMDMap.get(cur));
+            else if (expRefLabelCmd.containsKey(cur)) System.out.println(expRefLabelCmd.get(cur));
         }
     }
 
@@ -391,7 +433,17 @@ public class Simple extends Parser {
         try {
             
             FileWriter myWriter = new FileWriter(address + ".txt");
-            writeFile(programMap.get(programName), new ArrayList<String>(), myWriter);
+            ArrayList<String> programCommands = new ArrayList<String>();
+            internList(Parser.programMap.get(programName), programCommands);
+            String instruction;
+            
+            for (int i = 0; i < programCommands.size(); i++){
+                instruction = programCommands.get(i);
+
+                if (labelCMDMap.containsKey(instruction)) myWriter.write(labelCMDMap.get(instruction) + "\n");
+                else if (expRefLabelCmd.containsKey(instruction)) myWriter.write(expRefLabelCmd.get(instruction) + "\n");
+
+            }
             myWriter.close();
             
         } catch (IOException e) {
