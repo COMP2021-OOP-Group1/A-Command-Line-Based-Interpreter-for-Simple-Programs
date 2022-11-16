@@ -506,6 +506,10 @@ public class Simple extends Parser {
        
     }
 
+    /**
+     * waitDebug function is the commands which need to waiting for debug
+     * @param programName: the program name
+     */
     protected static void waitDebug(String programName){
 
         Scanner inputLine = Parser.inputLine;
