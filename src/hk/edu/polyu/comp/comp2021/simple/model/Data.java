@@ -187,8 +187,10 @@ public class Data {
 
         if (splitStr[0].equals("vardef")){
 
-            labelCMDMap.put(splitStr[1], command);
-            Parser.classification(command);
+            if (validVarName(splitStr[2])){
+                labelCMDMap.put(splitStr[1], command);
+                Parser.classification(command);
+            }
         }
         else if (splitStr[0].equals("binexpr") || splitStr[0].equals("unexpr")){
 
@@ -217,7 +219,30 @@ public class Data {
         else {
             labelCMDMap.put(splitStr[1], command);
         }
-//        System.out.println(varMap);
+        // System.out.println(varMap);
+
+    }
+
+    private static boolean validVarName(String varName) {
+
+        List<String> forbidden = Arrays.asList("vardef", "unexpr", "binexpr", "assign", "print", 
+        "skip", "block", "if", "while", "program", "execute", "list", "store", "load",
+        "debug", "quit", "togglebreakpoint", "inspect", "instrument", "int", "bool", 
+        "true", "false");
+
+        if (Character.isDigit(varName.charAt(0))) return false;    // Check first character
+
+        if (varName.length() > 8) return false; // Check length
+
+        if (forbidden.contains(varName)) return false;  
+
+        for (int i = 0; i < varName.length(); i++) {
+            if (Character.isDigit(varName.charAt(i)) || Character.isLetter(varName.charAt(i))){}   
+            else return false;
+        }
+
+
+        return true;
 
     }
 
