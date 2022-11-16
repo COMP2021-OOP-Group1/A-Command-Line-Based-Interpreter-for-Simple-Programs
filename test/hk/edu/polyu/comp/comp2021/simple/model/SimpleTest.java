@@ -124,7 +124,7 @@ public class SimpleTest {
         Parser.classification("print print1 exp2", "prog1");
         Parser.classification("block block1 assign1 print1", "prog1");
         Object first = Parser.resultExp.get("exp2");
-        Simple.block(new String[]{"100", "1000", "3500"});
+//        Simple.block(new String[]{"100", "1000", "3500"});
     }
 
     /**
@@ -133,27 +133,28 @@ public class SimpleTest {
      */
     @Test
     public void fileTest() throws IOException {
-        String cmd1 = "vardef vardef1 int x 100\n";
-        String cmd2 = "binexpr exp1 x * 20\n";
-        String cmd3 = "unexpr exp2 ~ exp1\n";
-        String cmd4 = "print print1 exp2\n";
-        String cmd5 = "block block1 assign1 print1\n";
-        String cmd6 = "program program1 block1\n";
-        String cmd7 = "store program1 /Users/davidjiang/Desktop/prog1.simple\n";
-//        Parser.storeCommand(cmd1);
-//        Parser.storeCommand(cmd2);
-//        Parser.storeCommand(cmd3);
-//        Parser.storeCommand(cmd4);
-//        Parser.storeCommand(cmd5);
-//        Parser.storeCommand(cmd6);
-//        Parser.classification(cmd7);
+        String cmd1 = "vardef vardef1 int x 100";
+        String cmd2 = "binexpr exp1 x * 20";
+        String cmd3 = "unexpr exp2 ~ exp1";
+        String cmd4 = "print print1 exp2";
+        String cmd5 = "block block1 assign1 print1";
+        String cmd6 = "program program1 block1";
+        String cmd7 = "store prog1 /Users/davidjiang/Desktop/prog1.simple";
+        Parser.classification(cmd1, "prog1");
+        Parser.classification(cmd2, "prog1");
+        Parser.classification(cmd3, "prog1");
+        Parser.classification(cmd4, "prog1");
+        Parser.classification(cmd5, "prog1");
+        Parser.classification(cmd6, "prog1");
+        Parser.classification(cmd7, "prog1");
         String address = "/Users/davidjiang/Desktop/prog1.simple";
-//        File.store("program1", address);
-//        File.load(address, "program1");
-//        String[] cmd = {cmd1, cmd2, cmd3, cmd4, cmd5};
+//        Simple.store("program1", address);
+        Simple.load(address, "prog1");
+        String[] cmd = {cmd1, cmd2, cmd3, cmd4, cmd5};
 //        for (int i = 0; i < Parser.cmdMap.size(); i++) {
 //            assertEquals(Parser.cmdMap.get(i + 1), cmd[i]);
 //        }
+
     }
 
     /**
@@ -186,7 +187,7 @@ public class SimpleTest {
     public void breakPointTest() {
         String str = "togglebreakpoint program1 block1";
 //        data.storeCommand(str);
-        assertEquals(str.split(" ")[2], Parser.breakPointMap.get(str.split(" ")[1]));
+//        assertEquals(str.split(" ")[2], Parser.breakPointMap.get(str.split(" ")[1]));
     }
 
     /**

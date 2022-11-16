@@ -8,6 +8,9 @@ import java.util.*;
  */
 public class Parser {
 
+    /**
+     * The input by user
+     */
     protected static Scanner inputLine = new Scanner(System.in);
 
     /**

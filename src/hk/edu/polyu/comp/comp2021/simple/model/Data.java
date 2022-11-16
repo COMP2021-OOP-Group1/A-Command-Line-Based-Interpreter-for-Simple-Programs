@@ -31,9 +31,6 @@ public class Data {
      * Stores the variable or expression reference and the list of result
      */
     private static Map<String, List<Object>> varHistoryMap = new HashMap<>();
-    /**
-     * Stores the program commands in a queue
-     */
 
      /**
      * Stores the programName and the label of breakpoint
@@ -84,9 +81,8 @@ public class Data {
 
    
     /**
-     * @return debugger Hashmap
      * getDebugger function will get the debugger HashMap
-     * @return the debugger HashMap
+     * @return debugger
      */
     public static Map<String, ArrayList<String>> getDebugger() {
         return debugger;

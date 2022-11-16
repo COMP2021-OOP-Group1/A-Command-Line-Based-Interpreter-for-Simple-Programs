@@ -215,18 +215,19 @@ public class Simple extends Parser {
     protected static void print(String label, String expRef) {   //* REQ5
         String value = "";
         value = value + expRef(expRef).toString();
-        System.out.println('[' + value +"] ");
+        System.out.print('[' + value +"]");
         Data.addResultExp(label, '[' + value +']');
     }
 
     /**
-     *
+     * skip function
      */
     protected static void skip(){}   //* REQ6
 
     /**
      * Block command will be set a block to include some statement together
      * @param instructions: those commands
+     * @param programName: the program name
      */
     protected static void block(String[] instructions, String programName){  //* REQ7
 
@@ -249,6 +250,7 @@ public class Simple extends Parser {
      * @param expRef: the expression reference
      * @param statementLab1: the first label of statement
      * @param statementLab2: the second label of statement
+     * @param programName: the program name
      */
     protected static void ifF(String expRef, String statementLab1, String statementLab2, String programName) {    //* REQ
 
@@ -269,6 +271,7 @@ public class Simple extends Parser {
      * While command will be created a loop for that statement
      * @param expRef: the expression reference (true or false for that result)
      * @param statementLab1: the label for the statement want to include to while
+     * @param programName: the program name
      */
     protected static void whileW(String expRef, String statementLab1, String programName) {   //* REQ9
 
@@ -460,7 +463,7 @@ public class Simple extends Parser {
     public static void load(String fileAddress, String programName) throws IOException {
 
         
-        BufferedReader in = new BufferedReader(new FileReader(fileAddress));
+        BufferedReader in = new BufferedReader(new FileReader(fileAddress + ".txt"));
         String str;
 
         ArrayList<String> instructions = new ArrayList<String>();
@@ -536,7 +539,7 @@ public class Simple extends Parser {
 
     /**
      * Inspect command will be printout the variable value that user want to know
-     * @param strSplit: the array of the split commands
+     * @param variable: the variable name
      */
     private static void inspect(String variable) {
         if (varMap.containsKey(variable)) System.out.println("<" + varMap.get(variable) + ">");
