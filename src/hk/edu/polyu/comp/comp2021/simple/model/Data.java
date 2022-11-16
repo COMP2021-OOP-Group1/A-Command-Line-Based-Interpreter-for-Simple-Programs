@@ -49,23 +49,23 @@ public class Data {
     /**
      * Stores the current variable value
      */
-    private static String currentVarValue = "";
+    private String currentVarValue = "";
     /**
      * Store the current debug statement
      */
-    private static String currentDebugPoint = "";
+    private String currentDebugPoint = "";
     /**
      * Store the current Inspect value
      */
-    private static String currentInspect = "";
+    private String currentInspect = "";
     /**
      * Store the current debug times
      */
-    private static int DebugPoint = 0;
+    private int DebugPoint = 0;
     /**
      * Count the current index
      */
-    private static int index = 0;
+    private int index = 0;
 
 //    public void setLabelCMDMap() {
 //
@@ -131,7 +131,7 @@ public class Data {
      * @param DebugPoint: the debug index point
      */
     public void setDebugPoint(int DebugPoint) {
-        Data.DebugPoint = DebugPoint;
+        this.DebugPoint = DebugPoint;
     }
 
     /**
@@ -145,7 +145,7 @@ public class Data {
      * @param index: the program running index for inspect
      */
     public void setIndex(int index) {
-        Data.index = index;
+        this.index = index;
     }
 
     /**
@@ -159,7 +159,7 @@ public class Data {
      * @param currentVarValue: the current variable value
      */
     public void setCurrentVarValue(String currentVarValue) {
-        Data.currentVarValue = currentVarValue;
+        this.currentVarValue = currentVarValue;
     }
 
     /**
@@ -173,7 +173,7 @@ public class Data {
      * @param currentDebugPoint: the current statement label for debugging
      */
     public void setCurrentDebugPoint(String currentDebugPoint) {
-        Data.currentDebugPoint = currentDebugPoint;
+        this.currentDebugPoint = currentDebugPoint;
     }
 
     /**
@@ -187,7 +187,7 @@ public class Data {
      * @param currentInspect: the current inspect statement
      */
     public void setCurrentInspect(String currentInspect) {
-        Data.currentInspect = currentInspect;
+        this.currentInspect = currentInspect;
     }
 
     /**
