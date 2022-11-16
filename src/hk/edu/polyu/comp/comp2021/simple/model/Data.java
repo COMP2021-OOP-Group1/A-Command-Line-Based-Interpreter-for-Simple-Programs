@@ -37,35 +37,7 @@ public class Data {
     /**
      * Stores the program commands in a queue
      */
-    private static Queue<String> queue = new LinkedList<>();
-    /**
-     * Stores the running commands in an array list
-     */
-    private static List<String> runArray = new ArrayList<>();
-    /**
-     * Stores the commands in to stack
-     */
-    private static Stack<String> stack = new Stack<>();
-    /**
-     * Stores the current variable value
-     */
-    private String currentVarValue = "";
-    /**
-     * Store the current debug statement
-     */
-    private String currentDebugPoint = "";
-    /**
-     * Store the current Inspect value
-     */
-    private String currentInspect = "";
-    /**
-     * Store the current debug times
-     */
-    private int DebugPoint = 0;
-    /**
-     * Count the current index
-     */
-    private int index = 0;
+
 
     private static Map<String, ArrayList<String>> debugger = new HashMap<String, ArrayList<String>>();
 
@@ -122,102 +94,13 @@ public class Data {
         return varHistoryMap;
     }
 
-    /**
-     * @return DebugPoint value
-     */
-    public int getDebugPoint() {
-        return DebugPoint;
-    }
-
-    /**
-     * @param DebugPoint: the debug index point
-     */
-    public void setDebugPoint(int DebugPoint) {
-        this.DebugPoint = DebugPoint;
-    }
-
-    /**
-     * @return index value
-     */
-    public int getIndex() {
-        return index;
-    }
-
-    /**
-     * @param index: the program running index for inspect
-     */
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    /**
-     * @return currentVarValue value
-     */
-    public String getCurrentVarValue() {
-        return currentVarValue;
-    }
-
-    /**
-     * @param currentVarValue: the current variable value
-     */
-    public void setCurrentVarValue(String currentVarValue) {
-        this.currentVarValue = currentVarValue;
-    }
-
-    /**
-     * @return currentDebugPoint value
-     */
-    public String getCurrentDebugPoint() {
-        return currentDebugPoint;
-    }
-
-    /**
-     * @param currentDebugPoint: the current statement label for debugging
-     */
-    public void setCurrentDebugPoint(String currentDebugPoint) {
-        this.currentDebugPoint = currentDebugPoint;
-    }
-
-    /**
-     * @return currentInspect value
-     */
-    public String getCurrentInspect() {
-        return currentInspect;
-    }
-
-    /**
-     * @param currentInspect: the current inspect statement
-     */
-    public void setCurrentInspect(String currentInspect) {
-        this.currentInspect = currentInspect;
-    }
-
-    /**
-     * @return stack
-     */
-    public Stack<String> getStack() {
-        return stack;
-    }
-
-    /**
-     * @return queue
-     */
-    public Queue<String> getQueue() {
-        return queue;
-    }
-
-    /**
-     * @return runArray List
-     */
-    public List<String> getRunArray() {
-        return runArray;
-    }
+   
     /**
      * storeCommand function will split those command and store some value into HashMap or Stack or Queue
      * @param command: the commands input by user
      */
 
-    public static Map<String,ArrayList<String>> getDebugger() {
+    public static Map<String, ArrayList<String>> getDebugger() {
         return debugger;
     }
 
@@ -246,19 +129,8 @@ public class Data {
                 String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
                 labelCMDMap.put(splitStr[1], command);
             }
-            else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect") || splitStr[0].equals("debug")){
+            else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect") || splitStr[0].equals("debug") || splitStr[0].equals("togglebreakpoint")){
                 Parser.classification(command, "");
-            }
-            else if (splitStr[0].equals("togglebreakpoint")) {
-                try {
-                    if (breakPointMap.get(splitStr[1]).equals(splitStr[2])) {
-                        breakPointMap.remove(splitStr[1]);
-                        stack.clear();
-//                        currentDebugPoint = "";
-                    }
-                } catch (Exception e) {
-                    breakPointMap.put(splitStr[1], splitStr[2]);
-                }
             }
             else {
                 labelCMDMap.put(splitStr[1], command);

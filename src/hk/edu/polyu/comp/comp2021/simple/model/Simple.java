@@ -417,6 +417,7 @@ public class Simple extends Parser {
             fullInst = expRefLabelCmd.get(instruction).split(" ");
         }
 
+
         if (!added.contains(instruction)){
             
             if (fullInst[0].equals("block")){  // If program statement is a block
@@ -518,23 +519,38 @@ public class Simple extends Parser {
        
     }
 
-    private static void waitDebug(String programName){
+    protected static void waitDebug(String programName){
 
+        Scanner inputLine = new Scanner(System.in);
+        String input;
+
+        while(inputLine.hasNextLine()){
+
+            input = inputLine.nextLine();
+            if (input != null){
+
+                if (input.equals("debug " + programName)) return;
+                else if (input.contains("togglebreakpoint " + programName)) togglebreakpoint(programName, input.split(" ")[2]);
+                else if (input.contains("inspect " + programName)){
+                    String[] inst = input.split(" ");
+                    
+
+                }
+
+            }
+
+        }
+
+        inputLine.close();
     }
+
 
     /**
      * Inspect command will be printout the variable value that user want to know
      * @param strSplit: the array of the split commands
      */
     protected static void inspect(String[] strSplit) {
-        String programName = strSplit[1];
-        String varName = strSplit[2];
-        if (strSplit[0].equals("inspect")) {
-            System.out.println("<" + varHistoryMap.get(varName).get(data.getIndex()) + ">");
-        } else {
-            int i = data.getIndex();
-            data.setIndex(i++);
-        }
+        
     }
 
 }

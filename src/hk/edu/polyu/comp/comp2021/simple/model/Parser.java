@@ -41,38 +41,7 @@ public class Parser {
      * Get from Data.java
      */
     protected static Map<String, Object> resultExp = data.getResultExp();
-    /**
-     * Get from Data.java
-     */
-    protected static int DebugPoint = data.getDebugPoint();
-    /**
-     * Get from Data.java
-     */
-    protected static int index = data.getIndex();
-    /**
-     * Get from Data.java
-     */
-    protected static String currentVarValue = data.getCurrentVarValue();
-    /**
-     * Get from Data.java
-     */
-    protected static String currentDebugPoint = data.getCurrentDebugPoint();
-    /**
-     * Get from Data.java
-     */
-    protected static String currentInspect = data.getCurrentInspect();
-    /**
-     * Get from Data.java
-     */
-    protected static Stack<String> stack = data.getStack();
-    /**
-     * Get from Data.java
-     */
-    protected static Queue<String> queue = data.getQueue();
-    /**
-     * Get from Data.java
-     */
-    protected static List<String> runArray = data.getRunArray();
+
 
     protected static Map<String, ArrayList<String>> debugger = data.getDebugger();  // Gabe
 
@@ -90,6 +59,7 @@ public class Parser {
         String[] splitStr = command.split(" ");  // Split instruction into words
         String instruction = splitStr[0];
 
+        if (debugger.containsKey(programName)) Simple.waitDebug(programName);
         
         // Call Commands based on the instruction
         switch (instruction) {
@@ -217,10 +187,11 @@ public class Parser {
     public void inputCMD() {
 
         Scanner inputLine = new Scanner(System.in);
+        String input;
 
         while(inputLine.hasNextLine()){
 
-            String input = inputLine.nextLine();
+            input = inputLine.nextLine();
             if (input != null){
                 if (input.equals("quit")) System.exit(0);
 
