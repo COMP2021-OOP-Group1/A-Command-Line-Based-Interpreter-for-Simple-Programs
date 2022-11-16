@@ -246,7 +246,7 @@ public class Data {
                     if (breakPointMap.get(splitStr[1]).equals(splitStr[2])) {
                         breakPointMap.remove(splitStr[1]);
                         stack.clear();
-                        currentDebugPoint = "";
+//                        currentDebugPoint = "";
                     }
                 } catch (Exception e) {
                     breakPointMap.put(splitStr[1], splitStr[2]);
@@ -315,6 +315,13 @@ public class Data {
         }
         varHistoryMap.get(varName).add(varMap.get(varName));
     }
+
+    /**
+     * addResultExp function is put the result and label to resultExp this HashMap
+     * @param label: the label of expression statement
+     * @param object: the result of expression
+     */
+    public static void addResultExp(String label, Object object){resultExp.put(label, object);}
 
 
 }

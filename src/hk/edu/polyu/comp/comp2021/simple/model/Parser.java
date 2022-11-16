@@ -209,13 +209,6 @@ public class Parser {
     }
 
     /**
-     * addResultExp function is put the result and label to resultExp this HashMap
-     * @param label: the label of expression statement
-     * @param object: the result of expression
-     */
-    public static void addResultExp(String label, Object object){resultExp.put(label, object);}
-
-    /**
      * inputCMD function is let user input those commands
      */
     // Use for input command, but just model, Application will be call this

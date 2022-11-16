@@ -73,48 +73,48 @@ public class Simple extends Parser {
 
         switch (operator){
             case "+":
-                if (a + b > maxInt) Parser.addResultExp(label, maxInt);
-                else if (a + b < minInt) Parser.addResultExp(label, minInt);
-                else Parser.addResultExp(label, a + b);
+                if (a + b > maxInt) data.addResultExp(label, maxInt);
+                else if (a + b < minInt) data.addResultExp(label, minInt);
+                else data.addResultExp(label, a + b);
                 break;
             case "-":
-                addResultExp(label, a - b);
-                if (a - b > maxInt) Parser.addResultExp(label, maxInt);
-                else if (a - b < minInt) Parser.addResultExp(label, minInt);
-                else Parser.addResultExp(label, a - b);
+                data.addResultExp(label, a - b);
+                if (a - b > maxInt) data.addResultExp(label, maxInt);
+                else if (a - b < minInt) data.addResultExp(label, minInt);
+                else data.addResultExp(label, a - b);
                 break;
             case "*":
-                if (a * b > maxInt) Parser.addResultExp(label, maxInt);
-                else if (a * b < minInt) Parser.addResultExp(label, minInt);
-                else Parser.addResultExp(label, a * b);
+                if (a * b > maxInt) data.addResultExp(label, maxInt);
+                else if (a * b < minInt) data.addResultExp(label, minInt);
+                else data.addResultExp(label, a * b);
                 break;
             case "/":
                 if (b != 0){
-                    if (a / b > maxInt) Parser.addResultExp(label, maxInt);
-                    else if (a / b < minInt) Parser.addResultExp(label, minInt);
-                    else Parser.addResultExp(label, a / b);
+                    if (a / b > maxInt) data.addResultExp(label, maxInt);
+                    else if (a / b < minInt) data.addResultExp(label, minInt);
+                    else data.addResultExp(label, a / b);
                 }
                 break;
             case ">":
-                addResultExp(label, a > b);
+                data.addResultExp(label, a > b);
                 break;
             case "<":
-                addResultExp(label, a < b);
+                data.addResultExp(label, a < b);
                 break;
             case ">=":
-                addResultExp(label, a >= b);
+                data.addResultExp(label, a >= b);
                 break;
             case "<=":
-                addResultExp(label, a <= b);
+                data.addResultExp(label, a <= b);
                 break;
             case "%":
-                addResultExp(label, a % b);
+                data.addResultExp(label, a % b);
                 break;
             case "==":
-                addResultExp(label, a == b);
+                data.addResultExp(label, a == b);
                 break;
             case "!=":
-                addResultExp(label, a != b);
+                data.addResultExp(label, a != b);
                 break;
         }
 
@@ -133,16 +133,16 @@ public class Simple extends Parser {
 
         switch (operator){
             case "&&":
-                addResultExp(label, a && b);
+                data.addResultExp(label, a && b);
                 break;
             case "||":
-                addResultExp(label, a || b);
+                data.addResultExp(label, a || b);
                 break;
             case "==":
-                addResultExp(label, a == b);
+                data.addResultExp(label, a == b);
                 break;
             case "!=":
-                addResultExp(label, a != b);
+                data.addResultExp(label, a != b);
                 break;
         }
     }
@@ -162,18 +162,18 @@ public class Simple extends Parser {
                 data.putVarHistoryMap(expName);
             }
             else {
-                addResultExp(expName, true);
+                data.addResultExp(expName, true);
             }
         }
 
         else if (operator.equals("~")){  // Negates Int Expression by switching symbols
             int number = (int)expRef(expRef1) * -1;
             if (operator.equals("~"))
-                addResultExp(expName, number);
+                data.addResultExp(expName, number);
         } else if (operator.equals("#")) {
             int number = (int)expRef(expRef1) * +1;
             if (operator.equals("#"))
-                addResultExp(expName, number);
+                data.addResultExp(expName, number);
         }
     }
 
@@ -223,7 +223,7 @@ public class Simple extends Parser {
         String value = "";
         value = value + expRef(expRef).toString();
         System.out.print('[' + value +']');
-        addResultExp(label, '[' + value +']');
+        data.addResultExp(label, '[' + value +']');
     }
 
     /**
