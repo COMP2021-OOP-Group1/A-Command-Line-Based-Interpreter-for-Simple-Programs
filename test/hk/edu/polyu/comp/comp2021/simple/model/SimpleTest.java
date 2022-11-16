@@ -77,6 +77,28 @@ public class SimpleTest {
         assertNull(null);
 
     }
+    @Test
+    public void testexpref(){
+
+
+        assertEquals(true,Parser.expRef("true"));
+
+        assertEquals(false,Parser.expRef("false"));
+
+        assertEquals(10,Parser.expRef("10"));
+
+    }
+    @Test
+
+    public void testBlock() {
+        Parser.classification("vardef vardef1 int x 100");
+        Parser.classification("binexpr exp1 x * 10");
+        Parser.classification("unexpr exp2 ~ exp1");
+        Parser.classification("print print1 exp2");
+        Parser.classification("block block1 assign1 print1");
+        Object first = Parser.resultExp.get("exp2");
+        Simple.block(new String[]{"100", "1000", "3500"});
+    }
 
     @Test
     public void testSimpleConstructor(){
