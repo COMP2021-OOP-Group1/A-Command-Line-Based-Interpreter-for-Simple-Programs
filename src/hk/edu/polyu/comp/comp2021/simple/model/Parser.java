@@ -41,12 +41,12 @@ public class Parser {
      * Get from Data.java
      */
     protected static Map<String, Object> resultExp = data.getResultExp();
-
-
+    /**
+     * Get from Data.java
+     */
     protected static Map<String, ArrayList<String>> debugger = data.getDebugger();  // Gabe
 
-
-
+    
 
     /**
      *

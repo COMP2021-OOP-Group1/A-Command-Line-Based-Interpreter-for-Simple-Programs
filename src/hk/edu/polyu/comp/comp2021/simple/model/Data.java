@@ -37,13 +37,7 @@ public class Data {
     /**
      * Stores the program commands in a queue
      */
-
-
     private static Map<String, ArrayList<String>> debugger = new HashMap<String, ArrayList<String>>();
-
-//    public void setLabelCMDMap() {
-//
-//    }
 
     /**
      * @return labelCMDMap HashMap
@@ -96,15 +90,17 @@ public class Data {
 
    
     /**
-     * storeCommand function will split those command and store some value into HashMap or Stack or Queue
-     * @param command: the commands input by user
+     * getDebugger function will get the debugger HashMap
      */
-
     public static Map<String, ArrayList<String>> getDebugger() {
         return debugger;
     }
 
 
+    /**
+     * storeCommand will be classifying the command input by user and store to the right HashMap
+     * @param command: the commands that user input
+     */
     public static void storeCommand(String command){
 
         // Check if instruction is valid first
@@ -140,6 +136,12 @@ public class Data {
 
     }
 
+    /**
+     * checkLength function will be checking the command length is right or not
+     * @param command: the command input by user
+     * @param n: the length of the command
+     * @return the length is right or not
+     */
     private static boolean checkLength(String command, int n){
 
         if (n == 1) return false;
@@ -160,6 +162,11 @@ public class Data {
 
     }
 
+    /**
+     * validVarName function is check the command name is right or not
+     * @param varName: the command name
+     * @return the command name is right or not
+     */
     private static boolean validVarName(String varName) {
 
         List<String> forbidden = Arrays.asList("vardef", "unexpr", "binexpr", "assign", "print", 
