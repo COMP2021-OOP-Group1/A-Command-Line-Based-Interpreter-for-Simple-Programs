@@ -26,16 +26,17 @@ public class Data {
      * Stores the programName and the label of command
      */
     private static Map<String, String> programMap = new HashMap<>();
-    /**
-     * Stores the programName and the label of breakpoint
-     */
-    private static Map<String, String> breakPointMap = new HashMap<>();
+    
     /**
      * Stores the variable or expression reference and the list of result
      */
     private static Map<String, List<Object>> varHistoryMap = new HashMap<>();
     /**
      * Stores the program commands in a queue
+     */
+
+     /**
+     * Stores the programName and the label of breakpoint
      */
     private static Map<String, ArrayList<String>> debugger = new HashMap<String, ArrayList<String>>();
 
@@ -75,13 +76,6 @@ public class Data {
     }
 
     /**
-     * @return breakPointMap HashMap
-     */
-    public Map<String, String> getBreakPointMap() {
-        return breakPointMap;
-    }
-
-    /**
      * @return varHistoryMap HashMap
      */
     public Map<String, List<Object>> getVarHistoryMap() {
@@ -90,6 +84,7 @@ public class Data {
 
    
     /**
+     * @return debugger Hashmap
      * getDebugger function will get the debugger HashMap
      */
     public static Map<String, ArrayList<String>> getDebugger() {
@@ -119,11 +114,15 @@ public class Data {
                 expRefLabelCmd.put(splitStr[1], command);
             }
             else if (splitStr[0].equals("block")){
-                String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
+                // String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
                 labelCMDMap.put(splitStr[1], command);
             }
-            else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect") || splitStr[0].equals("debug") || splitStr[0].equals("togglebreakpoint")){
+            else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load")) {
                 Parser.classification(command, "");
+            }
+            else if (splitStr[0].equals("debug") || splitStr[0].equals("togglebreakpoint")){
+                if (!debugger.containsKey(splitStr[1])) debugger.put(splitStr[1], new ArrayList<String>());
+                Parser.classification(command, splitStr[1]);
             }
             else {
                 labelCMDMap.put(splitStr[1], command);
@@ -148,9 +147,10 @@ public class Data {
         // 4 letter instructions
         else if (command.equals("unexpr") || command.equals("assign") || command.equals("while")){if (n != 4) return false;}
         // 3 letter instructions
-        else if (command.equals("print") || command.equals("program") || command.equals("store") || command.equals("load")){if (n != 3) return false;}
+        else if (command.equals("print") || command.equals("program") || command.equals("store") || command.equals("load") || command.equals("inspect") || command.equals("togglebreakpoint"))
+        {if (n != 3) return false;}
         // 2 letter instructions
-        else if (command.equals("skip") || command.equals("execute") || command.equals("list")){if (n != 2) return false;}
+        else if (command.equals("skip") || command.equals("execute") || command.equals("list") || command.equals("debug")){if (n != 2) return false;}
         // Block case
         else if (command.equals("block")){if (n <= 2) return false;}
 

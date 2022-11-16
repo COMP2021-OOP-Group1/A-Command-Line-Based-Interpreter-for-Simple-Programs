@@ -22,13 +22,6 @@ public class Simple extends Parser {
     final static int minInt = -99999;
 
     /**
-     * The constructor of Simple class
-     */
-    public Simple(){
-        Parser parser = new Parser();
-    }
-
-    /**
      * Vardef command for set the new variable in integer value or boolean value format.
      * Usage: vardef vardef1 int x 100
      * @param str: the command array
@@ -222,7 +215,7 @@ public class Simple extends Parser {
     protected static void print(String label, String expRef) {   //* REQ5
         String value = "";
         value = value + expRef(expRef).toString();
-        System.out.print('[' + value +']');
+        System.out.println('[' + value +"] ");
         Data.addResultExp(label, '[' + value +']');
     }
 
@@ -235,16 +228,18 @@ public class Simple extends Parser {
      * Block command will be set a block to include some statement together
      * @param instructions: those commands
      */
-    protected static void block(String[] instructions){  //* REQ7
+    protected static void block(String[] instructions, String programName){  //* REQ7
 
         int n = instructions.length;
         for (int i = 0; i < n; i++){
 
             updateExp();
-            if (labelCMDMap.containsKey(instructions[i]))
-                classification(labelCMDMap.get(instructions[i]), "");
-            else if (expRefLabelCmd.containsKey(instructions[i]))
-                classification(labelCMDMap.get(instructions[i]), "");
+            if (labelCMDMap.containsKey(instructions[i])){
+                classification(labelCMDMap.get(instructions[i]), programName);
+            }
+            else if (expRefLabelCmd.containsKey(instructions[i])){
+                classification(labelCMDMap.get(instructions[i]), programName);
+            }
         }
 
     }
@@ -255,19 +250,18 @@ public class Simple extends Parser {
      * @param statementLab1: the first label of statement
      * @param statementLab2: the second label of statement
      */
-    protected static void ifF(String expRef, String statementLab1, String statementLab2){    //* REQ
+    protected static void ifF(String expRef, String statementLab1, String statementLab2, String programName) {    //* REQ
 
         // Check if the condition is TRUE or FALSE:
         // if true - <K,V> save V for label ex1 in labelCMDMap
         // if false - <K,V> save V for label ex2 in labelCMDMap
 
         if ((boolean)expRef(expRef)){
-            classification(labelCMDMap.get(statementLab1), "");
-        }else {
-            classification(labelCMDMap.get(statementLab2), "");
+            classification(labelCMDMap.get(statementLab1), programName);
         }
-
-        updateExp();
+        else {
+            classification(labelCMDMap.get(statementLab2), programName);
+        }
 
     }
 
@@ -276,11 +270,10 @@ public class Simple extends Parser {
      * @param expRef: the expression reference (true or false for that result)
      * @param statementLab1: the label for the statement want to include to while
      */
-    protected static void whileW(String expRef, String statementLab1) {   //* REQ9
+    protected static void whileW(String expRef, String statementLab1, String programName) {   //* REQ9
 
         while((boolean)expRef(expRef)) {
-            classification(labelCMDMap.get(statementLab1), "");
-            updateExp();
+            classification(labelCMDMap.get(statementLab1), programName);
         }
     }
 
@@ -290,6 +283,7 @@ public class Simple extends Parser {
      * @param statementLabel: the label for the statement want to include to program
      */
     protected static void program(String programName, String statementLabel) {  //* REQ10
+        Data.getDebugger().put(programName, new ArrayList<String>());
         programMap.put(programName, statementLabel);
     }
 
@@ -299,10 +293,16 @@ public class Simple extends Parser {
      */
     protected static void execute(String programName){  //* REQ11
 
+        declare(programName);
+
+        classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)), "");
+    }
+
+    private static void declare(String programName){
+
         ArrayList<String> instructions = new ArrayList<String>();
         internList(Parser.programMap.get(programName), instructions);
-        ArrayList<String> declare = declare(instructions);
-        String command;
+        ArrayList<String> declare = getDeclare(instructions);
 
         for (int i = 0; i < declare.size(); i++){
             if (labelCMDMap.containsKey(declare.get(i))) classification(labelCMDMap.get(declare.get(i)), programName);
@@ -310,9 +310,8 @@ public class Simple extends Parser {
 
         }
 
-        classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)), "");
-    }
 
+    }
 
     private static void internList(String instruction, ArrayList<String> added){
 
@@ -373,7 +372,7 @@ public class Simple extends Parser {
 
     }
 
-    private static ArrayList<String> declare (ArrayList<String> instructions){
+    private static ArrayList<String> getDeclare (ArrayList<String> instructions){
 
         // Get commands of variables and expression declarations to initialize first
 
@@ -453,74 +452,6 @@ public class Simple extends Parser {
     }
 
     /**
-     * writeFile function is write the file
-     * @param instruction: the label of program statement
-     * @param added: the ArrayList to store the commands
-     * @param writer: the FileWriter
-     * @throws IOException: for handle file operation error
-     */
-    private static void writeFile(String instruction, ArrayList<String> added, FileWriter writer) throws IOException{
-
-        // Get instruction from the map
-        
-        String[] fullInst;
-        if (labelCMDMap.containsKey(instruction)) fullInst = labelCMDMap.get(instruction).split(" ");
-        else{
-            fullInst = expRefLabelCmd.get(instruction).split(" ");
-        }
-
-
-        if (!added.contains(instruction)){
-            
-            if (fullInst[0].equals("block")){  // If program statement is a block
-                String[] block = Arrays.copyOfRange(fullInst, 2, fullInst.length);
-
-                if (!added.contains(instruction)){writer.write(labelCMDMap.get(instruction) + "\n"); added.add(instruction);}
-                
-                for (int i = 0; i < block.length; i++) writeFile(block[i], added, writer); // Recurse over the instructions
-
-            }
-            else if (fullInst[0].equals("while")){    // If while loop
-                if (!added.contains(instruction)){writer.write(labelCMDMap.get(instruction) + "\n"); added.add(instruction);}
-                writeFile(fullInst[2], added, writer);
-                writeFile(fullInst[3], added, writer);
-            }
-            else if (fullInst[0].equals("if")){
-                if (!added.contains(instruction)){writer.write(labelCMDMap.get(instruction) + "\n"); added.add(instruction);}
-                writeFile(fullInst[2], added, writer);
-                writeFile(fullInst[3], added, writer);
-                writeFile(fullInst[4], added, writer);
-            }
-        
-            // Print if instruction is not a while or block or if
-            else{
-
-                if (fullInst[0].equals("vardef")){
-                    if (expRefLabelCmd.containsKey(fullInst[4])) writeFile(fullInst[4], added, writer);
-                }
-                else if (fullInst[0].equals("unexpr") || fullInst[0].equals("assign")){
-                    if (expRefLabelCmd.containsKey(fullInst[3])) writeFile(fullInst[3], added, writer);
-                }
-                else if (fullInst[0].equals("print")){
-                    if (expRefLabelCmd.containsKey(fullInst[2])) writeFile(fullInst[2], added, writer);
-                }
-                else if (fullInst[0].equals("binexpr")){
-                    if (expRefLabelCmd.containsKey(fullInst[2])) writeFile(fullInst[2], added, writer);
-                    if (expRefLabelCmd.containsKey(fullInst[4])) writeFile(fullInst[4], added, writer);
-                }       
-
-                if (!added.contains(instruction)){   
-                    if (labelCMDMap.containsKey(instruction)) writer.write(labelCMDMap.get(instruction) + "\n");
-                    else if (expRefLabelCmd.containsKey(instruction)) writer.write(expRefLabelCmd.get(instruction) + "\n");
-                    added.add(instruction);
-                }
-            }
-        }
-        
-
-    }
-
-    /**
      * Load command will be loading the program to the Interpreter
      * @param fileAddress: the program file path
      * @param programName: the program name
@@ -559,6 +490,7 @@ public class Simple extends Parser {
         else add.add(label);
 
         Data.getDebugger().put(programName, add);
+
     }
 
     /**
@@ -567,33 +499,34 @@ public class Simple extends Parser {
      */
     protected static void debug(String programName) {
        
+        // classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)), programName);
+        declare(programName);
         classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)), programName);
+        System.out.println();
        
     }
 
     protected static void waitDebug(String programName){
 
-        Scanner inputLine = new Scanner(System.in);
+        Scanner inputLine = Parser.inputLine;
         String input;
 
-        while(inputLine.hasNextLine()){
 
+        while(inputLine.hasNextLine()){
             input = inputLine.nextLine();
             if (input != null){
-
                 if (input.equals("debug " + programName)) return;
                 else if (input.contains("togglebreakpoint " + programName)) togglebreakpoint(programName, input.split(" ")[2]);
                 else if (input.contains("inspect " + programName)){
                     String[] inst = input.split(" ");
-                    
-
+                    inspect(inst[2]);
                 }
 
             }
 
         }
 
-        inputLine.close();
+        
     }
 
 
@@ -601,8 +534,8 @@ public class Simple extends Parser {
      * Inspect command will be printout the variable value that user want to know
      * @param strSplit: the array of the split commands
      */
-    protected static void inspect(String[] strSplit) {
-        
+    private static void inspect(String variable) {
+        if (varMap.containsKey(variable)) System.out.println("<" + varMap.get(variable) + ">");
     }
 
 }

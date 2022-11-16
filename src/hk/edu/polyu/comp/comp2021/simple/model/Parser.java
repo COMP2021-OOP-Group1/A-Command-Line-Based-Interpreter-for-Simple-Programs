@@ -8,6 +8,8 @@ import java.util.*;
  */
 public class Parser {
 
+    protected static Scanner inputLine = new Scanner(System.in);
+
     /**
      * Java Encapsulation from Data class
      */
@@ -21,10 +23,6 @@ public class Parser {
      * Get from Data.java
      */
     protected static Map<String, String> expRefLabelCmd = data.getExpRefLabelCmd();
-    /**
-     * Get from Data.java
-     */
-    protected static Map<String, String> breakPointMap = data.getBreakPointMap();
     /**
      * Get from Data.java
      */
@@ -44,7 +42,7 @@ public class Parser {
     /**
      * Get from Data.java
      */
-    protected static Map<String, ArrayList<String>> debugger = data.getDebugger();  // Gabe
+    protected static Map<String, ArrayList<String>> debugger = Data.getDebugger();  // Gabe
 
     
 
@@ -59,7 +57,10 @@ public class Parser {
         String[] splitStr = command.split(" ");  // Split instruction into words
         String instruction = splitStr[0];
 
-        if (debugger.containsKey(programName)) if (debugger.get(programName).contains(splitStr[1])) Simple.waitDebug(programName);
+
+        if (debugger.containsKey(programName)){
+            if (debugger.get(programName).contains(splitStr[1])) Simple.waitDebug(programName);
+        }
         
         // Call Commands based on the instruction
         switch (instruction) {
@@ -90,15 +91,15 @@ public class Parser {
 
             case "block":   //* REQ7
                 String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
-                Simple.block(instructions);
+                Simple.block(instructions, programName);
                 break;
                 
             case "if":  //* REQ8
-                Simple.ifF(splitStr[2], splitStr[3], splitStr[4]);
+                Simple.ifF(splitStr[2], splitStr[3], splitStr[4], programName);
                 break;
 
             case "while":   //* REQ9
-                Simple.whileW(splitStr[2], splitStr[3]);
+                Simple.whileW(splitStr[2], splitStr[3], programName);
                 break;
 
             case "program": //* REQ10
@@ -138,10 +139,6 @@ public class Parser {
 
             case "togglebreakpoint":
                 Simple.togglebreakpoint(splitStr[1],splitStr[2]);
-                break;
-
-            case "inspect":
-                Simple.inspect(splitStr);
                 break;
 
         }
@@ -186,7 +183,6 @@ public class Parser {
     // Use for input command, but just model, Application will be call this
     public void inputCMD() {
 
-        Scanner inputLine = new Scanner(System.in);
         String input;
 
         while(inputLine.hasNextLine()){
@@ -195,7 +191,7 @@ public class Parser {
             if (input != null){
                 if (input.equals("quit")) System.exit(0);
 
-                data.storeCommand(input);
+                Data.storeCommand(input);
 
             }
 
