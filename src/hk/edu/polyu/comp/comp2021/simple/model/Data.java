@@ -49,23 +49,23 @@ public class Data {
     /**
      * Stores the current variable value
      */
-    private static String currentVarValue = "";
+    private String currentVarValue = "";
     /**
      * Store the current debug statement
      */
-    private static String currentDebugPoint = "";
+    private String currentDebugPoint = "";
     /**
      * Store the current Inspect value
      */
-    private static String currentInspect = "";
+    private String currentInspect = "";
     /**
      * Store the current debug times
      */
-    private static int DebugPoint = 0;
+    private int DebugPoint = 0;
     /**
      * Count the current index
      */
-    private static int index = 0;
+    private int index = 0;
 
 //    public void setLabelCMDMap() {
 //
@@ -128,10 +128,24 @@ public class Data {
     }
 
     /**
+     * @param DebugPoint: the debug index point
+     */
+    public void setDebugPoint(int DebugPoint) {
+        this.DebugPoint = DebugPoint;
+    }
+
+    /**
      * @return index value
      */
     public int getIndex() {
         return index;
+    }
+
+    /**
+     * @param index: the program running index for inspect
+     */
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     /**
@@ -142,6 +156,13 @@ public class Data {
     }
 
     /**
+     * @param currentVarValue: the current variable value
+     */
+    public void setCurrentVarValue(String currentVarValue) {
+        this.currentVarValue = currentVarValue;
+    }
+
+    /**
      * @return currentDebugPoint value
      */
     public String getCurrentDebugPoint() {
@@ -149,10 +170,24 @@ public class Data {
     }
 
     /**
+     * @param currentDebugPoint: the current statement label for debugging
+     */
+    public void setCurrentDebugPoint(String currentDebugPoint) {
+        this.currentDebugPoint = currentDebugPoint;
+    }
+
+    /**
      * @return currentInspect value
      */
     public String getCurrentInspect() {
         return currentInspect;
+    }
+
+    /**
+     * @param currentInspect: the current inspect statement
+     */
+    public void setCurrentInspect(String currentInspect) {
+        this.currentInspect = currentInspect;
     }
 
     /**
