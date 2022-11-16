@@ -183,43 +183,65 @@ public class Data {
 
         // Check if instruction is valid first
         String[] splitStr = command.split(" ");  // Split instruction into words
+        
+        if (checkLength(splitStr[0], splitStr.length)){
 
+            if (splitStr[0].equals("vardef")){
 
-        if (splitStr[0].equals("vardef")){
+                if (validVarName(splitStr[3])){
+                    labelCMDMap.put(splitStr[1], command);
+                    Parser.classification(command);
+                }
+            }
+            else if (splitStr[0].equals("binexpr") || splitStr[0].equals("unexpr")){
 
-            if (validVarName(splitStr[2])){
+                expRefLabelCmd.put(splitStr[1], command);
+                Parser.classification(command);
+                Simple.updateExp();
+            }
+            else if (splitStr[0].equals("block")){
+                String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
                 labelCMDMap.put(splitStr[1], command);
+            }
+            else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect")){
                 Parser.classification(command);
             }
-        }
-        else if (splitStr[0].equals("binexpr") || splitStr[0].equals("unexpr")){
-
-            expRefLabelCmd.put(splitStr[1], command);
-            Parser.classification(command);
-            Simple.updateExp();
-        }
-        else if (splitStr[0].equals("block")){
-            String[] instructions = Arrays.copyOfRange(splitStr, 2, splitStr.length);
-            labelCMDMap.put(splitStr[1], command);
-        }
-        else if (splitStr[0].equals("program") || splitStr[0].equals("execute") || splitStr[0].equals("list") || splitStr[0].equals("store") || splitStr[0].equals("load") || splitStr[0].equals("inspect")){
-            Parser.classification(command);
-        }
-        else if (splitStr[0].equals("togglebreakpoint")) {
-            try {
-                if (breakPointMap.get(splitStr[1]).equals(splitStr[2])) {
-                    breakPointMap.remove(splitStr[1]);
-                    stack.clear();
-                    currentDebugPoint = "";
+            else if (splitStr[0].equals("togglebreakpoint")) {
+                try {
+                    if (breakPointMap.get(splitStr[1]).equals(splitStr[2])) {
+                        breakPointMap.remove(splitStr[1]);
+                        stack.clear();
+                        currentDebugPoint = "";
+                    }
+                } catch (Exception e) {
+                    breakPointMap.put(splitStr[1], splitStr[2]);
                 }
-            } catch (Exception e) {
-                breakPointMap.put(splitStr[1], splitStr[2]);
+            }
+            else {
+                labelCMDMap.put(splitStr[1], command);
             }
         }
-        else {
-            labelCMDMap.put(splitStr[1], command);
-        }
-        // System.out.println(varMap);
+       
+
+    }
+
+    private static boolean checkLength(String command, int n){
+
+        if (n == 1) return false;
+
+        // 5 letter instructions
+        if (command.equals("vardef") || command.equals("binexpr") || command.equals("if")){if (n != 5) return false;}
+        // 4 letter instructions
+        else if (command.equals("unexpr") || command.equals("assign") || command.equals("while")){if (n != 4) return false;}
+        // 3 letter instructions
+        else if (command.equals("print") || command.equals("program") || command.equals("store") || command.equals("load")){if (n != 3) return false;}
+        // 2 letter instructions
+        else if (command.equals("skip") || command.equals("execute") || command.equals("list")){if (n != 2) return false;}
+        // Block case
+        else if (command.equals("block")){if (n <= 2) return false;}
+
+
+        return true;
 
     }
 

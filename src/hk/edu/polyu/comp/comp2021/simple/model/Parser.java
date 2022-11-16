@@ -226,14 +226,8 @@ public class Parser {
             if (input != null){
                 if (input.equals("quit")) System.exit(0);
 
-
-//                if (!inputValidator(input)){
-//                    System.out.println("ERROR: The input command is invalid, please enter a new command");
-//                    input = inputLine.nextLine();
-//                }
-
                 data.storeCommand(input);
-                // classification(input);
+
             }
             if (input.contains("debug")) {
                 classification(input);
