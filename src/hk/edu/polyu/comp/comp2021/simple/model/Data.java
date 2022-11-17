@@ -92,6 +92,7 @@ public class Data {
     /**
      * storeCommand will be classifying the command input by user and store to the right HashMap
      * @param command: the commands that user input
+     * @throws Exception: the exception to handle the input error
      */
     public static void storeCommand(String command) throws Exception {
 

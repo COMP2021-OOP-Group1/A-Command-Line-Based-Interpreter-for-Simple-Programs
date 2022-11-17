@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNull;
 public class SimpleTest {
     /**
      * Test for vardef function
+     * @throws Exception: the exception to handle the input error
      */
     @Test
     public void testValidVarName() throws Exception {
@@ -34,6 +35,7 @@ public class SimpleTest {
 
     /**
      * Test for vardef function
+     * @throws Exception: the exception to handle the input error
      */
     @Test
     public void testVardef() throws Exception {
@@ -374,6 +376,7 @@ public class SimpleTest {
 
     /**
      * Test the execute function
+     * @throws Exception: the exception to handle the input error
      */
     @Test
     public void executeTest() throws Exception {
@@ -396,7 +399,8 @@ public class SimpleTest {
     }
 
     /**
-     * Test for breakpoint of the programmu
+     * Test for breakpoint of the programme
+     * @throws Exception: the exception to handle the input error
      */
     @Test
     public void breakPointTest() throws Exception {
@@ -451,6 +455,11 @@ public class SimpleTest {
         Object value2 = Parser.varMap.get("x");
         assertEquals("<0>","<"+value2+">");
     }
+
+    /**
+     * Test for list
+     * @throws Exception: the exception to handle the input error
+     */
     @Test
     public void ListTest() throws Exception {
         Data.storeCommand("vardef vardef1 int x 100");

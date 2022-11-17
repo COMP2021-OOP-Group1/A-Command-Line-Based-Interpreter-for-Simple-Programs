@@ -16,7 +16,9 @@ public class Parser {
      * Java Encapsulation from Data class
      */
     protected final static Data data = new Data();
-
+    /**
+     * the result of execution to a string
+     */
     protected static String ExecuteResultString = "";
 
     /**
@@ -181,6 +183,7 @@ public class Parser {
 
     /**
      * inputCMD function is let user input those commands
+     * @throws Exception: the exception to handle the input error
      */
     // Use for input command, but just model, Application will be call this
     public void inputCMD() throws Exception {
