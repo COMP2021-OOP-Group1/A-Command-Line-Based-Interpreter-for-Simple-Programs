@@ -11,7 +11,7 @@ public class Application {
      * @param args Argument for main function
      */
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Parser input = new Parser();
         input.inputCMD();

@@ -14,12 +14,28 @@ import static org.junit.Assert.assertNull;
  * For testing the commands
  */
 public class SimpleTest {
+    /**
+     * Test for vardef function
+     */
+    @Test
+    public void testValidVarName() throws Exception {
+        boolean flag;
+        try {
+            Data.storeCommand("vardef v1 int");
+            flag = true;
+        } catch (Exception e) {
+            flag = false;
+        }
+        assertEquals(false, flag);
+
+    }
+
 
     /**
      * Test for vardef function
      */
     @Test
-    public void testVardef(){
+    public void testVardef() throws Exception {
         Data.storeCommand("vardef v1 int z 10");
         Object value = Parser.varMap.get("z");
         assertEquals("10", value);
@@ -180,28 +196,46 @@ public class SimpleTest {
      * Test for unexpr function - Unary Expression Calculation
      */
     @Test
-    public void testUnaryEx(){
+    public void testUnaryEx1(){
         Parser.classification("vardef v1 int x 10", "prog1");
         Parser.classification("binexpr exp1 x * 20", "prog1");
         Parser.classification("unexpr exp2 ~ exp1", "prog1");
         Object value = Parser.resultExp.get("exp2");
         assertEquals("-200", value + "");
     }
-
     /**
-     * Test for assign function
+     * Test for unexpr function - Unary Expression Calculation
      */
     @Test
-    public void testAssign(){
-        Simple simple=new Simple();
+    public void testUnaryEx2(){
         Parser.classification("vardef v1 int x 10", "prog1");
-        Object first = Parser.varMap.get("x");
-        Simple.assign("x", "15");
-        Object second=Parser.varMap.get("x");
-        int need = Integer.parseInt("15");
-        assertEquals(need,second);
+        Parser.classification("binexpr exp1 x * 20", "prog1");
+        Parser.classification("unexpr exp2 # exp1", "prog1");
+        Object value2=Parser.resultExp.get("exp2");
+        assertEquals("200", value2 + "");
     }
-
+    /**
+     * Test for unexpr function - Unary Expression Calculation
+     */
+    @Test
+    public void testUnaryEx3(){
+        Parser.classification("vardef v1 int x 10", "prog1");
+        Parser.classification("binexpr exp1 x * 20", "prog1");
+        Parser.classification("unexpr exp2 ! exp1", "prog1");
+        Object value2 = Parser.resultExp.get("exp2");
+        assertEquals("true", value2 + "");
+    }
+    /**
+     * Test for unexpr function - Unary Expression Calculation
+     */
+    @Test
+    public void testUnaryEx4(){
+        Parser.classification("vardef v1 int x 10", "prog1");
+        Parser.classification("binexpr exp10 x < 20", "prog1");
+        Parser.classification("unexpr exp2 ! exp10", "prog1");
+        Object value2 = Parser.resultExp.get("exp2");
+        assertEquals("false", value2 + "");
+    }
     /**
      * Test for print function
      */
@@ -276,24 +310,95 @@ public class SimpleTest {
     }
 
     /**
+     * Test for file operation - store and load function
+     * @throws IOException: the file handling error
+     */
+    @Test
+    public void fileStoreErrorTest() throws IOException {
+        boolean flag;
+        try {
+            String cmd1 = "vardef vardef1 int x 100";
+            String cmd2 = "binexpr exp1 x * 20";
+            String cmd3 = "unexpr exp2 ~ exp1";
+            String cmd4 = "print print1 exp2";
+            String cmd5 = "block block1 assign1 print1";
+            String cmd6 = "program program2 block1";
+            String cmd7 = "store program2 /Users/davidjiang/Deskt/program2.simple";
+            Data.storeCommand(cmd1);
+            Data.storeCommand(cmd2);
+            Data.storeCommand(cmd3);
+            Data.storeCommand(cmd4);
+            Data.storeCommand(cmd5);
+            Data.storeCommand(cmd6);
+            Data.storeCommand(cmd7);
+        } catch (Exception e) {
+            flag = false;
+        }
+        flag = true;
+
+        assertEquals(true, flag);
+    }
+
+    /**
+     * Test for file operation - store and load function
+     * @throws IOException: the file handling error
+     */
+    @Test
+    public void fileLoadErrorTest() throws IOException {
+        boolean flag;
+        try {
+            String cmd1 = "vardef vardef1 int x 100";
+            String cmd2 = "binexpr exp1 x * 20";
+            String cmd3 = "unexpr exp2 ~ exp1";
+            String cmd4 = "print print1 exp2";
+            String cmd5 = "block block1 assign1 print1";
+            String cmd6 = "program program2 block1";
+            String cmd7 = "store program2 /Users/davidjiang/Desktop/program2.simple";
+            String cmd8 = "load /Users/davidjiang/program2.simple program2";
+            Data.storeCommand(cmd1);
+            Data.storeCommand(cmd2);
+            Data.storeCommand(cmd3);
+            Data.storeCommand(cmd4);
+            Data.storeCommand(cmd5);
+            Data.storeCommand(cmd6);
+            Data.storeCommand(cmd7);
+            Data.storeCommand(cmd8);
+        } catch (Exception e) {
+            flag = false;
+        }
+        flag = true;
+
+        assertEquals(true, flag);
+    }
+
+    /**
      * Test the execute function
      */
     @Test
-    public void executeTest() {
-        Data.storeCommand("vardef vardef1 int x 100");
-        Data.storeCommand("binexpr exp1 x * 20");
-        Data.storeCommand("print print1 exp1");
-        Data.storeCommand("program program1 print1");
-        Data.storeCommand("execute program1");
+    public void executeTest() throws Exception {
+        Data.storeCommand("vardef vardef1 int x 0");
+        Data.storeCommand("binexpr exp1 x % 2");
+        Data.storeCommand("binexpr exp2 exp1 == 0");
+        Data.storeCommand("print print1 x");
+        Data.storeCommand("skip skip1");
+        Data.storeCommand("if if1 exp2 print1 skip1");
+        Data.storeCommand("binexpr exp3 x + 1");
+        Data.storeCommand("assign assign1 x exp3");
+        Data.storeCommand("block block1 if1 assign1");
+        Data.storeCommand("binexpr exp4 x <= 10");
+        Data.storeCommand("while while1 exp4 block1");
+        Data.storeCommand("block block2 vardef1 while1");
+        Data.storeCommand("program printeven block2");
+        Data.storeCommand("execute printeven");
         System.out.println(ExecuteResultString);
-        assertEquals("[0][-1000][-2000][0][2000]", ExecuteResultString);
+        assertEquals("[0][-1000][-2000][0][0][2][4][6][8][10]", ExecuteResultString);
     }
 
     /**
      * Test for breakpoint of the programmu
      */
     @Test
-    public void breakPointTest() {
+    public void breakPointTest() throws Exception {
         String str = "togglebreakpoint program1 block1";
         Data.storeCommand(str);
         assertEquals(str.split(" ")[2], Data.getDebugger().get(str.split(" ")[1]).get(0));
@@ -304,9 +409,28 @@ public class SimpleTest {
      */
     @Test
     public void debugTest() {
-        String str = "debug program1";
-//        Simple.togglebreakpoint(str.split(" ")[1], str.split(" ")[2]);
-//        assertEquals(str.split(" ")[2], Parser.breakPointMap.get(str.split(" ")[1]));
+        boolean flag;
+        try {
+            String cmd1 = "vardef vardef1 int x 100";
+            String cmd2 = "binexpr exp1 x * 20";
+            String cmd3 = "unexpr exp2 ~ exp1";
+            String cmd4 = "print print1 exp2";
+            String cmd5 = "block block1 assign1 print1";
+            String cmd6 = "program program2 block1";
+            String cmd7 = "debug program2";
+            Data.storeCommand(cmd1);
+            Data.storeCommand(cmd2);
+            Data.storeCommand(cmd3);
+            Data.storeCommand(cmd4);
+            Data.storeCommand(cmd5);
+            Data.storeCommand(cmd6);
+            Data.storeCommand(cmd7);
+        } catch (Exception e) {
+            flag = false;
+        }
+        flag = true;
+
+        assertEquals(true, flag);
     }
 
     /**
@@ -325,6 +449,11 @@ public class SimpleTest {
         Simple.inspect("x");
         Object value2 = Parser.varMap.get("x");
         assertEquals("<0>","<"+value2+">");
+
+
+    }
+    @Test
+    public void listTest(){
 
 
     }

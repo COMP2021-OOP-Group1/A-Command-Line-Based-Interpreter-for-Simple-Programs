@@ -93,7 +93,7 @@ public class Data {
      * storeCommand will be classifying the command input by user and store to the right HashMap
      * @param command: the commands that user input
      */
-    public static void storeCommand(String command){
+    public static void storeCommand(String command) throws Exception {
 
         // Check if instruction is valid first
         String[] splitStr = command.split(" ");  // Split instruction into words
@@ -125,6 +125,9 @@ public class Data {
             else {
                 labelCMDMap.put(splitStr[1], command);
             }
+
+        } else {
+            throw new Exception();
         }
        
 

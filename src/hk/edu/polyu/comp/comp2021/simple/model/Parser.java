@@ -132,7 +132,7 @@ public class Parser {
 
             case "load":    //* REQ14
                 try { Simple.load(splitStr[1],splitStr[2]);} 
-                catch (IOException e) {
+                catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -183,7 +183,7 @@ public class Parser {
      * inputCMD function is let user input those commands
      */
     // Use for input command, but just model, Application will be call this
-    public void inputCMD() {
+    public void inputCMD() throws Exception {
 
         String input;
 

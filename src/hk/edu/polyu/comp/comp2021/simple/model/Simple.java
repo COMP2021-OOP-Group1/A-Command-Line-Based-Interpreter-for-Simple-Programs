@@ -155,6 +155,7 @@ public class Simple extends Parser {
         if (operator.equals("!")){   // Negates Boolean expression
             if (Boolean.parseBoolean(expRef(expRef1).toString())) {
                 varMap.put(expName, false);
+                Data.addResultExp(expName, false);
                 Data.putVarHistoryMap(expName);
             }
             else {
@@ -470,7 +471,7 @@ public class Simple extends Parser {
      * @param programName: the program name
      * @throws IOException: for handle file operation error
      */
-    public static void load(String fileAddress, String programName) throws IOException {
+    public static void load(String fileAddress, String programName) throws Exception {
 
         
         BufferedReader in = new BufferedReader(new FileReader(fileAddress + ".txt"));
