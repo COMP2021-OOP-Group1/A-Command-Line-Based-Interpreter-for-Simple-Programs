@@ -153,7 +153,7 @@ public class Simple extends Parser {
 
 
         if (operator.equals("!")){   // Negates Boolean expression
-            if ((boolean)expRef(expRef1)) {
+            if (Boolean.parseBoolean(expRef(expRef1).toString())) {
                 varMap.put(expName, false);
                 Data.putVarHistoryMap(expName);
             }
@@ -163,10 +163,10 @@ public class Simple extends Parser {
         }
 
         else if (operator.equals("~")){  // Negates Int Expression by switching symbols
-            int number = (int)expRef(expRef1) * -1;
+            int number = Integer.parseInt(expRef(expRef1).toString()) * -1;
             Data.addResultExp(expName, number);
         } else if (operator.equals("#")) {
-            int number = (int)expRef(expRef1) * +1;
+            int number = Integer.parseInt(expRef(expRef1).toString()) * +1;
             Data.addResultExp(expName, number);
         }
     }

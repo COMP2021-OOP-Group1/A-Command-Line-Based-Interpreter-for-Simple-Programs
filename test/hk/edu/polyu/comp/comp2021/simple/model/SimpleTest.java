@@ -20,9 +20,9 @@ public class SimpleTest {
      */
     @Test
     public void testVardef(){
-        Parser.classification("vardef v1 int x 10", "prog1");
-        Object value = Parser.varMap.get("x");
-        assertEquals(10, value);
+        Data.storeCommand("vardef v1 int z 10");
+        Object value = Parser.varMap.get("z");
+        assertEquals("10", value);
     }
     /**
      * Test for binexpr function - Binary Expression Calculation
@@ -35,36 +35,146 @@ public class SimpleTest {
         int need = Integer.parseInt("200");
         assertEquals(need, value);
     }
+
     /**
      * Test for binexpr function - Binary Expression Calculation
      */
     @Test
     public void testBinExpr2() {
         Parser.classification("vardef v1 int x 10", "prog1");
-        Parser.classification("binexpr exp2 x == 10", "prog1");
-        Object value = Parser.resultExp.get("exp2");
-        assertEquals(true, value);
+        Parser.classification("binexpr exp1 x + 20", "prog1");
+        Object value = Parser.resultExp.get("exp1");
+        int need = Integer.parseInt("30");
+        assertEquals(need, value);
     }
+
     /**
      * Test for binexpr function - Binary Expression Calculation
      */
     @Test
     public void testBinExpr3() {
         Parser.classification("vardef v1 int x 10", "prog1");
-        Parser.classification("binexpr exp3 x > 20", "prog1");
-        Object value = Parser.resultExp.get("exp3");
+        Parser.classification("binexpr exp1 x - 20", "prog1");
+        Object value = Parser.resultExp.get("exp1");
+        int need = Integer.parseInt("-10");
+        assertEquals(need, value);
+    }
+
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr4() {
+        Parser.classification("vardef v1 int x 40", "prog1");
+        Parser.classification("binexpr exp1 x / 20", "prog1");
+        Object value = Parser.resultExp.get("exp1");
+        int need = Integer.parseInt("2");
+        assertEquals(need, value);
+    }
+
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr5() {
+        Parser.classification("vardef v1 int x 10", "prog1");
+        Parser.classification("binexpr exp5 x != 20", "prog1");
+        Object value = Parser.resultExp.get("exp5");
+        assertEquals(true, value);
+    }
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr6() {
+        Parser.classification("vardef v1 int y 10", "prog1");
+        Parser.classification("binexpr exp5 y == 10", "prog1");
+        Object value = Parser.resultExp.get("exp5");
+        assertEquals(true, value);
+    }
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr7() {
+        Parser.classification("vardef v1 int y 10", "prog1");
+        Parser.classification("binexpr exp5 y > 20", "prog1");
+        Object value = Parser.resultExp.get("exp5");
         assertEquals(false, value);
     }
     /**
      * Test for binexpr function - Binary Expression Calculation
      */
     @Test
-    public void testBinExpr4() {
+    public void testBinExpr8() {
+        Parser.classification("vardef v1 int y 10", "prog1");
+        Parser.classification("binexpr exp5 y >= 20", "prog1");
+        Object value = Parser.resultExp.get("exp5");
+        assertEquals(false, value);
+    }
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr9() {
+        Parser.classification("vardef v1 int y 10", "prog1");
+        Parser.classification("binexpr exp5 y < 20", "prog1");
+        Object value = Parser.resultExp.get("exp5");
+        assertEquals(true, value);
+    }
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr10() {
+        Parser.classification("vardef v1 int y 10", "prog1");
+        Parser.classification("binexpr exp5 y <= 20", "prog1");
+        Object value = Parser.resultExp.get("exp5");
+        assertEquals(true, value);
+    }
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr11() {
         Parser.classification("vardef v1 bool x true", "prog1");
         Parser.classification("vardef v2 bool y false", "prog1");
         Parser.classification("binexpr exp4 x && y", "prog1");
         Object value = Parser.resultExp.get("exp4");
         assertEquals(false, value);
+    }
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr12() {
+        Parser.classification("vardef v1 bool x true", "prog1");
+        Parser.classification("vardef v2 bool y false", "prog1");
+        Parser.classification("binexpr exp4 x || y", "prog1");
+        Object value = Parser.resultExp.get("exp4");
+        assertEquals(true, value);
+    }
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr13() {
+        Parser.classification("vardef v1 bool x true", "prog1");
+        Parser.classification("vardef v2 bool y false", "prog1");
+        Parser.classification("binexpr exp4 x == y", "prog1");
+        Object value = Parser.resultExp.get("exp4");
+        assertEquals(false, value);
+    }
+    /**
+     * Test for binexpr function - Binary Expression Calculation
+     */
+    @Test
+    public void testBinExpr14() {
+        Parser.classification("vardef v1 bool x true", "prog1");
+        Parser.classification("vardef v2 bool y false", "prog1");
+        Parser.classification("binexpr exp4 x != y", "prog1");
+        Object value = Parser.resultExp.get("exp4");
+        assertEquals(true, value);
     }
     /**
      * Test for unexpr function - Unary Expression Calculation
