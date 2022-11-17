@@ -44,7 +44,7 @@ public class Simple extends Parser {
         String operator = str[3];
         String label = str[1];
 
-        if (a.equals(true) || a.equals(false) || b.equals(true) || b.equals(false)) evaluateBoolExp((boolean)a, (boolean)b, operator, label);
+        if (a.equals(true) || a.equals(false) || b.equals(true) || b.equals(false)) evaluateBoolExp(Boolean.parseBoolean(a.toString()), Boolean.parseBoolean(b.toString()), operator, label);
         else evaluateIntExp(Integer.parseInt(a.toString()), Integer.parseInt(b.toString()), operator, label);
 
         // If integer
