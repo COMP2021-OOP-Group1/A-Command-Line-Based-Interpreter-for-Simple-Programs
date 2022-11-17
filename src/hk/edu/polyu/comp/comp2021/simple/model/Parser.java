@@ -17,6 +17,8 @@ public class Parser {
      */
     protected final static Data data = new Data();
 
+    protected static String ExecuteResultString = "";
+
     /**
      * Get from Data.java
      */

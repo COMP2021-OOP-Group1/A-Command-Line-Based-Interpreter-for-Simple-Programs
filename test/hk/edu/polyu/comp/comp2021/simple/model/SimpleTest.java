@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static hk.edu.polyu.comp.comp2021.simple.model.Parser.ExecuteResultString;
 import static hk.edu.polyu.comp.comp2021.simple.model.Parser.data;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -167,22 +168,13 @@ public class SimpleTest {
      */
     @Test
     public void executeTest() {
-        Parser.classification("vardef vardef1 int x 0", "prog1");
-        Parser.classification("binexpr exp1 x % 2", "prog1");
-        Parser.classification("binexpr exp2 exp1 == 0", "prog1");
-        Parser.classification("print print1 x", "prog1");
-        Parser.classification("skip skip1", "prog1");
-        Parser.classification("if if1 exp2 print1 skip1", "prog1");
-        Parser.classification("binexpr exp3 x + 1", "prog1");
-        Parser.classification("assign assign1 x exp3", "prog1");
-        Parser.classification("block block1 if1 assign1", "prog1");
-        Parser.classification("binexpr exp4 x <= 10", "prog1");
-        Parser.classification("while while1 exp4 block1", "prog1");
-        Parser.classification("block block2 vardef1 while1", "prog1");
-        Parser.classification("program printeven block2", "prog1");
-        Parser.classification("execute printeven", "prog1");
-
-        assertEquals("[0][2][4][6][8][10]", "");
+        data.storeCommand("vardef vardef1 int x 100");
+        data.storeCommand("binexpr exp1 x * 20");
+        data.storeCommand("print print1 exp1");
+        data.storeCommand("program program1 print1");
+        data.storeCommand("execute program1");
+        System.out.println(ExecuteResultString);
+        assertEquals("[2000]", ExecuteResultString);
     }
 
     /**

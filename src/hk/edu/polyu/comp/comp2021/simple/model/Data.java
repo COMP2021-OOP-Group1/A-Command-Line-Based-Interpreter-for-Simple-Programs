@@ -104,6 +104,7 @@ public class Data {
 
                 if (validVarName(splitStr[3])){
                     labelCMDMap.put(splitStr[1], command);
+                    varMap.put(splitStr[3], splitStr[4]);
                 }
             }
             else if (splitStr[0].equals("binexpr") || splitStr[0].equals("unexpr")){

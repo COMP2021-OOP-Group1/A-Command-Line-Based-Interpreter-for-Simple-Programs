@@ -38,13 +38,14 @@ public class Simple extends Parser {
      * @param str: the command array
      */
     protected static void binExpr(String[] str) { //* REQ2
+//        System.out.println(varMap.get(str[2]));
         Object a = expRef(str[2]);
         Object b = expRef(str[4]);
         String operator = str[3];
         String label = str[1];
 
         if (a.equals(true) || a.equals(false) || b.equals(true) || b.equals(false)) evaluateBoolExp((boolean)a, (boolean)b, operator, label);
-        else evaluateIntExp((int)a, (int)b, operator, label);
+        else evaluateIntExp(Integer.parseInt(a.toString()), Integer.parseInt(b.toString()), operator, label);
 
         // If integer
         // if (a instanceof Integer && b instanceof Integer) evaluateIntExp((int)a, (int)b, operator, label);
@@ -215,7 +216,8 @@ public class Simple extends Parser {
     protected static void print(String label, String expRef) {   //* REQ5
         String value = "";
         value = value + expRef(expRef).toString();
-        System.out.print('[' + value +"]");
+        System.out.print("[" + value +"]");
+        ExecuteResultString += "[" + value +"]";
         Data.addResultExp(label, '[' + value +']');
     }
 
@@ -301,6 +303,9 @@ public class Simple extends Parser {
         classification(Parser.labelCMDMap.get(Parser.programMap.get(programName)), "");
     }
 
+    /**
+     * @param programName: the program name
+     */
     private static void declare(String programName){
 
         ArrayList<String> instructions = new ArrayList<String>();

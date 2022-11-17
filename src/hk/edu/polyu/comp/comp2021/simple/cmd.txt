@@ -77,3 +77,11 @@ debug printeven
 inspect printeven x
 togglebreakpoint printeven if1
 debug printeven
+
+
+
+vardef vardef1 int x 100
+binexpr exp1 x * 20
+print print1 exp1
+program program1 print1
+execute program1
