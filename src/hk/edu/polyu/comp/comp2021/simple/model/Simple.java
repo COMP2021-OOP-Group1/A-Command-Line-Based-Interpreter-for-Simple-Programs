@@ -316,6 +316,11 @@ public class Simple extends Parser {
 
     }
 
+    /**
+     * Get instruction from the map
+     * @param instruction: the command
+     * @param added: the list of added function
+     */
     private static void internList(String instruction, ArrayList<String> added){
 
         // Get instruction from the map
@@ -370,6 +375,11 @@ public class Simple extends Parser {
 
     }
 
+    /**
+     * A function to get the Declare list
+     * @param instructions: the list of commands
+     * @return a list of declare
+     */
     private static ArrayList<String> getDeclare (ArrayList<String> instructions){
 
         // Get commands of variables and expression declarations to initialize first

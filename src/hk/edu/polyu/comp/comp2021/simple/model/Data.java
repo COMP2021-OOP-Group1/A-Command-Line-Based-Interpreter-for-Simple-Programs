@@ -33,7 +33,7 @@ public class Data {
     private static Map<String, List<Object>> varHistoryMap = new HashMap<>();
 
      /**
-     * Stores the programName and the label of breakpoint
+     * Stores the programName and the debug command list
      */
     private static Map<String, ArrayList<String>> debugger = new HashMap<String, ArrayList<String>>();
 

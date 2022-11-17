@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static hk.edu.polyu.comp.comp2021.simple.model.Parser.data;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -108,9 +109,7 @@ public class SimpleTest {
      */
     @Test
     public void testSkip(){
-
         assertNull(null);
-
     }
 
     /**
@@ -177,7 +176,7 @@ public class SimpleTest {
         Parser.classification("program printeven block2", "prog1");
         Parser.classification("execute printeven", "prog1");
 
-        Assert.assertEquals("[0][2][4][6][8][10]", "");
+        assertEquals("[0][2][4][6][8][10]", "");
     }
 
     /**
@@ -186,8 +185,8 @@ public class SimpleTest {
     @Test
     public void breakPointTest() {
         String str = "togglebreakpoint program1 block1";
-//        data.storeCommand(str);
-//        assertEquals(str.split(" ")[2], Parser.breakPointMap.get(str.split(" ")[1]));
+        Data.storeCommand(str);
+        assertEquals(str.split(" ")[2], Data.getDebugger().get(str.split(" ")[1]).get(0));
     }
 
     /**
@@ -198,5 +197,13 @@ public class SimpleTest {
         String str = "debug program1";
 //        Simple.togglebreakpoint(str.split(" ")[1], str.split(" ")[2]);
 //        assertEquals(str.split(" ")[2], Parser.breakPointMap.get(str.split(" ")[1]));
+    }
+
+    /**
+     * Test for inspect function
+     */
+    @Test
+    public void inspectTest() {
+
     }
 }

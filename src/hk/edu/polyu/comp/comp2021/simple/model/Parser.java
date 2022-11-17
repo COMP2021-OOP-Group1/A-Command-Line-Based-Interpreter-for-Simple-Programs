@@ -7,7 +7,6 @@ import java.util.*;
  * For control the model Simple.java and Data.java
  */
 public class Parser {
-
     /**
      * The input by user
      */
