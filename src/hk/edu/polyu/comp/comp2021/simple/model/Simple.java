@@ -546,7 +546,7 @@ public class Simple extends Parser {
      * Inspect command will be printout the variable value that user want to know
      * @param variable: the variable name
      */
-    private static void inspect(String variable) {
+    public static void inspect(String variable) {
         if (varMap.containsKey(variable)) System.out.println("<" + varMap.get(variable) + ">");
     }
 

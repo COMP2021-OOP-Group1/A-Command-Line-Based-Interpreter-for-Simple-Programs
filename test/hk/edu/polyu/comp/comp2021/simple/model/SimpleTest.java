@@ -109,6 +109,12 @@ public class SimpleTest {
      */
     @Test
     public void testSkip(){
+        Parser.classification("vardef vardef1 int x 0", "prog1");
+        Parser.classification("binexpr exp1 x % 2", "prog1");
+        Parser.classification("binexpr exp2 exp1 == 0", "prog1");
+        Parser.classification("print print1 x", "prog1");
+        Parser.classification("skip skip1", "prog1");
+
         assertNull(null);
     }
 
@@ -123,7 +129,7 @@ public class SimpleTest {
         Parser.classification("print print1 exp2", "prog1");
         Parser.classification("block block1 assign1 print1", "prog1");
         Object first = Parser.resultExp.get("exp2");
-//        Simple.block(new String[]{"100", "1000", "3500"});
+        Simple.block(new String[]{"100", "1000", "3500"},"prog1");
     }
 
     /**
@@ -180,7 +186,7 @@ public class SimpleTest {
     }
 
     /**
-     * Test for breakpoint of the program
+     * Test for breakpoint of the programmu
      */
     @Test
     public void breakPointTest() {
@@ -202,8 +208,27 @@ public class SimpleTest {
     /**
      * Test for inspect function
      */
+
     @Test
     public void inspectTest() {
+        Parser.classification("vardef vardef1 int x 0", "prog1");
+        Parser.classification("binexpr exp1 x % 2", "prog1");
+        Parser.classification("binexpr exp2 exp1 == 0", "prog1");
+        Parser.classification("print print1 x", "prog1");
+        Parser.classification("skip skip1", "prog1");
+        Parser.classification("vardef vardef1 int x 0", "prog1");
+        Parser.classification("inspect printeven x","prog1");
+        Simple.inspect("x");
+        Object value2 = Parser.varMap.get("x");
+        assertEquals("<0>","<"+value2+">");
+
 
     }
+
+
+
+
+
 }
+
+
