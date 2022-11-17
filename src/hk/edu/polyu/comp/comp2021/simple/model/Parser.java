@@ -11,12 +11,12 @@ public class Parser {
     /**
      * The input by user
      */
-    protected static Scanner inputLine = new Scanner(System.in);
+    protected static final Scanner inputLine = new Scanner(System.in);
 
     /**
      * Java Encapsulation from Data class
      */
-    protected static Data data = new Data();
+    protected final static Data data = new Data();
 
     /**
      * Get from Data.java
@@ -165,10 +165,7 @@ public class Parser {
         if (varMap.containsKey(expression)) return varMap.get(expression);
             
         // If variable is expression reference
-        if (resultExp.containsKey(expression)){
-            if (resultExp.get(expression) instanceof Integer){return (int) resultExp.get(expression);}
-            else return (boolean)resultExp.get(expression);
-        }
+        if (resultExp.containsKey(expression)) return resultExp.get(expression);
 
         try{
             if (Integer.parseInt(expression) > Simple.maxInt) return Simple.maxInt;

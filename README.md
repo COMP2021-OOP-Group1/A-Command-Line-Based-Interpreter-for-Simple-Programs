@@ -4,7 +4,7 @@
 
 ## What We Make:
 
-Using Java to make a Interpreter which can enable users to define and interpret the SIMPLE Programming Language.
+Using Java to make an Interpreter which can enable users to define and interpret the SIMPLE Programming Language.
 
 ## Some Background about SIMPLE:
 

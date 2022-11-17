@@ -3,7 +3,6 @@ package hk.edu.polyu.comp.comp2021.simple.model;
 import java.util.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -44,11 +43,14 @@ public class Simple extends Parser {
         String operator = str[3];
         String label = str[1];
 
+        if (a.equals(true) || a.equals(false) || b.equals(true) || b.equals(false)) evaluateBoolExp((boolean)a, (boolean)b, operator, label);
+        else evaluateIntExp((int)a, (int)b, operator, label);
+
         // If integer
-        if (a instanceof Integer && b instanceof Integer){evaluateIntExp((int)a, (int)b, operator, label);}
+        // if (a instanceof Integer && b instanceof Integer) evaluateIntExp((int)a, (int)b, operator, label);
 
         // If boolean
-        else if (a instanceof Boolean && b instanceof Boolean){evaluateBoolExp((boolean)a, (boolean)b, operator, label);}
+        // else if (a instanceof Boolean && b instanceof Boolean) evaluateBoolExp((boolean)a, (boolean)b, operator, label);
 
     }
 
@@ -161,12 +163,10 @@ public class Simple extends Parser {
 
         else if (operator.equals("~")){  // Negates Int Expression by switching symbols
             int number = (int)expRef(expRef1) * -1;
-            if (operator.equals("~"))
-                Data.addResultExp(expName, number);
+            Data.addResultExp(expName, number);
         } else if (operator.equals("#")) {
             int number = (int)expRef(expRef1) * +1;
-            if (operator.equals("#"))
-                Data.addResultExp(expName, number);
+            Data.addResultExp(expName, number);
         }
     }
 
@@ -222,7 +222,7 @@ public class Simple extends Parser {
     /**
      * skip function
      */
-    protected static void skip(){}   //* REQ6
+    protected static void skip(){return;}   //* REQ6
 
     /**
      * Block command will be set a block to include some statement together
@@ -320,55 +320,50 @@ public class Simple extends Parser {
 
         // Get instruction from the map
         
-        String[] fullInst;
+        String[] fullInst = null;
         if (labelCMDMap.containsKey(instruction)) fullInst = labelCMDMap.get(instruction).split(" ");
-        else{
-            fullInst = expRefLabelCmd.get(instruction).split(" ");
-        }
+        else if (expRefLabelCmd.containsKey(instruction)) fullInst = expRefLabelCmd.get(instruction).split(" ");
 
-        if (!added.contains(instruction)){
-            
-            if (fullInst[0].equals("block")){  // If program statement is a block
-            
-                String[] block = Arrays.copyOfRange(fullInst, 2, fullInst.length);
-                
-                if (!added.contains(instruction)) added.add(instruction);
-                
-                for (int i = 0; i < block.length; i++) internList(block[i], added); // Recurse over the instructions
+        if (fullInst != null) {
+            if (!added.contains(instruction)) {
 
-            }
-            else if (fullInst[0].equals("while")){    // If while loop
-                if (!added.contains(instruction)) added.add(instruction);
-                internList(fullInst[2], added);
-                internList(fullInst[3], added);
-            }
-            else if (fullInst[0].equals("if")){
-                if (!added.contains(instruction)) added.add(instruction);
-                internList(fullInst[2], added);
-                internList(fullInst[3], added);
-                internList(fullInst[4], added);
-            }
-        
-            // Print if instruction is not a while or block or if
-            else{
-                
-                // Check expresions in these declarations:
-                if (fullInst[0].equals("vardef")){
-                    if (expRefLabelCmd.containsKey(fullInst[4])) internList(fullInst[4], added);
-                }
-                else if (fullInst[0].equals("unexpr") || fullInst[0].equals("assign")){
-                    if (expRefLabelCmd.containsKey(fullInst[3])) internList(fullInst[3], added);
-                }
-                else if (fullInst[0].equals("print")){
-                    if (expRefLabelCmd.containsKey(fullInst[2])) internList(fullInst[2], added);
-                }
-                else if (fullInst[0].equals("binexpr")){
-                    if (expRefLabelCmd.containsKey(fullInst[2])) internList(fullInst[2], added);
-                    if (expRefLabelCmd.containsKey(fullInst[4])) internList(fullInst[4], added);
-                }       
+                if (fullInst[0].equals("block")) {  // If program statement is a block
 
-                if (!added.contains(instruction)){   
-                    added.add(instruction);
+                    String[] block = Arrays.copyOfRange(fullInst, 2, fullInst.length);
+
+                    if (!added.contains(instruction)) added.add(instruction);
+
+                    for (int i = 0; i < block.length; i++) internList(block[i], added); // Recurse over the instructions
+
+                } else if (fullInst[0].equals("while")) {    // If while loop
+                    if (!added.contains(instruction)) added.add(instruction);
+                    internList(fullInst[2], added);
+                    internList(fullInst[3], added);
+                } else if (fullInst[0].equals("if")) {
+                    if (!added.contains(instruction)) added.add(instruction);
+                    internList(fullInst[2], added);
+                    internList(fullInst[3], added);
+                    internList(fullInst[4], added);
+                }
+
+                // Print if instruction is not a while or block or if
+                else {
+
+                    // Check expresions in these declarations:
+                    if (fullInst[0].equals("vardef")) {
+                        if (expRefLabelCmd.containsKey(fullInst[4])) internList(fullInst[4], added);
+                    } else if (fullInst[0].equals("unexpr") || fullInst[0].equals("assign")) {
+                        if (expRefLabelCmd.containsKey(fullInst[3])) internList(fullInst[3], added);
+                    } else if (fullInst[0].equals("print")) {
+                        if (expRefLabelCmd.containsKey(fullInst[2])) internList(fullInst[2], added);
+                    } else if (fullInst[0].equals("binexpr")) {
+                        if (expRefLabelCmd.containsKey(fullInst[2])) internList(fullInst[2], added);
+                        if (expRefLabelCmd.containsKey(fullInst[4])) internList(fullInst[4], added);
+                    }
+
+                    if (!added.contains(instruction)) {
+                        added.add(instruction);
+                    }
                 }
             }
         }
