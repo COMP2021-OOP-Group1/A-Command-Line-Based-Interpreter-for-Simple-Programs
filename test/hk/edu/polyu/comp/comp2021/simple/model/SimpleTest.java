@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static hk.edu.polyu.comp.comp2021.simple.model.Parser.ExecuteResultString;
 import static hk.edu.polyu.comp.comp2021.simple.model.Parser.data;
@@ -449,13 +450,28 @@ public class SimpleTest {
         Simple.inspect("x");
         Object value2 = Parser.varMap.get("x");
         assertEquals("<0>","<"+value2+">");
-
-
     }
     @Test
-    public void listTest(){
-
-
+    public void ListTest() throws Exception {
+        Data.storeCommand("vardef vardef1 int x 100");
+        Data.storeCommand("binexpr exp1 x * 20");
+        Data.storeCommand("unexpr exp2 ~ exp1");
+        Data.storeCommand("assign assign1 x exp2");
+        Data.storeCommand("print print1 exp2");
+        Data.storeCommand("skip skip1");
+        Data.storeCommand("block block1 assign1 skip1");
+        Data.storeCommand("if if1 exp5 block1 print1");
+        Data.storeCommand("while while1 true block1");
+        Data.storeCommand("program program1 while1");
+        Data.storeCommand("list program1");
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("while while1 true block1");
+        list.add("block block1 assign1 skip1");
+        list.add("binexpr exp1 x * 20");
+        list.add("unexpr exp2 ~ exp1");
+        list.add("assign assign1 x exp2");
+        list.add("skip skip1");
+        Simple.list("instruction",list);
     }
 
 
