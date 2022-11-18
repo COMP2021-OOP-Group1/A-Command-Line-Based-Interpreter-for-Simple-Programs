@@ -167,6 +167,10 @@ public class Parser extends Data{
         inputLine.close();
     }
 
+    /**
+     * getScanner function is get the scanner
+     * @return the input lines by user
+     */
     public static Scanner getScanner() {
         return inputLine;
     }

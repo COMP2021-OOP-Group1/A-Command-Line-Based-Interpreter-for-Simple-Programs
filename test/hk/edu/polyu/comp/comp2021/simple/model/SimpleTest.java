@@ -216,7 +216,7 @@ public class SimpleTest {
         Parser.classification("binexpr exp1 x * 20", "prog1");
         Parser.classification("unexpr exp2 # exp1", "prog1");
         Object value2 = getResultExp().get("exp2");
-        assertEquals("200", value2 + "");
+        assertEquals("-200", value2 + "");
     }
     /**
      * Test for unexpr function - Unary Expression Calculation

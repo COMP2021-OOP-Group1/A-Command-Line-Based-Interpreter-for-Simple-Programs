@@ -182,8 +182,23 @@ public class Data {
      * @param object: the result of expression
      */
     public static void addResultExp(String label, Object object){resultExp.put(label, object);}
+    /**
+     * addDebugger function is put the program name and list of commands to HashMap
+     * @param programName: the program name
+     * @param a: the list transfer to debugger HashMap
+     */
     public static void addDebugger(String programName, ArrayList<String> a){debugger.put(programName, a);}
+    /**
+     * addProgramMap function is put the program name and command to HashMap
+     * @param programName: the program name
+     * @param instruction: the command
+     */
     public static void addProgramMap(String programName, String instruction){programMap.put(programName, instruction);}
+    /**
+     * addVarMap function is put the variable name and result to varMap this HashMap
+     * @param label: the label of expression statement
+     * @param object: the result
+     */
     public static void addVarMap(String label, Object object){varMap.put(label, object);}
 
 }
