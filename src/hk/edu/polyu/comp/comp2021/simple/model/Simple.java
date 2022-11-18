@@ -444,7 +444,6 @@ public class Simple extends Parser {
 
                 if (Data.getLabelCMDMap().containsKey(instruction)) myWriter.write(Data.getLabelCMDMap().get(instruction) + "\n");
                 else if (Data.getExpRefLabelCmd().containsKey(instruction)) myWriter.write(Data.getExpRefLabelCmd().get(instruction) + "\n");
-
             }
             myWriter.close();
             
