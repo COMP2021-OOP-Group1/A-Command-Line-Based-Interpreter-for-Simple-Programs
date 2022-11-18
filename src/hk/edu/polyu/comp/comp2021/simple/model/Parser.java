@@ -14,6 +14,11 @@ public class Parser extends Data{
     protected static final Scanner inputLine = new Scanner(System.in);
 
     /**
+     * the result of execution to a string
+     */
+    protected static String ExecuteResultString = "";
+
+    /**
      * classify the command will go where to process
      * @param command: the commands input by user
      * @param programName: the program name

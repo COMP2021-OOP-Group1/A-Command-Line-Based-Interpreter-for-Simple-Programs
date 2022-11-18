@@ -6,8 +6,9 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static hk.edu.polyu.comp.comp2021.simple.model.Data.getResultExp;
+import static hk.edu.polyu.comp.comp2021.simple.model.Data.getVarMap;
 import static hk.edu.polyu.comp.comp2021.simple.model.Parser.ExecuteResultString;
-import static hk.edu.polyu.comp.comp2021.simple.model.Parser.data;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -40,7 +41,7 @@ public class SimpleTest {
     @Test
     public void testVardef() throws Exception {
         Data.storeCommand("vardef v1 int z 10");
-        Object value = Parser.varMap.get("z");
+        Object value = getVarMap().get("z");
         assertEquals("10", value);
     }
     /**
@@ -50,7 +51,7 @@ public class SimpleTest {
     public void testBinExpr1() {
         Parser.classification("vardef v1 int x 10", "prog1");
         Parser.classification("binexpr exp1 x * 20", "prog1");
-        Object value = Parser.resultExp.get("exp1");
+        Object value = getResultExp().get("exp1");
         int need = Integer.parseInt("200");
         assertEquals(need, value);
     }
@@ -62,7 +63,7 @@ public class SimpleTest {
     public void testBinExpr2() {
         Parser.classification("vardef v1 int x 10", "prog1");
         Parser.classification("binexpr exp1 x + 20", "prog1");
-        Object value = Parser.resultExp.get("exp1");
+        Object value = getResultExp().get("exp1");
         int need = Integer.parseInt("30");
         assertEquals(need, value);
     }
@@ -74,7 +75,7 @@ public class SimpleTest {
     public void testBinExpr3() {
         Parser.classification("vardef v1 int x 10", "prog1");
         Parser.classification("binexpr exp1 x - 20", "prog1");
-        Object value = Parser.resultExp.get("exp1");
+        Object value = getResultExp().get("exp1");
         int need = Integer.parseInt("-10");
         assertEquals(need, value);
     }
@@ -86,7 +87,7 @@ public class SimpleTest {
     public void testBinExpr4() {
         Parser.classification("vardef v1 int x 40", "prog1");
         Parser.classification("binexpr exp1 x / 20", "prog1");
-        Object value = Parser.resultExp.get("exp1");
+        Object value = getResultExp().get("exp1");
         int need = Integer.parseInt("2");
         assertEquals(need, value);
     }
@@ -98,7 +99,7 @@ public class SimpleTest {
     public void testBinExpr5() {
         Parser.classification("vardef v1 int x 10", "prog1");
         Parser.classification("binexpr exp5 x != 20", "prog1");
-        Object value = Parser.resultExp.get("exp5");
+        Object value = getResultExp().get("exp5");
         assertEquals(true, value);
     }
     /**
@@ -108,7 +109,7 @@ public class SimpleTest {
     public void testBinExpr6() {
         Parser.classification("vardef v1 int y 10", "prog1");
         Parser.classification("binexpr exp5 y == 10", "prog1");
-        Object value = Parser.resultExp.get("exp5");
+        Object value = getResultExp().get("exp5");
         assertEquals(true, value);
     }
     /**
@@ -118,7 +119,7 @@ public class SimpleTest {
     public void testBinExpr7() {
         Parser.classification("vardef v1 int y 10", "prog1");
         Parser.classification("binexpr exp5 y > 20", "prog1");
-        Object value = Parser.resultExp.get("exp5");
+        Object value = getResultExp().get("exp5");
         assertEquals(false, value);
     }
     /**
@@ -128,7 +129,7 @@ public class SimpleTest {
     public void testBinExpr8() {
         Parser.classification("vardef v1 int y 10", "prog1");
         Parser.classification("binexpr exp5 y >= 20", "prog1");
-        Object value = Parser.resultExp.get("exp5");
+        Object value = getResultExp().get("exp5");
         assertEquals(false, value);
     }
     /**
@@ -138,7 +139,7 @@ public class SimpleTest {
     public void testBinExpr9() {
         Parser.classification("vardef v1 int y 10", "prog1");
         Parser.classification("binexpr exp5 y < 20", "prog1");
-        Object value = Parser.resultExp.get("exp5");
+        Object value = getResultExp().get("exp5");
         assertEquals(true, value);
     }
     /**
@@ -148,7 +149,7 @@ public class SimpleTest {
     public void testBinExpr10() {
         Parser.classification("vardef v1 int y 10", "prog1");
         Parser.classification("binexpr exp5 y <= 20", "prog1");
-        Object value = Parser.resultExp.get("exp5");
+        Object value = getResultExp().get("exp5");
         assertEquals(true, value);
     }
     /**
@@ -159,7 +160,7 @@ public class SimpleTest {
         Parser.classification("vardef v1 bool x true", "prog1");
         Parser.classification("vardef v2 bool y false", "prog1");
         Parser.classification("binexpr exp4 x && y", "prog1");
-        Object value = Parser.resultExp.get("exp4");
+        Object value = getResultExp().get("exp4");
         assertEquals(false, value);
     }
     /**
@@ -170,7 +171,7 @@ public class SimpleTest {
         Parser.classification("vardef v1 bool x true", "prog1");
         Parser.classification("vardef v2 bool y false", "prog1");
         Parser.classification("binexpr exp4 x || y", "prog1");
-        Object value = Parser.resultExp.get("exp4");
+        Object value = getResultExp().get("exp4");
         assertEquals(true, value);
     }
     /**
@@ -181,7 +182,7 @@ public class SimpleTest {
         Parser.classification("vardef v1 bool x true", "prog1");
         Parser.classification("vardef v2 bool y false", "prog1");
         Parser.classification("binexpr exp4 x == y", "prog1");
-        Object value = Parser.resultExp.get("exp4");
+        Object value = getResultExp().get("exp4");
         assertEquals(false, value);
     }
     /**
@@ -192,7 +193,7 @@ public class SimpleTest {
         Parser.classification("vardef v1 bool x true", "prog1");
         Parser.classification("vardef v2 bool y false", "prog1");
         Parser.classification("binexpr exp4 x != y", "prog1");
-        Object value = Parser.resultExp.get("exp4");
+        Object value = getResultExp().get("exp4");
         assertEquals(true, value);
     }
     /**
@@ -203,7 +204,7 @@ public class SimpleTest {
         Parser.classification("vardef v1 int x 10", "prog1");
         Parser.classification("binexpr exp1 x * 20", "prog1");
         Parser.classification("unexpr exp2 ~ exp1", "prog1");
-        Object value = Parser.resultExp.get("exp2");
+        Object value = getResultExp().get("exp2");
         assertEquals("-200", value + "");
     }
     /**
@@ -214,7 +215,7 @@ public class SimpleTest {
         Parser.classification("vardef v1 int x 10", "prog1");
         Parser.classification("binexpr exp1 x * 20", "prog1");
         Parser.classification("unexpr exp2 # exp1", "prog1");
-        Object value2=Parser.resultExp.get("exp2");
+        Object value2 = getResultExp().get("exp2");
         assertEquals("200", value2 + "");
     }
     /**
@@ -225,7 +226,7 @@ public class SimpleTest {
         Parser.classification("vardef v1 int x 10", "prog1");
         Parser.classification("binexpr exp1 x * 20", "prog1");
         Parser.classification("unexpr exp2 ! exp1", "prog1");
-        Object value2 = Parser.resultExp.get("exp2");
+        Object value2 = getResultExp().get("exp2");
         assertEquals("true", value2 + "");
     }
     /**
@@ -236,7 +237,7 @@ public class SimpleTest {
         Parser.classification("vardef v1 int x 10", "prog1");
         Parser.classification("binexpr exp10 x < 20", "prog1");
         Parser.classification("unexpr exp2 ! exp10", "prog1");
-        Object value2 = Parser.resultExp.get("exp2");
+        Object value2 = getResultExp().get("exp2");
         assertEquals("false", value2 + "");
     }
     /**
@@ -248,7 +249,7 @@ public class SimpleTest {
         Parser.classification("binexpr exp1 x * 20", "prog1");
         Parser.classification("unexpr exp2 ~ exp1", "prog1");
         Parser.classification("print print1 exp2", "prog1");
-        Object value = Parser.resultExp.get("exp2");
+        Object value = getResultExp().get("exp2");
         assertEquals("[-2000]","[" + value + "]");
     }
 
@@ -276,7 +277,7 @@ public class SimpleTest {
         Parser.classification("unexpr exp2 ~ exp1", "prog1");
         Parser.classification("print print1 exp2", "prog1");
         Parser.classification("block block1 assign1 print1", "prog1");
-        Object first = Parser.resultExp.get("exp2");
+        Object first = getResultExp().get("exp2");
         Simple.block(new String[]{"100", "1000", "3500"},"prog1");
     }
 
@@ -452,7 +453,7 @@ public class SimpleTest {
         Parser.classification("vardef vardef1 int x 0", "prog1");
         Parser.classification("inspect printeven x","prog1");
         Simple.inspect("x");
-        Object value2 = Parser.varMap.get("x");
+        Object value2 = getVarMap().get("x");
         assertEquals("<0>","<"+value2+">");
     }
 

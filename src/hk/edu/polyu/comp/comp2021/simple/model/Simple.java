@@ -214,6 +214,7 @@ public class Simple extends Parser {
     protected static void print(String label, String expRef) {   //* REQ5
         String value = "";
         value = value + expRef(expRef).toString();
+        ExecuteResultString += "[" + value +"]";
         System.out.print("[" + value +"]");
         Data.addResultExp(label, '[' + value +']');
     }
