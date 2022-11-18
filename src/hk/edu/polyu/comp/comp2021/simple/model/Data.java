@@ -182,6 +182,8 @@ public class Data {
      * @param object: the result of expression
      */
     public static void addResultExp(String label, Object object){resultExp.put(label, object);}
-
+    public static void addDebugger(String programName, ArrayList<String> a){debugger.put(programName, a);}
+    public static void addProgramMap(String programName, String instruction){programMap.put(programName, instruction);}
+    public static void addVarMap(String label, Object object){varMap.put(label, object);}
 
 }

@@ -26,7 +26,7 @@ public class Simple extends Parser {
      * @param str: the command array
      */
     protected static void vardef(String[] str) {   //* REQ1 - Works
-        Data.getVarMap().put(str[3], expRef(str[4]));
+        Data.addVarMap(str[3], expRef(str[4]));
         updateExp();
     }
 
@@ -279,8 +279,8 @@ public class Simple extends Parser {
      * @param statementLabel: the label for the statement want to include to program
      */
     protected static void program(String programName, String statementLabel) {  //* REQ10
-        Data.getDebugger().put(programName, new ArrayList<String>());
-        Data.getProgramMap().put(programName, statementLabel);
+        Data.addDebugger(programName, new ArrayList<String>());
+        Data.addProgramMap(programName, statementLabel);
     }
 
     /**
@@ -473,7 +473,7 @@ public class Simple extends Parser {
 
         in.close();
         
-        Data.getProgramMap().put(programName, instructions.get(0).split(" ")[1]);
+        Data.addProgramMap(programName, instructions.get(0).split(" ")[1]);
         
         for (String command: instructions) Data.storeCommand(command);
 
@@ -492,7 +492,7 @@ public class Simple extends Parser {
         if (add.contains(label)) add.remove(label);
         else add.add(label);
 
-        Data.getDebugger().put(programName, add);
+        Data.addDebugger(programName, add);
 
     }
 
@@ -514,7 +514,7 @@ public class Simple extends Parser {
      */
     protected static void waitDebug(String programName){
 
-        Scanner inputLine = Parser.inputLine;
+        Scanner inputLine = Parser.getScanner();
         String input;
 
 

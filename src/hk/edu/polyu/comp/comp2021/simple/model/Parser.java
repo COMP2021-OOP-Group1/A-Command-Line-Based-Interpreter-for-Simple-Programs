@@ -1,6 +1,5 @@
 package hk.edu.polyu.comp.comp2021.simple.model;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -11,7 +10,7 @@ public class Parser extends Data{
     /**
      * Scanner for retrieving the user input
      */
-    protected static final Scanner inputLine = new Scanner(System.in);
+    private static final Scanner inputLine = new Scanner(System.in);
 
     /**
      * the result of execution to a string
@@ -166,6 +165,10 @@ public class Parser extends Data{
         }
 
         inputLine.close();
+    }
+
+    public static Scanner getScanner() {
+        return inputLine;
     }
 
 }
