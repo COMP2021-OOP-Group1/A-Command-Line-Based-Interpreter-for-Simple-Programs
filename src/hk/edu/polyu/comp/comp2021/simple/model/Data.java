@@ -35,35 +35,35 @@ public class Data {
     /**
      * @return labelCMDMap HashMap
      */
-    public Map<String, String> getLabelCMDMap() {
+    public static Map<String, String> getLabelCMDMap() {
         return labelCMDMap;
     }
 
     /**
      * @return expRefLabelCmd HashMap
      */
-    public Map<String, String> getExpRefLabelCmd() {
+    public static Map<String, String> getExpRefLabelCmd() {
         return expRefLabelCmd;
     }
 
     /**
      * @return varMap HashMap
      */
-    public Map<String, Object> getVarMap() {
+    public static Map<String, Object> getVarMap() {
         return varMap;
     }
 
     /**
      * @return resultExp HashMap
      */
-    public Map<String, Object> getResultExp() {
+    public static Map<String, Object> getResultExp() {
         return resultExp;
     }
 
     /**
      * @return programMap HashMap
      */
-    public Map<String, String> getProgramMap() {
+    public static Map<String, String> getProgramMap() {
         return programMap;
     }
 

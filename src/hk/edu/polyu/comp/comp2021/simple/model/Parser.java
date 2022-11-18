@@ -6,48 +6,9 @@ import java.util.*;
 /**
  * For control the model Simple.java and Data.java
  */
-public class Parser {
-    /**
-     * The input by user
-     */
+public class Parser extends Data{
+
     protected static final Scanner inputLine = new Scanner(System.in);
-
-    /**
-     * Java Encapsulation from Data class
-     */
-    protected final static Data data = new Data();
-    /**
-     * the result of execution to a string
-     */
-    protected static String ExecuteResultString = "";
-
-    /**
-     * Get from Data.java
-     */
-    protected static Map<String, String> labelCMDMap = data.getLabelCMDMap();
-    /**
-     * Get from Data.java
-     */
-    protected static Map<String, String> expRefLabelCmd = data.getExpRefLabelCmd();
-   
-    /**
-     * Get from Data.java
-     */
-    protected static Map<String, Object> varMap = data.getVarMap();
-    /**
-     * Get from Data.java
-     */
-    protected static Map<String, String> programMap = data.getProgramMap();
-    /**
-     * Get from Data.java
-     */
-    protected static Map<String, Object> resultExp = data.getResultExp();
-    /**
-     * Get from Data.java
-     */
-    protected static Map<String, ArrayList<String>> debugger = Data.getDebugger();  // Gabe
-
-    
 
     /**
      * classify the command will go where to process
@@ -62,8 +23,8 @@ public class Parser {
         String instruction = splitStr[0];
 
 
-        if (debugger.containsKey(programName)){
-            if (debugger.get(programName).contains(splitStr[1])) Simple.waitDebug(programName);
+        if (Data.getDebugger().containsKey(programName)){
+            if (Data.getDebugger().get(programName).contains(splitStr[1])) Simple.waitDebug(programName);
         }
         
         // Call Commands based on the instruction
@@ -117,7 +78,7 @@ public class Parser {
 
             case "list":    //* REQ12
                 System.out.println("\nList of commands in " + splitStr[1] + ":\n");
-                Simple.list(programMap.get(splitStr[1]), new ArrayList<String>());
+                Simple.list(Data.getProgramMap().get(splitStr[1]), new ArrayList<String>());
                 break;
 
             case "store":   //* REQ13
@@ -162,10 +123,10 @@ public class Parser {
 
         
         // If expRef is a variable return variable from map
-        if (varMap.containsKey(expression)) return varMap.get(expression);
+        if (Data.getVarMap().containsKey(expression)) return Data.getVarMap().get(expression);
             
         // If variable is expression reference
-        if (resultExp.containsKey(expression)) return resultExp.get(expression);
+        if (Data.getResultExp().containsKey(expression)) return Data.getResultExp().get(expression);
 
         try{
             if (Integer.parseInt(expression) > Simple.maxInt) return Simple.maxInt;
