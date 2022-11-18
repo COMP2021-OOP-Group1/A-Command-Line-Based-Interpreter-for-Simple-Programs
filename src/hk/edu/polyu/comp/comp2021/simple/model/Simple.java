@@ -524,7 +524,16 @@ public class Simple extends Parser {
                 if (input.equals("debug " + programName)) return;
                 else if (input.contains("togglebreakpoint " + programName)) togglebreakpoint(programName, input.split(" ")[2]);
                 else if (input.contains("inspect " + programName)){
+
+                    ArrayList<String> insts = new ArrayList<String>();
+                    internList(programName, insts);
+                    boolean inScope = false;
                     String[] inst = input.split(" ");
+
+                    for (String instruction : insts){
+                        if (instruction.contains(inst[2])){inScope = true; break;}
+                    }
+
                     inspect(inst[2]);
                 }
 
@@ -541,6 +550,7 @@ public class Simple extends Parser {
      * @param variable: the variable name
      */
     public static void inspect(String variable) {
+
         if (Data.getVarMap().containsKey(variable)) System.out.println("<" + Data.getVarMap().get(variable) + ">");
     }
 
