@@ -8,6 +8,9 @@ import java.util.*;
  */
 public class Parser extends Data{
 
+    /**
+     * Scanner for retrieving the user input
+     */
     protected static final Scanner inputLine = new Scanner(System.in);
 
     /**
