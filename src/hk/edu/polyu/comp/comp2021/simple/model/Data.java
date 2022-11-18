@@ -27,11 +27,6 @@ public class Data {
      */
     private static Map<String, String> programMap = new HashMap<>();
     
-    /**
-     * Stores the variable or expression reference and the list of result
-     */
-    private static Map<String, List<Object>> varHistoryMap = new HashMap<>();
-
      /**
      * Stores the programName and the debug command list
      */
@@ -72,14 +67,6 @@ public class Data {
         return programMap;
     }
 
-    /**
-     * @return varHistoryMap HashMap
-     */
-    public Map<String, List<Object>> getVarHistoryMap() {
-        return varHistoryMap;
-    }
-
-   
     /**
      * getDebugger function will get the debugger HashMap
      * @return debugger
@@ -187,19 +174,6 @@ public class Data {
 
         return true;
 
-    }
-
-    /**
-     * Put the variable history into the varHistoryMap this HashMap
-     * @param varName: the variable name
-     */
-    public static void putVarHistoryMap(String varName) {
-        List<Object> list = new ArrayList<>();
-
-        if(!varHistoryMap.containsKey(varName)) {
-            varHistoryMap.put(varName, list);
-        }
-        varHistoryMap.get(varName).add(varMap.get(varName));
     }
 
     /**

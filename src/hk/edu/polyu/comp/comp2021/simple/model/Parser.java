@@ -29,10 +29,7 @@ public class Parser {
      * Get from Data.java
      */
     protected static Map<String, String> expRefLabelCmd = data.getExpRefLabelCmd();
-    /**
-     * Get from Data.java
-     */
-    protected static Map<String, List<Object>> varHistoryMap = data.getVarHistoryMap();
+   
     /**
      * Get from Data.java
      */

@@ -27,7 +27,6 @@ public class Simple extends Parser {
      */
     protected static void vardef(String[] str) {   //* REQ1 - Works
         varMap.put(str[3], expRef(str[4]));
-        Data.putVarHistoryMap(str[3]);
         updateExp();
     }
 
@@ -156,7 +155,6 @@ public class Simple extends Parser {
             if (Boolean.parseBoolean(expRef(expRef1).toString())) {
                 varMap.put(expName, false);
                 Data.addResultExp(expName, false);
-                Data.putVarHistoryMap(expName);
             }
             else {
                 Data.addResultExp(expName, true);
@@ -185,7 +183,6 @@ public class Simple extends Parser {
         
         // Change variable value
         varMap.replace(varName, toAdd);
-        Data.putVarHistoryMap(varName);
         updateExp();
 
     }
