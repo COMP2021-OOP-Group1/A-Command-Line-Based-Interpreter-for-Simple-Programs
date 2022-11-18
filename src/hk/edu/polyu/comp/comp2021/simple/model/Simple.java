@@ -524,17 +524,22 @@ public class Simple extends Parser {
                 if (input.equals("debug " + programName)) return;
                 else if (input.contains("togglebreakpoint " + programName)) togglebreakpoint(programName, input.split(" ")[2]);
                 else if (input.contains("inspect " + programName)){
-
-                    ArrayList<String> insts = new ArrayList<String>();
-                    internList(programName, insts);
-                    boolean inScope = false;
+                    
                     String[] inst = input.split(" ");
 
-                    for (String instruction : insts){
-                        if (instruction.contains(inst[2])){inScope = true; break;}
-                    }
+                    // If instruction valid
+                    if (inst.length == 3){
 
-                    inspect(inst[2]);
+                        ArrayList<String> insts = new ArrayList<String>();
+                        internList(Data.getProgramMap().get(programName), insts);
+                        boolean inScope = false;
+    
+                        for (String instruction : insts){
+                            if (instruction.contains(inst[2])){inScope = true; break;}
+                        }
+    
+                        if (inScope) inspect(inst[2]);
+                    }
                 }
 
             }

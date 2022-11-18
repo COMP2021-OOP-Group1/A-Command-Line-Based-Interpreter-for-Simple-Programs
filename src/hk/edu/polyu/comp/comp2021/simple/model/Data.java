@@ -149,9 +149,9 @@ public class Data {
     }
 
     /**
-     * validVarName function is check the command name is right or not
-     * @param varName: the command name
-     * @return the command name is right or not
+     * validVarName function checks if the variable name is right or not
+     * @param varName: the variable name
+     * @return boolean
      */
     private static boolean validVarName(String varName) {
 
