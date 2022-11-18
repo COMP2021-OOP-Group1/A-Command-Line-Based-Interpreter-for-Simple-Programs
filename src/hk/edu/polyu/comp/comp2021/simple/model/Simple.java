@@ -151,21 +151,14 @@ public class Simple extends Parser {
     protected static void unexpr(String expName, String operator, String expRef1) { //* REQ3
 
 
-        if (operator.equals("!")){   // Negates Boolean expression
+        if (operator.equals("!")) {   // Negates Boolean expression
             if (Boolean.parseBoolean(expRef(expRef1).toString())) {
-                Data.getVarMap().put(expName, false);
                 Data.addResultExp(expName, false);
-            }
-            else {
+            } else {
                 Data.addResultExp(expName, true);
             }
-        }
-
-        else if (operator.equals("~")){  // Negates Int Expression by switching symbols
+        } else if (operator.equals("~")) {  // Negates Int Expression by switching symbols
             int number = Integer.parseInt(expRef(expRef1).toString()) * -1;
-            Data.addResultExp(expName, number);
-        } else if (operator.equals("#")) {
-            int number = Integer.parseInt(expRef(expRef1).toString()) * +1;
             Data.addResultExp(expName, number);
         }
     }
@@ -422,9 +415,8 @@ public class Simple extends Parser {
      * Store command will be saving the program to the computer
      * @param programName: the program name
      * @param address: the program path that where the user want to save
-     * @throws IOException: for handle file operation error
      */
-    public static void store(String programName, String address) throws IOException {
+    public static void store(String programName, String address) {
     
         // Create File
         try {

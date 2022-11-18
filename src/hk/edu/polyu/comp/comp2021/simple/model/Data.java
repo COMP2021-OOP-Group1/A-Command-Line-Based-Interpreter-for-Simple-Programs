@@ -9,28 +9,28 @@ public class Data {
     /**
      * Stores Labels and its commands (Label - Command)
      */
-    private static Map<String, String> labelCMDMap = new HashMap<>();
+    private static final Map<String, String> labelCMDMap = new HashMap<>();
     /**
      * Stores expRefs and its commands (Label - Command)
      */
-    private static Map<String, String> expRefLabelCmd = new HashMap<>();
+    private static final Map<String, String> expRefLabelCmd = new HashMap<>();
     /**
      * Stores Variables and Values (Variable - Value)
      */
-    private static Map<String, Object> varMap = new HashMap<>();
+    private static final Map<String, Object> varMap = new HashMap<>();
     /**
      * Stores Results of Expressions (Label - Result)
      */
-    private static Map<String, Object> resultExp = new HashMap<>();
+    private static final Map<String, Object> resultExp = new HashMap<>();
     /**
      * Stores the programName and the label of command
      */
-    private static Map<String, String> programMap = new HashMap<>();
+    private static final Map<String, String> programMap = new HashMap<>();
     
      /**
      * Stores the programName and the debug command list
      */
-    private static Map<String, ArrayList<String>> debugger = new HashMap<String, ArrayList<String>>();
+    private static final Map<String, ArrayList<String>> debugger = new HashMap<String, ArrayList<String>>();
 
     /**
      * @return labelCMDMap HashMap
